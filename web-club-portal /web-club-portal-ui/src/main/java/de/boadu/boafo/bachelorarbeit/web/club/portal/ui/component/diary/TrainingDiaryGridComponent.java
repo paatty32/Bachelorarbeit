@@ -6,6 +6,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiary;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,13 +20,13 @@ import java.util.List;
 @UIScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
-public class trainingDiaryGridComponent extends AbstractComponent {
+public class TrainingDiaryGridComponent extends AbstractComponent {
 
     private VerticalLayout componentRootLayout;
 
-    private Icon icnAddEntry;
+    private Icon iconAddEntry;
 
-    private Grid<TrainingDiary> trainingDiaryGrid;
+    private Grid<TrainingDiaryEntry> trainingDiaryGrid;
     private List<TrainingDiary> trainingDiaryList;
 
 
@@ -42,13 +43,19 @@ public class trainingDiaryGridComponent extends AbstractComponent {
     @Override
     protected void initializeComponents() {
 
+        this.initializeGrid();
+
     }
 
     private void initializeGrid(){
 
         this.trainingDiaryGrid = new Grid<>();
+        this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getDate).setHeader("Datum");
+        this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getSession).setHeader("Einheit");
+        this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getFeeling).setHeader("Gefühlszustand");
 
     }
+
 
     @Override
     protected void initializeComponentsActions() {
