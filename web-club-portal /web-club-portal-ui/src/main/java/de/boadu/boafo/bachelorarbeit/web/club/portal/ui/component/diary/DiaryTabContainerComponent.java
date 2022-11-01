@@ -21,6 +21,8 @@ public class DiaryTabContainerComponent extends AbstractComponent {
 
     private Tabs diaryTab;
 
+    private final TrainingDiaryGridComponent trainingDiaryGridComponent;
+
     @Override
     protected Component getRootLayout() {
         return this.getRootLayout();
