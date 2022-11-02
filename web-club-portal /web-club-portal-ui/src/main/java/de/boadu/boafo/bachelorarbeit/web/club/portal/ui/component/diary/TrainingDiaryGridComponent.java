@@ -2,6 +2,7 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -44,6 +45,7 @@ public class TrainingDiaryGridComponent extends AbstractComponent {
     protected void initializeComponents() {
 
         this.initializeGrid();
+        this.initializeComponentRootLayout();
 
     }
 
@@ -53,7 +55,15 @@ public class TrainingDiaryGridComponent extends AbstractComponent {
         this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getDate).setHeader("Datum");
         this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getSession).setHeader("Einheit");
         this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getFeeling).setHeader("Gefühlszustand");
+        this.trainingDiaryGrid.addThemeVariants((GridVariant.LUMO_NO_BORDER));
 
+
+    }
+
+    private void initializeComponentRootLayout(){
+        this.componentRootLayout = new VerticalLayout();
+        this.componentRootLayout.setSizeFull();
+        this.getComponentRootLayout().add(this.getTrainingDiaryGrid());
     }
 
 
