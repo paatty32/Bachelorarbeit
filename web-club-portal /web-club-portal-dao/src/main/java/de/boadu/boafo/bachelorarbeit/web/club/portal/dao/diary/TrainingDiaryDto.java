@@ -15,10 +15,6 @@ import java.util.List;
 @Getter
 public class TrainingDiaryDto extends Diary implements TrainingDiary{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String disciplin;
 
     @ManyToOne

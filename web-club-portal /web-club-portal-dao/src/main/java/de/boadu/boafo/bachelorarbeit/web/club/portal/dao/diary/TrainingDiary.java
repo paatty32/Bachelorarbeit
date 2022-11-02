@@ -1,13 +1,14 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingplan.TrainingPlan;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.user.Person;
 
 import java.util.List;
 
 public interface TrainingDiary {
 
     public String getDisciplin();
-    public String getTrainer();
+    public Person getTrainer();
     public List<TrainingDiaryEntryDto> getEntry();
     public List<TrainingPlan> getTrainingPlan();
 
