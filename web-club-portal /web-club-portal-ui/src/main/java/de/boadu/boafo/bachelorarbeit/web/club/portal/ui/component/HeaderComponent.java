@@ -53,7 +53,7 @@ public class HeaderComponent extends AbstractComponent implements RouterLayout {
         this.btnGroups.setText("Gruppen");
 
         this.btnTrainingsDiary = new Button();
-        this.btnTrainingsDiary.setText("Trainingsgruppe");
+        this.btnTrainingsDiary.setText("Trainingstagebuch");
 
         this.btnClubDatabase = new Button();
         this.btnClubDatabase.setText("Vereinsdatenbank");
