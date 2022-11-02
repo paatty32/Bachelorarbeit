@@ -1,6 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DiaryTabContainerComponent extends AbstractComponent {
 
     private VerticalLayout componentRootLayout;
-
     private Tabs diary;
     private Tab trainingTab;
     private Tab competitionTab;
