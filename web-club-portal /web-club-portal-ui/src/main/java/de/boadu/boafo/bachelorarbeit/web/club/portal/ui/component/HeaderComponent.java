@@ -2,6 +2,7 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -21,9 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HeaderComponent extends AbstractComponent implements RouterLayout {
 
     private MenuBar header;
-    private Button btnGroups;
-    private Button btnTrainingsDiary;
-    private Button btnClubDatabase;
 
     private Icon tfLogo;
 
@@ -49,24 +47,15 @@ public class HeaderComponent extends AbstractComponent implements RouterLayout {
     }
 
     private void initializeMenuBarContent(){
-        this.btnGroups = new Button();
-        this.btnGroups.setText("Gruppen");
-
-        this.btnTrainingsDiary = new Button();
-        this.btnTrainingsDiary.setText("Trainingstagebuch");
-
-        this.btnClubDatabase = new Button();
-        this.btnClubDatabase.setText("Vereinsdatenbank");
 
         this.tfLogo = new Icon(VaadinIcon.ACADEMY_CAP);
 
         this.header = new MenuBar();
-        this.header.addItem(this.getBtnGroups());
-        this.header.addItem(this.getBtnTrainingsDiary());
-        this.header.addItem(this.getBtnClubDatabase());
+        this.getHeader().addItem("Gruppen");
+        this.getHeader().addItem("Trainingstagebuch");
+        this.getHeader().addItem("Vereinsdatenbank");
 
         this.userIcon = new Icon(VaadinIcon.USER);
-
 
         this.componentRootLayout = new HorizontalLayout();
         this.componentRootLayout.setWidthFull();
