@@ -75,22 +75,24 @@ public class TrainingDiaryGridComponent extends AbstractComponent {
         trainingDiaryDto2.setFeeling("Sehr gut");
         trainingDiaryEntries.add(trainingDiaryDto2);
 
-        this.btnAdd = new Button();
-        this.btnAdd.setText("Hinzufügen");
-        this.btnAdd.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
 
         this.trainingDiaryGrid = new Grid<>();
+        this.trainingDiaryGrid.addThemeVariants((GridVariant.LUMO_NO_BORDER));
+        this.trainingDiaryGrid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
+        this.trainingDiaryGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
         Grid.Column<TrainingDiaryEntry> dateColumn = this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getDate).setHeader("Datum");
         Grid.Column<TrainingDiaryEntry> sessionColumn = this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getSession).setHeader("Einheit");
         Grid.Column<TrainingDiaryEntry> feelingColumn = this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getFeeling).setHeader("Gefühlszustand");
         Grid.Column<TrainingDiaryEntry> shareIconColumn = this.trainingDiaryGrid.addComponentColumn(entry -> new Button(VaadinIcon.SHARE.create(), doOnClickShare()));
         Grid.Column<TrainingDiaryEntry> deleteIconColumn = this.trainingDiaryGrid.addComponentColumn(trainingDiaryEntry -> new Button(VaadinIcon.CLOSE_CIRCLE_O.create(), doOnClickClose()));
-        //this.trainingDiaryGrid.addThemeVariants((GridVariant.LUMO_NO_BORDER));
-        this.trainingDiaryGrid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
 
+        this.btnAdd = new Button();
+        this.btnAdd.setText("Hinzufügen");
+        this.btnAdd.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
 
         this.datePicker = new DatePicker();
         this.datePicker.setClearButtonVisible(true);
+        this.datePicker.setWidth("150px");
 
         HeaderRow headerRow = this.getTrainingDiaryGrid().appendHeaderRow();
         headerRow.getCell(dateColumn).setComponent(this.getDatePicker());
@@ -113,9 +115,10 @@ public class TrainingDiaryGridComponent extends AbstractComponent {
 
     private void initializeComponentRootLayout(){
         this.componentRootLayout = new VerticalLayout();
-        this.componentRootLayout.setSizeFull();
-        this.getComponentRootLayout().add(this.getBtnAdd());
+        this.componentRootLayout.setWidth("75%");
         this.getComponentRootLayout().add(this.getTrainingDiaryGrid());
+        this.getComponentRootLayout().add(this.getBtnAdd());
+
     }
 
     @Override
