@@ -1,9 +1,8 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -24,17 +23,18 @@ public class DiaryTabContainerComponent extends AbstractComponent {
 
     private VerticalLayout componentRootLayout;
 
-
     private Tabs diary;
     private Tab trainingTab;
     private Tab competitionTab;
     private Tab trainingPlanTab;
 
-    private VerticalLayout tabContent;
+    private HorizontalLayout tabContent;
 
     private final HeaderComponent headerComponent;
 
     private final TrainingDiaryGridComponent trainingDiaryGridComponent;
+
+    private final TrainingDiaryFormComponent trainingDiaryFormComponent;
 
     @Override
     protected Component getRootLayout() {
@@ -65,9 +65,12 @@ public class DiaryTabContainerComponent extends AbstractComponent {
         this.diary.add(this.getCompetitionTab());
         this.diary.add(this.getTrainingPlanTab());
 
-        this.tabContent = new VerticalLayout();
+        this.tabContent = new HorizontalLayout();
         this.tabContent.setSizeFull();
         this.getTabContent().add(this.getTrainingDiaryGridComponent());
+        this.getTabContent().add(this.getTrainingDiaryFormComponent());
+       // this.getTabContent().setFlexGrow(1, this.getTrainingDiaryFormComponent());
+       //this.getTabContent().setFlexGrow(5, this.getTrainingDiaryGridComponent());
 
     }
 
@@ -90,6 +93,7 @@ public class DiaryTabContainerComponent extends AbstractComponent {
             case "Training":
                 //TODO: this.getTabContent.addComponent
                 this.getTabContent().add(this.getTrainingDiaryGridComponent());
+                this.getTabContent().add(this.getTrainingDiaryFormComponent());
                 System.out.println("Training Tab");
                 break;
 
