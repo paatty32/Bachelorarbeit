@@ -18,8 +18,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntr
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventListener;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventRequestImpl;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryClickedEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryClickedEventRequestImpl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +48,7 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     private Grid<TrainingDiaryEntry> trainingDiaryGrid;
     private List<TrainingDiary> trainingDiaryList;
 
+    //TODO: Warum ein set ?
     private Set<TrainingsDiaryEventListener> eventListeners;
 
 
@@ -138,23 +139,12 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
 
             TrainingDiaryEntry clickedRow = trainingDiaryEntryItemClickEvent.getItem();
 
-            TrainingsDiaryEventRequest event = new TrainingsDiaryEventRequestImpl(clickedRow);
+            TrainingsDiaryClickedEventRequest event = new TrainingsDiaryClickedEventRequestImpl(clickedRow);
 
-            this.notifyEventListeners(event);
+            this.notifyEventListenersForShowingForm(event);
 
         });
 
-    }
-
-    private void notifyEventListeners(TrainingsDiaryEventRequest event) {
-
-        this.getEventListeners().forEach(listener -> listener.handleClickGrid(event));
-
-    }
-
-    @Override
-    public void addEventListeners(TrainingsDiaryEventListener listener){
-        this.getEventListeners().add(listener);
     }
 
     private HasValue.ValueChangeListener<AbstractField.ComponentValueChangeEvent<DatePicker, LocalDate>> doOnClickDate() {
@@ -168,4 +158,16 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
             }
         };
     }
+
+    @Override
+    public void addEventListenersForShowingForm(TrainingsDiaryEventListener listener){
+        this.getEventListeners().add(listener);
+    }
+
+    private void notifyEventListenersForShowingForm(TrainingsDiaryClickedEventRequest event) {
+
+        this.getEventListeners().forEach(listener -> listener.handleClickGrid(event));
+
+    }
+
 }

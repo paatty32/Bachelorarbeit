@@ -13,7 +13,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractCompon
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventListener;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryClickedEventRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import java.sql.Date;
 @UIScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
-public class DiaryTabContainerComponent extends AbstractComponent implements TrainingsDiaryEventListener {
+public class DiaryTabContainer extends AbstractComponent implements TrainingsDiaryEventListener {
 
     private VerticalLayout componentRootLayout;
 
@@ -42,12 +42,12 @@ public class DiaryTabContainerComponent extends AbstractComponent implements Tra
 
     private final TrainingDiaryFormComponent trainingDiaryFormComponent;
 
-    private final AbstractObserver<TrainingsDiaryEventListener> trainingsDiaryEventListenerAbstractObserver;
+    private final AbstractObserver<TrainingsDiaryEventListener> trainingsDiaryObserver;
 
 
     private void attachListener(){
 
-        this.getTrainingsDiaryEventListenerAbstractObserver().addEventListeners(this);
+        this.getTrainingsDiaryObserver().addEventListenersForShowingForm(this);
 
     }
 
@@ -132,11 +132,9 @@ public class DiaryTabContainerComponent extends AbstractComponent implements Tra
     }
 
     @Override
-    public void handleClickGrid(TrainingsDiaryEventRequest event) {
+    public void handleClickGrid(TrainingsDiaryClickedEventRequest event) {
 
         this.getTrainingDiaryFormComponent().setVisible(true);
-
-        System.out.println("EVENT");
 
         TrainingDiaryEntry entry = event.getEntry();
         String session = entry.getSession();
