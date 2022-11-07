@@ -8,18 +8,24 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventListener;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Date;
+
 @SpringComponent
 @UIScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
-public class DiaryTabContainerComponent extends AbstractComponent {
+public class DiaryTabContainerComponent extends AbstractComponent implements TrainingsDiaryEventListener {
 
     private VerticalLayout componentRootLayout;
 
@@ -36,6 +42,15 @@ public class DiaryTabContainerComponent extends AbstractComponent {
 
     private final TrainingDiaryFormComponent trainingDiaryFormComponent;
 
+    private final AbstractObserver<TrainingsDiaryEventListener> trainingsDiaryEventListenerAbstractObserver;
+
+
+    private void attachListener(){
+
+        this.getTrainingsDiaryEventListenerAbstractObserver().addEventListeners(this);
+
+    }
+
     @Override
     protected Component getRootLayout() {
         return this.getComponentRootLayout();
@@ -49,6 +64,7 @@ public class DiaryTabContainerComponent extends AbstractComponent {
     @Override
     protected void initializeComponents() {
 
+        this.attachListener();
         this.initializeTabComponent();
         this.initializeComponentRootLayout();
 
@@ -69,8 +85,6 @@ public class DiaryTabContainerComponent extends AbstractComponent {
         this.tabContent.setSizeFull();
         this.getTabContent().add(this.getTrainingDiaryGridComponent());
         this.getTabContent().add(this.getTrainingDiaryFormComponent());
-       // this.getTabContent().setFlexGrow(1, this.getTrainingDiaryFormComponent());
-       //this.getTabContent().setFlexGrow(5, this.getTrainingDiaryGridComponent());
 
     }
 
@@ -117,4 +131,19 @@ public class DiaryTabContainerComponent extends AbstractComponent {
         );
     }
 
+    @Override
+    public void handleClickGrid(TrainingsDiaryEventRequest event) {
+
+        this.getTrainingDiaryFormComponent().setVisible(true);
+
+        System.out.println("EVENT");
+
+        TrainingDiaryEntry entry = event.getEntry();
+        String session = entry.getSession();
+        String feeling = entry.getFeeling();
+        Date date = entry.getDate();
+
+        this.getTrainingDiaryFormComponent().setTextArea(session, feeling);
+
+    }
 }
