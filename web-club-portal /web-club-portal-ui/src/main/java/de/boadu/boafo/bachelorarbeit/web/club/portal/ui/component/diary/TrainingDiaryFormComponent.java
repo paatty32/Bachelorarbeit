@@ -108,12 +108,28 @@ public class TrainingDiaryFormComponent extends AbstractComponent {
         this.componentRootLayout.setHeightFull();
         this.getComponentRootLayout().add(this.getFormLayout());
         this.getComponentRootLayout().add(this.getButtonLayout());
+        this.getComponentRootLayout().setVisible(false);
 
 
     }
 
     @Override
     protected void initializeComponentsActions() {
+
+        this.getBtnClose().addClickListener(event -> {
+            this.getTaSession().clear();
+            this.getTaFeeling().clear();
+            this.getTfDate().clear();
+
+            this.getComponentRootLayout().setVisible(false);
+        });
+
+    }
+
+    public void setTextArea(String session, String feeling) {
+
+        this.getTaFeeling().setValue(feeling);
+        this.getTaSession().setValue(session);
 
     }
 }
