@@ -16,6 +16,10 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventListener;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventRequestImpl;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +27,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @SpringComponent
 @UIScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
-public class TrainingDiaryGridComponent extends AbstractComponent {
+public class TrainingDiaryGridComponent extends AbstractComponent implements AbstractObserver<TrainingsDiaryEventListener> {
 
     private VerticalLayout componentRootLayout;
 
@@ -42,6 +48,8 @@ public class TrainingDiaryGridComponent extends AbstractComponent {
     private Grid<TrainingDiaryEntry> trainingDiaryGrid;
     private List<TrainingDiary> trainingDiaryList;
 
+    private Set<TrainingsDiaryEventListener> eventListeners;
+
 
     @Override
     protected Component getRootLayout() {
@@ -50,6 +58,8 @@ public class TrainingDiaryGridComponent extends AbstractComponent {
 
     @Override
     protected void initializeInternalState() {
+
+        this.eventListeners = new HashSet<>();
 
     }
 
@@ -115,7 +125,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent {
 
     private void initializeComponentRootLayout(){
         this.componentRootLayout = new VerticalLayout();
-        this.componentRootLayout.setWidth("75%");
         this.getComponentRootLayout().add(this.getTrainingDiaryGrid());
         this.getComponentRootLayout().add(this.getBtnAdd());
 
@@ -125,7 +134,27 @@ public class TrainingDiaryGridComponent extends AbstractComponent {
     protected void initializeComponentsActions() {
 
         this.getDatePicker().addValueChangeListener(doOnClickDate());
+        this.getTrainingDiaryGrid().addItemClickListener(trainingDiaryEntryItemClickEvent -> {
 
+            TrainingDiaryEntry clickedRow = trainingDiaryEntryItemClickEvent.getItem();
+
+            TrainingsDiaryEventRequest event = new TrainingsDiaryEventRequestImpl(clickedRow);
+
+            this.notifyEventListeners(event);
+
+        });
+
+    }
+
+    private void notifyEventListeners(TrainingsDiaryEventRequest event) {
+
+        this.getEventListeners().forEach(listener -> listener.handleClickGrid(event));
+
+    }
+
+    @Override
+    public void addEventListeners(TrainingsDiaryEventListener listener){
+        this.getEventListeners().add(listener);
     }
 
     private HasValue.ValueChangeListener<AbstractField.ComponentValueChangeEvent<DatePicker, LocalDate>> doOnClickDate() {
