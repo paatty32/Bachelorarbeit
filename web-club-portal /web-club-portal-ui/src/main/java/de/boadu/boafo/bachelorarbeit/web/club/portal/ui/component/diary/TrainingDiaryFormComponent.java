@@ -77,7 +77,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent {
         this.getFormLayout().add(this.getTaFeeling());
         this.getFormLayout().setAlignSelf(FlexComponent.Alignment.START, this.getTfDate());
         this.getFormLayout().setAlignSelf(FlexComponent.Alignment.STRETCH, this.getTaSession());
-        this.getFormLayout().setAlignSelf(FlexComponent.Alignment.CENTER, this.getTaFeeling());
+        this.getFormLayout().setAlignSelf(FlexComponent.Alignment.STRETCH, this.getTaFeeling());
 
     }
 
