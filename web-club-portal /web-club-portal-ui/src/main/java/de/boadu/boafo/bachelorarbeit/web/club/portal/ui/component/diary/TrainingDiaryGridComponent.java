@@ -86,6 +86,42 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
         trainingDiaryDto2.setFeeling("Sehr gut");
         trainingDiaryEntries.add(trainingDiaryDto2);
 
+        TrainingDiaryEntryDto trainingDiaryDto3 = new TrainingDiaryEntryDto();
+        trainingDiaryDto2.setSession("2x3x200m 4 min P; 6 min SP. 200 Sprüunge; Krafttraining");
+        trainingDiaryDto2.setFeeling("Sehr gut");
+        trainingDiaryEntries.add(trainingDiaryDto3);
+
+
+        TrainingDiaryEntryDto trainingDiaryDto4 = new TrainingDiaryEntryDto();
+        trainingDiaryDto4.setSession("2x3x200m 4 min P; 6 min SP. 200 Sprüunge; Krafttraining");
+        trainingDiaryDto4.setFeeling("Sehr gut");
+        trainingDiaryEntries.add(trainingDiaryDto4);
+
+
+        TrainingDiaryEntryDto trainingDiaryDto5 = new TrainingDiaryEntryDto();
+        trainingDiaryDto5.setSession("2x3x200m 4 min P; 6 min SP. 200 Sprüunge; Krafttraining");
+        trainingDiaryDto5.setFeeling("Sehr gut");
+        trainingDiaryEntries.add(trainingDiaryDto5);
+
+        TrainingDiaryEntryDto trainingDiaryDto6 = new TrainingDiaryEntryDto();
+        trainingDiaryDto6.setSession("2x3x200m 4 min P; 6 min SP. 200 Sprüunge; Krafttraining");
+        trainingDiaryDto6.setFeeling("Sehr gut");
+        trainingDiaryEntries.add(trainingDiaryDto6);
+
+        TrainingDiaryEntryDto trainingDiaryDto7 = new TrainingDiaryEntryDto();
+        trainingDiaryDto7.setSession("2x3x200m 4 min P; 6 min SP. 200 Sprüunge; Krafttraining");
+        trainingDiaryDto7.setFeeling("Sehr gut");
+        trainingDiaryEntries.add(trainingDiaryDto7);
+
+        TrainingDiaryEntryDto trainingDiaryDto8 = new TrainingDiaryEntryDto();
+        trainingDiaryDto8.setSession("2x3x200m 4 min P; 6 min SP. 200 Sprüunge; Krafttraining");
+        trainingDiaryDto8.setFeeling("Sehr gut");
+        trainingDiaryEntries.add(trainingDiaryDto8);
+
+        TrainingDiaryEntryDto trainingDiaryDto9 = new TrainingDiaryEntryDto();
+        trainingDiaryDto9.setSession("2x3x200m 4 min P; 6 min SP. 200 Sprüunge; Krafttraining");
+        trainingDiaryDto9.setFeeling("Sehr gut");
+        trainingDiaryEntries.add(trainingDiaryDto9);
 
         this.trainingDiaryGrid = new Grid<>();
         this.trainingDiaryGrid.addThemeVariants((GridVariant.LUMO_NO_BORDER));
