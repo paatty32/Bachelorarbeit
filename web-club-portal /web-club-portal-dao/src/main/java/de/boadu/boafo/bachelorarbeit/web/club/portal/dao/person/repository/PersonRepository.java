@@ -1,6 +1,6 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.user.repository;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.user.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
