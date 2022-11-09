@@ -2,13 +2,12 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.user.Person;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.user.repository.PersonRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.util.HashMap;
 import java.util.Map;
