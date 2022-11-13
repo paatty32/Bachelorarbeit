@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class WebClubPortalApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(PersonRepository personRepository){
+	CommandLineRunner commandLineRunner(PersonRepository personRepository, BCryptPasswordEncoder encoder){
 
 		return args -> {
 
@@ -29,14 +30,19 @@ public class WebClubPortalApplication {
 
 			diaryMap.put(AppUserRole.ROLE_ATHLETE, diary);
 
-			Person pat = new Person(1L,"Patrick", "Boadu Boafo", AppUserRole.ROLE_ATHLETE, diaryMap);
+			String encode = encoder.encode("123");
+
+			Person pat = Person.builder().name("patrick")
+					.surname("patrick")
+					.password(encode)
+					.build();
 
 			personRepository.save(pat);
 
-			System.out.println(personRepository.findPersonByName("Patrick").getName());
-			System.out.println(personRepository.findPersonByName("Patrick").getDiary().get(AppUserRole.ROLE_ATHLETE).getRole().toString());
 		};
 	}
+
+
 
 }
 
