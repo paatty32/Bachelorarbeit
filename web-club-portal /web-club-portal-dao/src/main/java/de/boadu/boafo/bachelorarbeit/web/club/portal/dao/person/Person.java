@@ -3,9 +3,8 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingsgroup.TrainingsGroup;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,16 +18,10 @@ import java.util.Map;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-public class Person implements UserDetails {
-
-    public Person(Long id, String name, String vorname, AppUserRole role, Map<AppUserRole, Diary> diary ){
-        this.id = id;
-        this.name = name;
-        this.surname = vorname;
-        this.role = role;
-        this.diary = diary;
-    }
+@Getter(AccessLevel.PRIVATE)
+@Setter
+@Builder
+public class Person implements MutablePerson, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +37,7 @@ public class Person implements UserDetails {
     private List<TrainingsGroup> trainingsGroup;
 
     //TODO: Nochmal angucken wie das genau funktioniert
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER) //TODO Was ist das ?
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) //TODO Was ist das ?
     @JoinTable(name = "userRole_diary_mapping", //Diese Tabelle wird angelegt
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "diary_id", referencedColumnName = "id")}
@@ -52,20 +45,21 @@ public class Person implements UserDetails {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<AppUserRole, Diary> diary;
 
+    @ElementCollection()
     @Enumerated(EnumType.STRING)
-    private AppUserRole role;
+    private List <AppUserRole> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(this.getRole().name());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("Athlet");
 
         return Collections.singletonList(authority);
     }
 
     @Override
     public String getPassword() {
-        return this.getPassword();
+        return this.password;
     }
 
     @Override
