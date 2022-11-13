@@ -3,6 +3,7 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingplan.TrainingPlan;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 public class TrainingDiaryDto extends Diary implements TrainingDiary{
 
     private String disciplin;
