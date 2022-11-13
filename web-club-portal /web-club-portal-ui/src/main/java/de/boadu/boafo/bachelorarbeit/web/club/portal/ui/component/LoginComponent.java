@@ -6,14 +6,19 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.SpringComponent;
+import com.vaadin.flow.spring.annotation.UIScope;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.view.RegistrarionView;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringComponent
+@UIScope
 @Getter(AccessLevel.PRIVATE)
+@Route(value = "login")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginComponent extends AbstractComponent {
 
@@ -45,12 +50,12 @@ public class LoginComponent extends AbstractComponent {
         H1 clubPortal = new H1("Vereinsportal");
 
         this.loginForm = new LoginForm();
+        this.loginForm.setAction("login");
 
         this.btnSignIn = new Button();
         this.btnSignIn.setText("Anmelden");
 
         this.componentRootLayout = new VerticalLayout();
-        this.componentRootLayout.setSizeFull();
 
         this.getComponentRootLayout().add(clubPortal);
         this.getComponentRootLayout().add(this.getLoginForm());
@@ -63,7 +68,11 @@ public class LoginComponent extends AbstractComponent {
     @Override
     protected void initializeComponentsActions() {
 
-        this.getLoginForm().setAction("login");
+        this.getBtnSignIn().addClickListener(event -> {
+
+            this.navigateTo(RegistrarionView.class);
+
+        });
 
     }
 }
