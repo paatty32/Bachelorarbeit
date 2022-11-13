@@ -2,6 +2,7 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.UI;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,10 @@ public abstract class AbstractComponent extends Composite<Component> {
 
         this.componentRootLayout = this.getRootLayout();
 
+    }
+
+    protected void navigateTo(Class<? extends Component> navigationTarget){
+        UI.getCurrent().navigate(navigationTarget);
     }
 
     @Override
