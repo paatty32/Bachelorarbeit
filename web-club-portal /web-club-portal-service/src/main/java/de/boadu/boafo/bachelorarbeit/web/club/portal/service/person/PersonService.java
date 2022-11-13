@@ -1,13 +1,11 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.person;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 
-@Service
-@RequiredArgsConstructor
-public class PersonService {
+import java.util.Set;
 
-    private final PersonRepository personRepository;
+public interface PersonService {
+
+    void createUser(MutablePerson createPerson, Set<String> clickedRoles);
 
 }
