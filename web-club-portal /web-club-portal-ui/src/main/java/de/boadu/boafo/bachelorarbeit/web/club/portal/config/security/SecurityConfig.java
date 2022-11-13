@@ -1,26 +1,17 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.security.config;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.config.security;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.service.person.PersonUserDetailsService;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.view.LoginView;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.LoginComponent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
-@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig extends VaadinWebSecurity {
-
-    @Getter(AccessLevel.PRIVATE)
-    private final PersonUserDetailsService personUserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -34,6 +25,10 @@ public class SecurityConfig extends VaadinWebSecurity {
         // You can add any possible extra configurations of your own
         // here (the following is just an example):
 
+        http.authorizeRequests()
+                .antMatchers("/images/**").permitAll();
+
+
         // http.rememberMe().alwaysRemember(false);
         super.configure(http);
 
@@ -41,21 +36,24 @@ public class SecurityConfig extends VaadinWebSecurity {
 
         // This is important to register your login view to the
         // view access checker mechanism:
-        setLoginView(http, LoginView.class);
+        setLoginView(http, LoginComponent.class);
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder bCryptPasswordEncoder){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-
-        provider.setUserDetailsService(this.getPersonUserService());
-        provider.setPasswordEncoder(bCryptPasswordEncoder);
-        return provider;
-
+    /**
+     * to be able to use h2 console when spring security is activated
+     * @param web
+     * @throws Exception
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/h2-console/**");
     }
+
 }
