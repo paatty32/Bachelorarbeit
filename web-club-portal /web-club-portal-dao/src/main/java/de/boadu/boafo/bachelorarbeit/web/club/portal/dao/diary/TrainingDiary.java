@@ -1,7 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingplan.TrainingPlan;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.user.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 
 import java.util.List;
 

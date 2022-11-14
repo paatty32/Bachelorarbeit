@@ -2,13 +2,13 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.user.Person;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.user.repository.PersonRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class WebClubPortalApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(PersonRepository personRepository){
+	CommandLineRunner commandLineRunner(PersonRepository personRepository, BCryptPasswordEncoder encoder){
 
 		return args -> {
 
@@ -30,14 +30,19 @@ public class WebClubPortalApplication {
 
 			diaryMap.put(AppUserRole.ROLE_ATHLETE, diary);
 
-			Person pat = new Person(1L,"Patrick", "Boadu Boafo", AppUserRole.ROLE_ATHLETE, diaryMap);
+			String encode = encoder.encode("123");
+
+			Person pat = Person.builder().name("patrick")
+					.surname("patrick")
+					.password(encode)
+					.build();
 
 			personRepository.save(pat);
 
-			System.out.println(personRepository.findPersonByName("Patrick").getName());
-			System.out.println(personRepository.findPersonByName("Patrick").getDiary().get(AppUserRole.ROLE_ATHLETE).getRole().toString());
 		};
 	}
+
+
 
 }
 
