@@ -1,28 +1,23 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.sql.Date;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class TrainingDiaryEntryDto implements TrainingDiaryEntry {
+@Builder
+public class TrainingDiaryEntryDto implements TrainingDiaryEntry, MutableTrainingDiaryEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date;
+    private LocalDate date;
     private String session;
     private String feeling;
     private Boolean isShared;

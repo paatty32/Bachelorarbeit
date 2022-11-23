@@ -10,4 +10,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     Person save(Person person);
 
     Person findPersonBySurname(String name);
+
+    Person findPersonById(Long id);
 }

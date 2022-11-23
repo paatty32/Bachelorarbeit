@@ -8,24 +8,36 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryEventListener;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.event.TrainingsDiaryClickedEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryFormComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryGridComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingsDiaryFormDialogComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.traininfdiarygrid.TrainingsDiaryGridClickedEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.traininfdiarygrid.TrainingsDiaryGridEventListener;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiarydialog.TrainingsDairyFormDialogEventListener;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiarydialog.TrainingsDairyFormDialogSaveClickedEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDairyFormEventListener;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryFormEventRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @SpringComponent
 @UIScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
-public class DiaryTabContainer extends AbstractComponent implements TrainingsDiaryEventListener {
+public class DiaryTabContainer extends AbstractComponent implements TrainingsDiaryGridEventListener,
+        TrainingsDairyFormEventListener, TrainingsDairyFormDialogEventListener {
 
     private VerticalLayout componentRootLayout;
 
@@ -40,14 +52,37 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
     private final TrainingDiaryGridComponent trainingDiaryGridComponent;
 
+    private TrainingDiaryEntry clickedEntry;
+
     private final TrainingDiaryFormComponent trainingDiaryFormComponent;
 
-    private final AbstractObserver<TrainingsDiaryEventListener> trainingsDiaryObserver;
+    private final TrainingsDiaryFormDialogComponent trainingsDiaryFormDialogComponent;
 
+    private final AbstractObserver<TrainingsDiaryGridEventListener> trainingsDiaryObserver;
+
+    private final AbstractObserver<TrainingsDairyFormEventListener> trainingsDairyFormEventListenerObserver;
+
+    private final AbstractObserver<TrainingsDairyFormDialogEventListener> trainingsDairyFormDialogEventListenerObserver;
+
+    private final TrainingsDiaryUiService trainingsDiaryUiService;
+
+    private final SecurityService securityService;
 
     private void attachListener(){
 
-        this.getTrainingsDiaryObserver().addEventListenersForShowingForm(this);
+        this.getTrainingsDiaryObserver().addEventListeners(this);
+
+    }
+
+    private void attachTrainingsDiaryFormEventListener(){
+
+        this.getTrainingsDairyFormEventListenerObserver().addEventListeners(this);
+
+    }
+
+    private void attachTrainingsDiaryDialogFormEventListener(){
+
+        this.getTrainingsDairyFormDialogEventListenerObserver().addEventListeners(this);
 
     }
 
@@ -65,6 +100,8 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     protected void initializeComponents() {
 
         this.attachListener();
+        this.attachTrainingsDiaryFormEventListener();
+        this.attachTrainingsDiaryDialogFormEventListener();
         this.initializeTabComponent();
         this.initializeComponentRootLayout();
 
@@ -95,6 +132,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         this.getComponentRootLayout().add(this.getHeaderComponent());
         this.getComponentRootLayout().add(this.getDiary());
         this.getComponentRootLayout().add(this.getTabContent());
+        this.getComponentRootLayout().add(this.getTrainingsDiaryFormDialogComponent());
         this.getComponentRootLayout().setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, this.getDiary());
 
     }
@@ -132,16 +170,73 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     }
 
     @Override
-    public void handleClickGrid(TrainingsDiaryClickedEventRequest event) {
+    public void handleClickGrid(TrainingsDiaryGridClickedEventRequest event) {
 
         this.getTrainingDiaryFormComponent().setVisible(true);
 
-        TrainingDiaryEntry entry = event.getEntry();
-        String session = entry.getSession();
-        String feeling = entry.getFeeling();
-        Date date = entry.getDate();
+        TrainingDiaryEntry clickedEntry = event.getEntry();
+        Long entryId = clickedEntry.getId();
+        String session = clickedEntry.getSession();
+        String feeling = clickedEntry.getFeeling();
+        LocalDate date = clickedEntry.getDate();
 
-        this.getTrainingDiaryFormComponent().setTextArea(session, feeling);
+        this.getTrainingDiaryFormComponent().setForm(entryId, session, feeling, date);
+
+    }
+
+    @Override
+    public void handleClickAdd() {
+
+        this.getTrainingsDiaryFormDialogComponent().openDialog();
+
+        this.getTrainingDiaryGridComponent().refreshGrid();
+
+    }
+
+    @Override
+    public void handleButtonUpdate(TrainingsDiaryFormEventRequest event) {
+
+        UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
+        Person currentPerson = (Person) authenticatedUser;
+
+        TrainingDiaryEntry updatedEntry = event.getEntry();
+
+        this.getTrainingsDiaryUiService().updateEntry(updatedEntry);
+
+        this.getTrainingDiaryGridComponent().refreshGrid();
+
+    }
+
+    @Override
+    public void handleButtonDelete(TrainingsDiaryFormEventRequest event) {
+
+        UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
+        Person currentPerson = (Person) authenticatedUser;
+        long currentPersonId = currentPerson.getId();
+
+        TrainingDiaryEntry selectedEntry = event.getEntry();
+
+        this.getTrainingsDiaryUiService().deleteEntry(currentPersonId, selectedEntry);
+
+        this.getTrainingDiaryGridComponent().refreshGrid();
+
+        this.getTrainingDiaryFormComponent().setVisible(false);
+    }
+
+    @Override
+    public void handleSave(TrainingsDairyFormDialogSaveClickedEventRequest event) {
+
+        UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
+        Person currentPerson = (Person) authenticatedUser;
+        long userId = currentPerson.getId();
+
+        TrainingDiaryEntry newEntry = event.getEntry();
+
+        this.getTrainingsDiaryUiService().addNewTrainingDiaryEntry(userId, newEntry);
+
+        this.getTrainingDiaryFormComponent().setVisible(false);
+
+        this.getTrainingDiaryGridComponent().refreshGrid();
 
     }
 }

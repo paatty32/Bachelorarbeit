@@ -22,9 +22,34 @@ public class TrainingDiaryDto extends Diary implements TrainingDiary{
     @ManyToOne
     private Person trainer;
 
-    @OneToMany
+    /*TODO: Damit wird sicher gestellt, dass auch in der Tabelle der Eintrag gelöscht wird und nicht nur in der Referenztabelel*/
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrainingDiaryEntryDto> entry;
 
     @ManyToMany
     private List<TrainingPlan> trainingPlan;
+
+    @Override
+    public int getEntryIndex(Long id) {
+
+        int entryIndex = 0;
+
+        if(this.getEntry().size() != 0){
+
+            for (int index = 0; index < this.getEntry().size(); index++ ) {
+
+                if(this.getEntry().get(index).getId().longValue() == id){
+
+                    entryIndex = index;
+
+                    return entryIndex;
+
+                }
+
+            }
+
+        }
+
+        return 0;
+    }
 }

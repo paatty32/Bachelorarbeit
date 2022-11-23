@@ -1,10 +1,11 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public interface TrainingDiaryEntry {
 
-    public Date getDate();
+    public Long getId();
+    public LocalDate getDate();
     public String getSession();
     public String getFeeling();
     public Boolean getIsShared();

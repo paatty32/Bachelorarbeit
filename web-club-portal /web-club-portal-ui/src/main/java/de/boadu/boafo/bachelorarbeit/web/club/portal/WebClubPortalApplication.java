@@ -20,30 +20,6 @@ public class WebClubPortalApplication {
 		SpringApplication.run(WebClubPortalApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner commandLineRunner(PersonRepository personRepository, BCryptPasswordEncoder encoder){
-
-		return args -> {
-
-			Diary diary = new Diary(2L, AppUserRole.ROLE_ATHLETE);
-			Map<AppUserRole, Diary> diaryMap = new HashMap<>();
-
-			diaryMap.put(AppUserRole.ROLE_ATHLETE, diary);
-
-			String encode = encoder.encode("123");
-
-			Person pat = Person.builder().name("patrick")
-					.surname("patrick")
-					.password(encode)
-					.build();
-
-			personRepository.save(pat);
-
-		};
-	}
-
-
-
 }
 
 

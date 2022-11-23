@@ -12,5 +12,7 @@ public interface TrainingDiary {
     public List<TrainingDiaryEntryDto> getEntry();
     public List<TrainingPlan> getTrainingPlan();
 
+    public int getEntryIndex(Long id);
+
 
 }
