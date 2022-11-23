@@ -4,7 +4,6 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingsgroup.TrainingsGroup;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,13 +17,14 @@ import java.util.Map;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter(AccessLevel.PRIVATE)
+@Getter
 @Setter
 @Builder
 public class Person implements MutablePerson, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private long id;
 
     private String name;
@@ -52,7 +52,7 @@ public class Person implements MutablePerson, UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("Athlet");
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(AppUserRole.ROLE_ATHLETE.name());
 
         return Collections.singletonList(authority);
     }
