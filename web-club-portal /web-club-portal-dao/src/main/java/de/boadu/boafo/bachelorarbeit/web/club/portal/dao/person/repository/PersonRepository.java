@@ -9,7 +9,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     Person save(Person person);
 
-    Person findPersonBySurname(String name);
+    Person findPersonBySurname(String surname);
 
     Person findPersonById(Long id);
 
