@@ -25,7 +25,7 @@ public class Person implements MutablePerson, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
-    private long id;
+    private Long id;
 
     private String name;
 
