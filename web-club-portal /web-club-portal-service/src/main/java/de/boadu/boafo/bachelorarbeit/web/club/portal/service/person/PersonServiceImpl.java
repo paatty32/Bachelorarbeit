@@ -21,9 +21,8 @@ public class PersonServiceImpl implements PersonService{
 
     private final PersonRepository personRepository;
 
-
     @Override
-    public void createUser(MutablePerson createPerson, Set<String> clickedRoles) {
+    public Person createUser(MutablePerson createPerson, Set<String> clickedRoles) {
 
         Map<AppUserRole, Diary> userDiary = this.initializeUserDiares(clickedRoles);
 
@@ -32,10 +31,11 @@ public class PersonServiceImpl implements PersonService{
         createPerson.setDiary(userDiary);
         createPerson.setRoles(appUserRoles);
 
-        Person createdPerson = (Person) createPerson;
+        Person personToCreate = (Person) createPerson;
 
-        this.getPersonRepository().save(createdPerson);
+        Person createdPerson = this.getPersonRepository().save(personToCreate);
 
+        return createdPerson;
 
     }
 
