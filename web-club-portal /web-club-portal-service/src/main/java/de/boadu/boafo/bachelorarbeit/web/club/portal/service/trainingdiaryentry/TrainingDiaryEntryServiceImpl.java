@@ -1,6 +1,5 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingdiaryentry;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntryDto;
