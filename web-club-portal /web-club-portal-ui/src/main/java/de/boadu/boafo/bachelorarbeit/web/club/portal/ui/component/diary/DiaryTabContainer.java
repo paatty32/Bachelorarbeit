@@ -9,12 +9,13 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.CompetitionDiaryComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryFormComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryGridComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingsDiaryFormDialogComponent;
@@ -51,6 +52,8 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     private final HeaderComponent headerComponent;
 
     private final TrainingDiaryGridComponent trainingDiaryGridComponent;
+
+    private final CompetitionDiaryComponent competitionDiaryComponent;
 
     private TrainingDiaryEntry clickedEntry;
 
@@ -150,7 +153,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
                 break;
 
             case "Wettkampf":
-                System.out.println("Wettkampf Tab");
+                this.getTabContent().add(this.getCompetitionDiaryComponent());
                 break;
 
             case "Trainingsplan":
