@@ -1,9 +1,8 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.person.PersonService;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingDiary.TrainingDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingdiaryentry.TrainingDiaryEntryService;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,6 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingDiary;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.*;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;

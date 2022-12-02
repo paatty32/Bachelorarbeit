@@ -1,4 +1,4 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingplan.TrainingPlan;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;

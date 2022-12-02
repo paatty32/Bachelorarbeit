@@ -1,7 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.person;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;

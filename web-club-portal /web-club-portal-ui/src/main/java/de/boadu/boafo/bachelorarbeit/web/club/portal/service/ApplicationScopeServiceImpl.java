@@ -1,7 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service;
 
 import com.vaadin.flow.spring.annotation.SpringComponent;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import lombok.AccessLevel;
 import lombok.Getter;

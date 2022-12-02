@@ -16,7 +16,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
@@ -80,21 +80,12 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     protected void initializeComponents() {
 
         this.initializeGrid();
+        this.intitializeGridData();
         this.initializeComponentRootLayout();
 
     }
 
     private void initializeGrid(){
-
-        UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        Person currentPerson = (Person) authenticatedUser;
-
-        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntryiesByUser(currentPerson.getId());
-
-        this.getTrainingDiaryList().addAll(trainingsDiaryEntryiesByUser);
-
-        this.trainingDiaryEntryInMemoryDataProvider = new ListDataProvider<>(this.getTrainingDiaryList());
-
 
         this.trainingDiaryGrid = new Grid<>();
         this.trainingDiaryGrid.addThemeVariants((GridVariant.LUMO_NO_BORDER));
@@ -104,7 +95,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
         Grid.Column<TrainingDiaryEntry> sessionColumn = this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getSession).setHeader("Einheit");
         Grid.Column<TrainingDiaryEntry> feelingColumn = this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getFeeling).setHeader("Gefühlszustand");
         Grid.Column<TrainingDiaryEntry> shareIconColumn = this.trainingDiaryGrid.addComponentColumn(entry -> new Button(VaadinIcon.SHARE.create(), doOnClickShare()));
-       // Grid.Column<TrainingDiaryEntry> deleteIconColumn = this.trainingDiaryGrid.addComponentColumn(trainingDiaryEntry -> new Button(VaadinIcon.CLOSE_CIRCLE_O.create(), doOnClickDelete()));
 
         this.btnAdd = new Button();
         this.btnAdd.setText("Hinzufügen");
@@ -117,6 +107,20 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
 
         HeaderRow headerRow = this.getTrainingDiaryGrid().appendHeaderRow();
         headerRow.getCell(dateColumn).setComponent(this.getDatePicker());
+
+
+    }
+
+    private void intitializeGridData(){
+
+        UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
+        Person currentPerson = (Person) authenticatedUser;
+
+        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntryiesByUser(currentPerson.getId());
+
+        this.getTrainingDiaryList().addAll(trainingsDiaryEntryiesByUser);
+
+        this.trainingDiaryEntryInMemoryDataProvider = new ListDataProvider<>(this.getTrainingDiaryList());
 
         this.getTrainingDiaryGrid().setItems(this.getTrainingDiaryEntryInMemoryDataProvider());
 
