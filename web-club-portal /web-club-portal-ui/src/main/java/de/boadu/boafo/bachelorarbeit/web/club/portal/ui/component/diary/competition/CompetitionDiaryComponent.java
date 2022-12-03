@@ -109,6 +109,7 @@ public class CompetitionDiaryComponent extends AbstractComponent {
         this.componentRootLayout = new VerticalLayout();
 
         this.getComponentRootLayout().add(this.getCompetitionDiaryEntryGrid());
+        this.getComponentRootLayout().add(this.getBtnAdd());
 
     }
 
