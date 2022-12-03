@@ -10,7 +10,7 @@ public interface CompetitionDiaryEntry {
 
     public String getPlace();
 
-    public String getDiciplin();
+    public String getDicipline();
 
     public String getResaults();
 

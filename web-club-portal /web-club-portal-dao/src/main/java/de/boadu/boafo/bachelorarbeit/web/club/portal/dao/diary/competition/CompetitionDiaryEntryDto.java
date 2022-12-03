@@ -21,7 +21,7 @@ public class CompetitionDiaryEntryDto implements CompetitionDiaryEntry {
     private Long id;
     private LocalDate date;
     private String place;
-    private String diciplin;
+    private String dicipline;
     private String resaults;
     private String feeling;
 
