@@ -12,7 +12,7 @@ public interface CompetitionDiaryEntry {
 
     public String getDicipline();
 
-    public String getResaults();
+    public String getResult();
 
     public String getFeeling();
 }

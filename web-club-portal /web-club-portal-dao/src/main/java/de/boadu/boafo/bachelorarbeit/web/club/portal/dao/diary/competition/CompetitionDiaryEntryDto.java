@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-public class CompetitionDiaryEntryDto implements CompetitionDiaryEntry {
+public class CompetitionDiaryEntryDto implements CompetitionDiaryEntry, MutableCompetitionDiaryEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,20 @@ public class CompetitionDiaryEntryDto implements CompetitionDiaryEntry {
     private LocalDate date;
     private String place;
     private String dicipline;
-    private String resaults;
+    private String result;
     private String feeling;
 
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj instanceof CompetitionDiaryEntryDto other){
+
+            return (this.getId() == other.getId());
+
+        }
+
+        return false;
+    }
 }
+
