@@ -1,5 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.person;
 
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
@@ -22,6 +24,12 @@ public class PersonServiceImplTest {
 
     @Mock
     private PersonRepository personRepository;
+
+    @Mock
+    private CompetitionDiaryRepository competitionDiaryRepository;
+
+    @Mock
+    private TrainingsDiaryRepository trainingsDiaryRepository;
 
     @InjectMocks
     private PersonServiceImpl personService;
