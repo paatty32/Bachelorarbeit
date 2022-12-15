@@ -1,11 +1,16 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.person;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,27 +26,32 @@ public class PersonServiceImpl implements PersonService{
 
     private final PersonRepository personRepository;
 
+    private final TrainingsDiaryRepository trainingsDiaryRepository;
+
+    private final CompetitionDiaryRepository competitionDiaryRepository;
+
     @Override
     public Person createUser(MutablePerson createPerson, Set<String> clickedRoles) {
 
-        Map<AppUserRole, Diary> userDiary = this.initializeUserDiares(clickedRoles);
-
         List<AppUserRole> appUserRoles = this.initializeUserRoles(clickedRoles);
 
-        createPerson.setDiary(userDiary);
         createPerson.setRoles(appUserRoles);
 
         Person personToCreate = (Person) createPerson;
 
         Person createdPerson = this.getPersonRepository().save(personToCreate);
 
+        this.initializeUserDiares(createdPerson, clickedRoles);
+
         return createdPerson;
 
     }
 
-    private Map<AppUserRole, Diary> initializeUserDiares(Set<String> clickedRoles) {
+    private Map<DiaryType, Diary> initializeUserDiares(Person createdPerson, Set<String> clickedRoles) {
 
-        Map<AppUserRole, Diary> personDiaries = new HashMap<>();
+        Map<DiaryType, Diary> personDiaries = new HashMap<>();
+
+        Long createdPersonId = createdPerson.getId();
 
         for (String role: clickedRoles) {
 
@@ -49,9 +59,23 @@ public class PersonServiceImpl implements PersonService{
 
                 case "Athlet":
 
-                    TrainingDiaryDto trainingDiary = TrainingDiaryDto.builder().build();
+                    DiaryId trainingDiaryId = DiaryId.builder()
+                            .userId(createdPersonId)
+                            .diaryType(DiaryType.TRAINING)
+                            .build();
 
-                    personDiaries.put(AppUserRole.ROLE_ATHLETE, trainingDiary);
+                    DiaryId competitionDiaryId = DiaryId.builder()
+                            .userId(createdPersonId)
+                            .diaryType(DiaryType.COMPETITION)
+                            .build();
+
+                    TrainingDiaryDto trainingDiary = new TrainingDiaryDto(trainingDiaryId);
+
+                    CompetitionDiaryDto competitionDiary = new CompetitionDiaryDto(competitionDiaryId);
+
+                    this.getTrainingsDiaryRepository().save(trainingDiary);
+
+                    this.getCompetitionDiaryRepository().save(competitionDiary);
                     break;
 
                 case "Trainer":
