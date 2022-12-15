@@ -24,10 +24,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -131,49 +128,35 @@ public class TrainingsDiaryFormDialogComponent extends AbstractComponent impleme
     @Override
     protected void initializeComponentsActions() {
 
-        this.getBtnSave().addClickListener( clickEvent -> {
-
-            String session = this.getTaSession().getValue();
-
-            String day = String.valueOf(this.getDatePicker().getValue().getDayOfMonth());
-            String year = String.valueOf(this.getDatePicker().getValue().getYear());
-            String month = String.valueOf(this.getDatePicker().getValue().getMonth().getValue());
-
-            String dateString = day + "." + month + "." + year;
-
-            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            try {
-                Date date = dateFormat.parse(dateString);
-                long time = date.getTime();
-
-                String feeling = this.getTaFeeling().getValue();
-
-                MutableTrainingDiaryEntry mutableTrainingDiaryEntry = new TrainingDiaryEntryDto();
-                mutableTrainingDiaryEntry.setSession(session);
-                mutableTrainingDiaryEntry.setFeeling(feeling);
-                mutableTrainingDiaryEntry.setDate(this.getDatePicker().getValue());
-
-                TrainingsDairyFormDialogSaveClickedEventRequest event = new TrainingsDairyFormDialogSaveClickedEventRequestImpl((TrainingDiaryEntry) mutableTrainingDiaryEntry);
-
-                this.notifySafeClickedEventListener(event);
-
-                this.clearForm();
-
-                this.getNewEntryDialogForm().close();
-
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-
-
-
-
-
-
-        });
+        this.getBtnSave().addClickListener(doOnClickSave());
 
         this.getBtnClose().addClickListener(doOnClickClose());
 
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> doOnClickSave() {
+        return clickEvent -> {
+
+            String session = this.getTaSession().getValue();
+
+            String feeling = this.getTaFeeling().getValue();
+
+            LocalDate date = this.getDatePicker().getValue();
+
+            MutableTrainingDiaryEntry mutableTrainingDiaryEntry = new TrainingDiaryEntryDto();
+            mutableTrainingDiaryEntry.setSession(session);
+            mutableTrainingDiaryEntry.setFeeling(feeling);
+            mutableTrainingDiaryEntry.setDate(date);
+
+            TrainingsDairyFormDialogSaveClickedEventRequest event = new TrainingsDairyFormDialogSaveClickedEventRequestImpl((TrainingDiaryEntry) mutableTrainingDiaryEntry);
+
+            this.notifySaveClickedEventListener(event);
+
+            this.clearForm();
+
+            this.getNewEntryDialogForm().close();
+
+        };
     }
 
     private ComponentEventListener<ClickEvent<Button>> doOnClickClose() {
@@ -196,7 +179,7 @@ public class TrainingsDiaryFormDialogComponent extends AbstractComponent impleme
 
     }
 
-    private void notifySafeClickedEventListener(TrainingsDairyFormDialogSaveClickedEventRequest event) {
+    private void notifySaveClickedEventListener(TrainingsDairyFormDialogSaveClickedEventRequest event) {
 
         this.getEventListeners().forEach(listener -> listener.handleSave(event));
 
