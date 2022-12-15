@@ -1,6 +1,5 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingsgroup.TrainingsGroup;
 import lombok.*;
@@ -12,7 +11,6 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @AllArgsConstructor
@@ -36,6 +34,7 @@ public class Person implements MutablePerson, UserDetails {
     @ManyToMany
     private List<TrainingsGroup> trainingsGroup;
 
+    /*
     //TODO: Nochmal angucken wie das genau funktioniert
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) //TODO Was ist das ?
     @JoinTable(name = "userRole_diary_mapping", //Diese Tabelle wird angelegt
@@ -43,7 +42,9 @@ public class Person implements MutablePerson, UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "diary_id", referencedColumnName = "id")}
     )
     @MapKeyEnumerated(EnumType.STRING)
-    private Map<AppUserRole, Diary> diary;
+    private Map<DiaryType, Diary> diary;
+
+     */
 
     @ElementCollection()
     @Enumerated(EnumType.STRING)
