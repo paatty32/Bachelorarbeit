@@ -6,11 +6,8 @@ import java.util.List;
 
 public interface TrainingDiaryEntryService {
 
-    void addNewTrainingDiaryEntry(long userid, TrainingDiaryEntry newEntry);
-
     void updateEntry(TrainingDiaryEntry updatedEntry);
 
-    void deleteEntry(Long currentPersonId, TrainingDiaryEntry selectedEntry);
 
-    List<TrainingDiaryEntry> getTrainingsDiaryEntriesByUser(Long userId);
+
 }
