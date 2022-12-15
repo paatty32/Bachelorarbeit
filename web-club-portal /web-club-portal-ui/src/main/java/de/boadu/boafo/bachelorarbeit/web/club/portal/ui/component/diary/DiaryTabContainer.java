@@ -15,7 +15,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiSer
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.CompetitionDiaryComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.CompetitionDiaryContainer;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.CompetitionDiaryGridComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryFormComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryGridComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingsDiaryFormDialogComponent;
@@ -24,6 +25,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiarydialog.TrainingsDairyFormDialogEventListener;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiarydialog.TrainingsDairyFormDialogSaveClickedEventRequest;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDairyFormEventListener;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryDeleteEntryEventRequest;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryFormEventRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -53,7 +55,9 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
     private final TrainingDiaryGridComponent trainingDiaryGridComponent;
 
-    private final CompetitionDiaryComponent competitionDiaryComponent;
+    private final CompetitionDiaryContainer competitionDiaryContainer;
+
+    private final CompetitionDiaryGridComponent competitionDiaryGridComponent;
 
     private TrainingDiaryEntry clickedEntry;
 
@@ -123,6 +127,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
         this.tabContent = new HorizontalLayout();
         this.tabContent.setSizeFull();
+
         this.getTabContent().add(this.getTrainingDiaryGridComponent());
         this.getTabContent().add(this.getTrainingDiaryFormComponent());
 
@@ -132,6 +137,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
         this.componentRootLayout = new VerticalLayout();
         this.componentRootLayout.setSizeFull();
+
         this.getComponentRootLayout().add(this.getHeaderComponent());
         this.getComponentRootLayout().add(this.getDiary());
         this.getComponentRootLayout().add(this.getTabContent());
@@ -149,18 +155,16 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
                 //TODO: this.getTabContent.addComponent
                 this.getTabContent().add(this.getTrainingDiaryGridComponent());
                 this.getTabContent().add(this.getTrainingDiaryFormComponent());
-                System.out.println("Training Tab");
                 break;
 
             case "Wettkampf":
-                this.getTabContent().add(this.getCompetitionDiaryComponent());
+                this.getTabContent().add(this.getCompetitionDiaryContainer());
                 break;
 
             case "Trainingsplan":
                 System.out.println("Trainingsplan");
                 break;
         }
-
 
     }
 
@@ -199,9 +203,6 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     @Override
     public void handleButtonUpdate(TrainingsDiaryFormEventRequest event) {
 
-        UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        Person currentPerson = (Person) authenticatedUser;
-
         TrainingDiaryEntry updatedEntry = event.getEntry();
 
         this.getTrainingsDiaryUiService().updateEntry(updatedEntry);
@@ -211,15 +212,15 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     }
 
     @Override
-    public void handleButtonDelete(TrainingsDiaryFormEventRequest event) {
+    public void handleButtonDelete(TrainingsDiaryDeleteEntryEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
         Person currentPerson = (Person) authenticatedUser;
-        long currentPersonId = currentPerson.getId();
+        Long userId = currentPerson.getId();
 
-        TrainingDiaryEntry selectedEntry = event.getEntry();
+        Long clickedEntryId = event.getClickedEntryId();
 
-        this.getTrainingsDiaryUiService().deleteEntry(currentPersonId, selectedEntry);
+        this.getTrainingsDiaryUiService().deleteTrainingEntry(userId, clickedEntryId);
 
         this.getTrainingDiaryGridComponent().refreshGrid();
 
