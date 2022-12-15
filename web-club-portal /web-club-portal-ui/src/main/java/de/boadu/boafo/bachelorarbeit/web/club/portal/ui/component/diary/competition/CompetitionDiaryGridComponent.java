@@ -1,34 +1,44 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition;
 
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
+import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.InMemoryDataProvider;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.CompetitionDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.events.competitiondiarygrid.CompetitionDiaryGridClickEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.events.competitiondiarygrid.CompetitionDiaryGridClickEventRequestImpl;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.events.competitiondiarygrid.CompetitionDiaryGridEventListener;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @SpringComponent
 @UIScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
-public class CompetitionDiaryComponent extends AbstractComponent {
+public class CompetitionDiaryGridComponent extends AbstractComponent implements AbstractObserver<CompetitionDiaryGridEventListener> {
 
     private VerticalLayout componentRootLayout;
 
@@ -44,6 +54,12 @@ public class CompetitionDiaryComponent extends AbstractComponent {
     private List<CompetitionDiaryEntry> competitionDiaryEntryBuffer;
     private InMemoryDataProvider<CompetitionDiaryEntry> competitionDiaryEntryInMemoryDataProvider;
 
+    private final CompetitionDiaryUiService competitionDiaryUiService;
+
+    private final SecurityService securityService;
+
+    private Set<CompetitionDiaryGridEventListener> eventListeners;
+
     @Override
     protected Component getRootLayout() {
         return this.getComponentRootLayout();
@@ -54,12 +70,15 @@ public class CompetitionDiaryComponent extends AbstractComponent {
 
         this.competitionDiaryEntryBuffer = new ArrayList<>();
 
+        this.eventListeners = new HashSet<>();
+
     }
 
     @Override
     protected void initializeComponents() {
 
         this.initializeGrid();
+        this.initializeGridData();
         this.initializeRootLayout();
 
     }
@@ -74,7 +93,7 @@ public class CompetitionDiaryComponent extends AbstractComponent {
         Grid.Column<CompetitionDiaryEntry> competitionDiaryDateColumn = this.competitionDiaryEntryGrid.addColumn(CompetitionDiaryEntry::getDate).setHeader("Datum");
         Grid.Column<CompetitionDiaryEntry> competitionDiaryPlaceColumn = this.competitionDiaryEntryGrid.addColumn(CompetitionDiaryEntry::getPlace).setHeader("Ort");
         Grid.Column<CompetitionDiaryEntry> competitionDiaryDisciplineColumn = this.competitionDiaryEntryGrid.addColumn(CompetitionDiaryEntry::getDicipline).setHeader("Disziplin");
-        Grid.Column<CompetitionDiaryEntry> competitionDiaryResaultColumn = this.competitionDiaryEntryGrid.addColumn(CompetitionDiaryEntry::getResaults).setHeader("Ergebnis");
+        Grid.Column<CompetitionDiaryEntry> competitionDiaryResaultColumn = this.competitionDiaryEntryGrid.addColumn(CompetitionDiaryEntry::getResult).setHeader("Ergebnis");
         Grid.Column<CompetitionDiaryEntry> competitionDiaryFeelingColumn = this.competitionDiaryEntryGrid.addColumn(CompetitionDiaryEntry::getFeeling).setHeader("Zufriedenheit");
 
         Grid.Column<CompetitionDiaryEntry> shareIconColumn = this.competitionDiaryEntryGrid.addComponentColumn(entry -> new Button(VaadinIcon.SHARE.create()));
@@ -104,18 +123,90 @@ public class CompetitionDiaryComponent extends AbstractComponent {
         headerRow.getCell(competitionDiaryDisciplineColumn).setComponent(this.getTfSearchDiscipline());
     }
 
+    private void initializeGridData(){
+
+        UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
+        Person currentPerson = (Person) authenticatedUser;
+
+        List<CompetitionDiaryEntry> competitionDiaryEntriesByUser = this.getCompetitionDiaryUiService().getCompetitionDiaryEntriesByUser(currentPerson.getId());
+
+        this.getCompetitionDiaryEntryBuffer().addAll(competitionDiaryEntriesByUser);
+
+        this.competitionDiaryEntryInMemoryDataProvider = new ListDataProvider<>(this.getCompetitionDiaryEntryBuffer());
+
+        this.getCompetitionDiaryEntryGrid().setItems(this.getCompetitionDiaryEntryInMemoryDataProvider());
+
+    }
+
     private void initializeRootLayout(){
 
         this.componentRootLayout = new VerticalLayout();
+        this.componentRootLayout.setSizeFull();
 
-        this.getComponentRootLayout().add(this.getCompetitionDiaryEntryGrid());
         this.getComponentRootLayout().add(this.getBtnAdd());
+        this.getComponentRootLayout().add(this.getCompetitionDiaryEntryGrid());
 
     }
 
     @Override
     protected void initializeComponentsActions() {
 
+        this.getBtnAdd().addClickListener(doOnClickAdd());
+
+        this.getCompetitionDiaryEntryGrid().addItemClickListener(doOnClickGrid());
+
+    }
+
+    private ComponentEventListener<ItemClickEvent<CompetitionDiaryEntry>> doOnClickGrid() {
+        return itemClickevent -> {
+
+            CompetitionDiaryEntry clickedEntry = itemClickevent.getItem();
+
+            CompetitionDiaryGridClickEventRequest event = new CompetitionDiaryGridClickEventRequestImpl(clickedEntry);
+
+            this.notifyEventListenerForClickedGrid(event);
+
+        };
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> doOnClickAdd() {
+        return event -> {
+
+            this.notifyEventListenerForClickedAddButton();
+
+        };
+    }
+
+    @Override
+    public void addEventListeners(CompetitionDiaryGridEventListener listener) {
+        this.getEventListeners().add(listener);
+    }
+
+    private void notifyEventListenerForClickedAddButton() {
+
+        this.getEventListeners().forEach(listener -> listener.handleButtonAdd());
+
+    }
+
+    private void notifyEventListenerForClickedGrid(CompetitionDiaryGridClickEventRequest event) {
+
+        this.getEventListeners().forEach(listener -> listener.handleGridClick(event));
+
+    }
+
+    public void refreshGrid() {
+
+        UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
+        Person currentPerson = (Person) authenticatedUser;
+
+        List<CompetitionDiaryEntry> trainingsDiaryEntryiesByUser = this.getCompetitionDiaryUiService()
+                                                                        .getCompetitionDiaryEntriesByUser(currentPerson.getId());
+
+        this.getCompetitionDiaryEntryBuffer().clear();
+        this.getCompetitionDiaryEntryBuffer().addAll(trainingsDiaryEntryiesByUser);
+
+        this.getCompetitionDiaryEntryInMemoryDataProvider().refreshAll();
+        this.getCompetitionDiaryEntryInMemoryDataProvider().clearFilters();
 
     }
 }
