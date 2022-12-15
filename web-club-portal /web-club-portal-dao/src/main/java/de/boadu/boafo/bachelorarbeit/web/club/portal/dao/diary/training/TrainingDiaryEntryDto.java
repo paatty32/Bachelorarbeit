@@ -1,4 +1,4 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training;
 
 
 import lombok.*;
@@ -22,4 +22,14 @@ public class TrainingDiaryEntryDto implements TrainingDiaryEntry, MutableTrainin
     private String feeling;
     private Boolean isShared;
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj instanceof TrainingDiaryEntryDto other){
+
+            return this.getId() == other.getId();
+
+        } else return false;
+
+    }
 }

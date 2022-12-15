@@ -28,11 +28,14 @@
             <artifactId>web-club-portal-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <version>2.5.0</version>
         </dependency>
+
     </dependencies>
 
     <build>

@@ -1,4 +1,4 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training;
 
 import java.time.LocalDate;
 
