@@ -7,12 +7,10 @@ import java.util.List;
 
 public interface TrainingDiary {
 
-    public String getDisciplin();
-    public Person getTrainer();
-    public List<TrainingDiaryEntryDto> getEntry();
-    public List<TrainingPlan> getTrainingPlan();
-
-    public int getEntryIndex(Long id);
+     String getDisciplin();
+     Person getTrainer();
+     List<TrainingDiaryEntryDto> getEntry();
+     List<TrainingPlan> getTrainingPlan();
 
 
 }
