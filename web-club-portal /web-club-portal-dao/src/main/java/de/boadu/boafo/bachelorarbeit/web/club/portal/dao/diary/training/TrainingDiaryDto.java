@@ -1,11 +1,12 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training;
 
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingplan.TrainingPlan;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.aspectj.weaver.tools.ISupportsMessageContext;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,8 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Builder
-public class TrainingDiaryDto extends Diary implements TrainingDiary{
+public class TrainingDiaryDto extends Diary implements TrainingDiary, MutableTrainingDiary {
+
+    public TrainingDiaryDto(DiaryId id){
+        super(id);
+    }
 
     private String disciplin;
 
@@ -29,27 +35,4 @@ public class TrainingDiaryDto extends Diary implements TrainingDiary{
     @ManyToMany
     private List<TrainingPlan> trainingPlan;
 
-    @Override
-    public int getEntryIndex(Long id) {
-
-        int entryIndex = 0;
-
-        if(this.getEntry().size() != 0){
-
-            for (int index = 0; index < this.getEntry().size(); index++ ) {
-
-                if(this.getEntry().get(index).getId().longValue() == id){
-
-                    entryIndex = index;
-
-                    return entryIndex;
-
-                }
-
-            }
-
-        }
-
-        return 0;
-    }
 }

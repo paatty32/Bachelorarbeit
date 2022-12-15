@@ -1,6 +1,9 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.MutableCompetitionDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 
 import java.util.List;
@@ -16,5 +19,13 @@ public interface ApplicationFacade {
 
     void updateEntry(TrainingDiaryEntry updatedEntry);
 
-    void deletEntry(Long currentPersonId, TrainingDiaryEntry selectedEntry);
+    void deleteTrainingEntry(Long currentPersonId, Long selectedEntry);
+
+    void addNewCompetitionDiaryEntry(Long userId, MutableCompetitionDiaryEntry newEntry);
+
+    List<CompetitionDiaryEntry> getCompetitionDiaryEntriesByUser(Long userId);
+
+    CompetitionDiaryEntryDto updateCompetitionEntry(MutableCompetitionDiaryEntry updatedEntry);
+
+    void deleteEntry(Long userId, Long entry);
 }

@@ -4,5 +4,5 @@ public interface TrainingsDairyFormEventListener {
 
     void handleButtonUpdate(TrainingsDiaryFormEventRequest event);
 
-    void handleButtonDelete(TrainingsDiaryFormEventRequest event);
+    void handleButtonDelete(TrainingsDiaryDeleteEntryEventRequest event);
 }
