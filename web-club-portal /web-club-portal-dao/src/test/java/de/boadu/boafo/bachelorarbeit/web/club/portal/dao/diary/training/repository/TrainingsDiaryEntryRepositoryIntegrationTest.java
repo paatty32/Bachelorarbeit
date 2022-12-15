@@ -1,7 +1,6 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.repository;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDto;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class TrainingsDiaryEntryRepositoryIntefrationTest {
+public class TrainingsDiaryEntryRepositoryIntegrationTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
