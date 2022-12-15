@@ -12,14 +12,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.MutableTrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDairyFormEventListener;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryFormEventRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryFormEventRequestImpl;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -132,6 +128,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
         this.componentRootLayout = new VerticalLayout();
         this.componentRootLayout.setWidth("35%");
         this.componentRootLayout.setHeightFull();
+
         this.getComponentRootLayout().add(this.getFormLayout());
         this.getComponentRootLayout().add(this.getButtonLayout());
         this.getComponentRootLayout().setVisible(false);
@@ -147,21 +144,9 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
 
         this.getBtnDelete().addClickListener( clickEvent -> {
 
-            Long currentEntryIdLongValue = this.getCurrentEntryId();
+            Long clickedEntryId = this.getCurrentEntryId();
 
-            String session = this.getTaSession().getValue();
-
-            LocalDate date = this.getTfDate().getValue();
-
-            String feeling = this.getTaFeeling().getValue();
-
-            MutableTrainingDiaryEntry mutableTrainingDiaryEntry = new TrainingDiaryEntryDto();
-            mutableTrainingDiaryEntry.setId(currentEntryIdLongValue);
-            mutableTrainingDiaryEntry.setSession(session);
-            mutableTrainingDiaryEntry.setFeeling(feeling);
-            mutableTrainingDiaryEntry.setDate(date);
-
-            TrainingsDiaryFormEventRequest event = new TrainingsDiaryFormEventRequestImpl((TrainingDiaryEntry) mutableTrainingDiaryEntry);
+            TrainingsDiaryDeleteEntryEventRequest event = new TrainingsDiaryDeleteEntryEventRequestImpl(clickedEntryId);
 
             this.notifyDeleteClickedEventListener(event);
 
@@ -196,7 +181,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
         };
     }
 
-    private void notifyDeleteClickedEventListener(TrainingsDiaryFormEventRequest event) {
+    private void notifyDeleteClickedEventListener(TrainingsDiaryDeleteEntryEventRequest event) {
 
         this.getEventListeners().forEach(listener -> listener.handleButtonDelete(event));
 

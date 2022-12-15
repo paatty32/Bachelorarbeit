@@ -8,7 +8,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.grid.ItemClickEvent;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.InMemoryDataProvider;
@@ -41,8 +40,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
 
     private VerticalLayout componentRootLayout;
 
-    private Icon iconAddEntry;
-
     private Button btnAdd;
 
     private DatePicker datePicker;
@@ -60,7 +57,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
 
     private TrainingDiaryEntry clickedRow;
 
-
     @Override
     protected Component getRootLayout() {
         return this.getComponentRootLayout();
@@ -72,7 +68,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
         this.eventListeners = new HashSet<>();
 
         this.trainingDiaryList = new ArrayList<>();
-
 
     }
 
@@ -108,7 +103,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
         HeaderRow headerRow = this.getTrainingDiaryGrid().appendHeaderRow();
         headerRow.getCell(dateColumn).setComponent(this.getDatePicker());
 
-
     }
 
     private void intitializeGridData(){
@@ -116,7 +110,7 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
         Person currentPerson = (Person) authenticatedUser;
 
-        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntryiesByUser(currentPerson.getId());
+        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntriesByUser(currentPerson.getId());
 
         this.getTrainingDiaryList().addAll(trainingsDiaryEntryiesByUser);
 
@@ -127,7 +121,9 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     }
 
     private void initializeComponentRootLayout(){
+
         this.componentRootLayout = new VerticalLayout();
+
         this.getComponentRootLayout().add(this.getTrainingDiaryGrid());
         this.getComponentRootLayout().add(this.getBtnAdd());
 
@@ -204,11 +200,10 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
         Person currentPerson = (Person) authenticatedUser;
 
-        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntryiesByUser(currentPerson.getId());
+        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntriesByUser(currentPerson.getId());
 
         this.getTrainingDiaryList().clear();
         this.getTrainingDiaryList().addAll(trainingsDiaryEntryiesByUser);
-
 
         this.getTrainingDiaryEntryInMemoryDataProvider().refreshAll();
         this.getTrainingDiaryEntryInMemoryDataProvider().clearFilters();
