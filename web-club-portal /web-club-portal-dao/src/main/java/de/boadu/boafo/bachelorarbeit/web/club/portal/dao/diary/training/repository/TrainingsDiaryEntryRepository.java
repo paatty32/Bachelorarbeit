@@ -9,4 +9,6 @@ public interface TrainingsDiaryEntryRepository extends JpaRepository<TrainingDia
 
     TrainingDiaryEntryDto save(TrainingDiaryEntryDto diaryEntryDto);
 
+    TrainingDiaryEntryDto findEntryById(Long id);
+
 }
