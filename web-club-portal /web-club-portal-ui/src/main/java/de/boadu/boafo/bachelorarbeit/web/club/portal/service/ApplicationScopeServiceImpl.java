@@ -1,6 +1,9 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service;
 
 import com.vaadin.flow.spring.annotation.SpringComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.MutableCompetitionDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import lombok.AccessLevel;
@@ -14,7 +17,7 @@ import java.util.Set;
 @SpringComponent
 @Getter(AccessLevel.PRIVATE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ApplicationScopeServiceImpl implements RegistrationUiService, TrainingsDiaryUiService{
+public class ApplicationScopeServiceImpl implements ApplicationScopeService{
 
     private final ApplicationFacade applicationFacade;
 
@@ -26,7 +29,7 @@ public class ApplicationScopeServiceImpl implements RegistrationUiService, Train
     }
 
     @Override
-    public List<TrainingDiaryEntry> getTrainingsDiaryEntryiesByUser(Long userId) {
+    public List<TrainingDiaryEntry> getTrainingsDiaryEntriesByUser(Long userId) {
 
         List<TrainingDiaryEntry> trainingsDiaryEntriesByUser = this.getApplicationFacade().getTrainingsDiaryEntriesByUser(userId);
 
@@ -49,9 +52,39 @@ public class ApplicationScopeServiceImpl implements RegistrationUiService, Train
     }
 
     @Override
-    public void deleteEntry(Long currentPersonId, TrainingDiaryEntry selectedEntry) {
+    public void deleteTrainingEntry(Long userId, Long entryId) {
 
-        this.getApplicationFacade().deletEntry(currentPersonId, selectedEntry);
+        this.getApplicationFacade().deleteTrainingEntry(userId, entryId);
 
+    }
+
+    @Override
+    public void addNewDiaryEntry(Long userId, MutableCompetitionDiaryEntry newEntry) {
+
+        this.getApplicationFacade().addNewCompetitionDiaryEntry(userId, newEntry);
+        
+    }
+
+    @Override
+    public List<CompetitionDiaryEntry> getCompetitionDiaryEntriesByUser(Long userId) {
+
+        List<CompetitionDiaryEntry> competitionDiaryEntriesByUser = this.getApplicationFacade().getCompetitionDiaryEntriesByUser(userId);
+
+        return competitionDiaryEntriesByUser;
+    }
+
+    @Override
+    public CompetitionDiaryEntryDto upadeEntry(MutableCompetitionDiaryEntry updatedEntry) {
+
+        CompetitionDiaryEntryDto updatedCompEntry = this.getApplicationFacade().updateCompetitionEntry(updatedEntry);
+
+        return updatedCompEntry;
+
+    }
+
+    @Override
+    public void deleteEntry(Long currentPersonId, Long entry) {
+
+        this.getApplicationFacade().deleteEntry(currentPersonId, entry);
     }
 }
