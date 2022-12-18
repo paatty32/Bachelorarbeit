@@ -59,8 +59,6 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
     private final CompetitionDiaryContainer competitionDiaryContainer;
 
-    private final CompetitionDiaryGridComponent competitionDiaryGridComponent;
-
     private final TrainingDiaryFormComponent trainingDiaryFormComponent;
 
     private final TrainingsDiaryFormDialogComponent trainingsDiaryFormDialogComponent;
@@ -110,6 +108,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         this.attachTrainingsDiaryFormEventListener();
         this.attachTrainingsDiaryDialogFormEventListener();
         this.initializeTabComponent();
+        this.intializeTabContent();
         this.initializeComponentRootLayout();
 
     }
@@ -143,8 +142,26 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         this.tabContent = new HorizontalLayout();
         this.tabContent.setSizeFull();
 
-        this.getTabContent().add(this.getTrainingDiaryGridComponent());
-        this.getTabContent().add(this.getTrainingDiaryFormComponent());
+    }
+
+    private void intializeTabContent(){
+
+        boolean role_athlete = this.getSecurityService().getUserRoles().contains("ROLE_ATHLETE");
+        boolean role_trainer = this.getSecurityService().getUserRoles().contains("ROLE_TRAINER");
+
+        if(role_athlete){
+
+            this.getTabContent().add(this.getTrainingDiaryGridComponent());
+            this.getTabContent().add(this.getTrainingDiaryFormComponent());
+
+        }
+
+        if(role_trainer){
+
+            System.out.println("Athelte Content");
+            System.out.println("Trainingsplan Content");
+
+        }
 
     }
 
