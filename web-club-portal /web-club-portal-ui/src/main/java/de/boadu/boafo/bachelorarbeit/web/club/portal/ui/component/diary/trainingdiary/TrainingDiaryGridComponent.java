@@ -74,9 +74,17 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     @Override
     protected void initializeComponents() {
 
-        this.initializeGrid();
-        this.intitializeGridData();
-        this.initializeComponentRootLayout();
+        if(this.getSecurityService().getUserRoles().contains("ROLE_ATHLETE")) {
+
+            this.initializeGrid();
+            this.intitializeGridData();
+            this.initializeComponentRootLayout();
+
+        } else {
+
+            this.initializeGrid();
+            this.initializeComponentRootLayout();
+        }
 
     }
 
