@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @SpringComponent
 @UIScope
@@ -48,6 +49,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     private Tab trainingTab;
     private Tab competitionTab;
     private Tab trainingPlanTab;
+    private Tab athleteTab;
 
     private HorizontalLayout tabContent;
 
@@ -56,10 +58,6 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     private final TrainingDiaryGridComponent trainingDiaryGridComponent;
 
     private final CompetitionDiaryContainer competitionDiaryContainer;
-
-    private final CompetitionDiaryGridComponent competitionDiaryGridComponent;
-
-    private TrainingDiaryEntry clickedEntry;
 
     private final TrainingDiaryFormComponent trainingDiaryFormComponent;
 
@@ -110,26 +108,60 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         this.attachTrainingsDiaryFormEventListener();
         this.attachTrainingsDiaryDialogFormEventListener();
         this.initializeTabComponent();
+        this.intializeTabContent();
         this.initializeComponentRootLayout();
 
     }
 
     private void initializeTabComponent(){
 
+        List<String> userRoles = this.getSecurityService().getUserRoles();
+
         this.trainingTab = new Tab("Training");
         this.competitionTab = new Tab("Wettkampf");
         this.trainingPlanTab = new Tab("Trainingsplan");
+        this.athleteTab = new Tab("Athleten");
 
         this.diary = new Tabs();
-        this.diary.add(this.getTrainingTab());
-        this.diary.add(this.getCompetitionTab());
+
+        if(userRoles.contains("ROLE_ATHLETE")){
+
+            this.diary.add(this.getTrainingTab());
+            this.diary.add(this.getCompetitionTab());
+
+        }
+
+        if(userRoles.contains("ROLE_TRAINER")){
+
+            this.diary.add(this.getAthleteTab());
+
+        }
+
         this.diary.add(this.getTrainingPlanTab());
 
         this.tabContent = new HorizontalLayout();
         this.tabContent.setSizeFull();
 
-        this.getTabContent().add(this.getTrainingDiaryGridComponent());
-        this.getTabContent().add(this.getTrainingDiaryFormComponent());
+    }
+
+    private void intializeTabContent(){
+
+        boolean role_athlete = this.getSecurityService().getUserRoles().contains("ROLE_ATHLETE");
+        boolean role_trainer = this.getSecurityService().getUserRoles().contains("ROLE_TRAINER");
+
+        if(role_athlete){
+
+            this.getTabContent().add(this.getTrainingDiaryGridComponent());
+            this.getTabContent().add(this.getTrainingDiaryFormComponent());
+
+        }
+
+        if(role_trainer){
+
+            System.out.println("Athelte Content");
+            System.out.println("Trainingsplan Content");
+
+        }
 
     }
 
@@ -152,7 +184,6 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
         switch (selectedTab.getLabel()){
             case "Training":
-                //TODO: this.getTabContent.addComponent
                 this.getTabContent().add(this.getTrainingDiaryGridComponent());
                 this.getTabContent().add(this.getTrainingDiaryFormComponent());
                 break;
@@ -163,6 +194,10 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
             case "Trainingsplan":
                 System.out.println("Trainingsplan");
+                break;
+
+            case "Athleten":
+                System.out.println("Athleten");
                 break;
         }
 
