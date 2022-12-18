@@ -8,9 +8,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -46,16 +47,22 @@ public class Person implements MutablePerson, UserDetails {
 
      */
 
-    @ElementCollection()
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private List <AppUserRole> roles;
+    private Set<AppUserRole> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(AppUserRole.ROLE_ATHLETE.name());
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
-        return Collections.singletonList(authority);
+        for (AppUserRole role : this.roles) {
+
+            authorities.add(new SimpleGrantedAuthority(role.name()));
+
+        }
+
+        return authorities;
     }
 
     @Override
