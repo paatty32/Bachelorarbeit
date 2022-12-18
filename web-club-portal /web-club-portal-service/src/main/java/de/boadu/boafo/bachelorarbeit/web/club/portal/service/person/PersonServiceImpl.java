@@ -2,6 +2,9 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.service.person;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiary;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiaryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.repository.AthleteDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryDto;
@@ -30,10 +33,12 @@ public class PersonServiceImpl implements PersonService{
 
     private final CompetitionDiaryRepository competitionDiaryRepository;
 
+    private final AthleteDiaryRepository athleteDiaryRepository;
+
     @Override
     public Person createUser(MutablePerson createPerson, Set<String> clickedRoles) {
 
-        List<AppUserRole> appUserRoles = this.initializeUserRoles(clickedRoles);
+        Set<AppUserRole> appUserRoles = this.initializeUserRoles(clickedRoles);
 
         createPerson.setRoles(appUserRoles);
 
@@ -70,15 +75,23 @@ public class PersonServiceImpl implements PersonService{
                             .build();
 
                     TrainingDiaryDto trainingDiary = new TrainingDiaryDto(trainingDiaryId);
-
-                    CompetitionDiaryDto competitionDiary = new CompetitionDiaryDto(competitionDiaryId);
-
                     this.getTrainingsDiaryRepository().save(trainingDiary);
 
+                    CompetitionDiaryDto competitionDiary = new CompetitionDiaryDto(competitionDiaryId);
                     this.getCompetitionDiaryRepository().save(competitionDiary);
+
                     break;
 
                 case "Trainer":
+                    DiaryId athelteDiaryId = DiaryId.builder()
+                            .userId(createdPersonId)
+                            .diaryType(DiaryType.ATHLETE)
+                            .build();
+
+                    AthleteDiary athleteDiary = new AthleteDiaryDto(athelteDiaryId);
+
+                    this.getAthleteDiaryRepository().save((AthleteDiaryDto) athleteDiary);
+
                     //TODO
                     break;
 
@@ -92,9 +105,9 @@ public class PersonServiceImpl implements PersonService{
         return personDiaries;
     }
 
-    private List<AppUserRole> initializeUserRoles(Set<String> clickedRoles) {
+    private Set<AppUserRole> initializeUserRoles(Set<String> clickedRoles) {
 
-        List<AppUserRole> roles = new ArrayList<>();
+        Set<AppUserRole> roles = new LinkedHashSet<>();
 
 
         for (String role: clickedRoles){

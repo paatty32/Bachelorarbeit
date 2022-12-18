@@ -77,9 +77,18 @@ public class CompetitionDiaryGridComponent extends AbstractComponent implements 
     @Override
     protected void initializeComponents() {
 
-        this.initializeGrid();
-        this.initializeGridData();
-        this.initializeRootLayout();
+        if(this.getSecurityService().getUserRoles().contains("ROLE_ATHLETE")) {
+
+            this.initializeGrid();
+            this.initializeGridData();
+            this.initializeRootLayout();
+
+        } else {
+
+            this.initializeGrid();
+            this.initializeRootLayout();
+
+        }
 
     }
 

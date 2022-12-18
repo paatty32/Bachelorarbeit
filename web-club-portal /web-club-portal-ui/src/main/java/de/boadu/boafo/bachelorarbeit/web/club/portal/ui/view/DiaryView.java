@@ -13,14 +13,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.PermitAll;
 
 @UIScope
 @Getter(AccessLevel.PRIVATE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Route(value = "Tagebuch")
 @PageTitle("Tagebuch")
-@RolesAllowed("ROLE_ATHLETE")
+@PermitAll
 public class DiaryView extends Composite<Component> {
 
     private final DiaryTabContainer diaryTabContainer;
