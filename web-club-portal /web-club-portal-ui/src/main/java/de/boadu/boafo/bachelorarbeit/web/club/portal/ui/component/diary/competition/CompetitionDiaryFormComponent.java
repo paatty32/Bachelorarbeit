@@ -175,21 +175,10 @@ public class CompetitionDiaryFormComponent extends AbstractComponent implements 
 
         this.getBtnClose().addClickListener(doOnClickClose());
 
-        this.getBtnDelete().addClickListener(clickEvent -> {
-
-            if(this.getClickedEntry() != null){
-
-                Long clickedEntryId = this.getClickedEntry().getId();
-
-                CompetitionDiaryFormDeleteEntryEventRequest event = new CompetitionDiaryFormDeleteEntryEventRequestImpl(clickedEntryId);
-
-                this.notifyDeleteClickedEventListener(event);
-
-            }
-
-        });
+        this.getBtnDelete().addClickListener(doOnClickDelete());
 
     }
+
 
     private ComponentEventListener<ClickEvent<Button>> doOnClickUpdate() {
         return clickEvent -> {
@@ -220,6 +209,22 @@ public class CompetitionDiaryFormComponent extends AbstractComponent implements 
             this.clearForm();
 
             this.getComponentRootLayout().setVisible(false);
+
+        };
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> doOnClickDelete() {
+        return clickEvent -> {
+
+            if (this.getClickedEntry() != null) {
+
+                Long clickedEntryId = this.getClickedEntry().getId();
+
+                CompetitionDiaryFormDeleteEntryEventRequest event = new CompetitionDiaryFormDeleteEntryEventRequestImpl(clickedEntryId);
+
+                this.notifyDeleteClickedEventListener(event);
+
+            }
 
         };
     }
