@@ -186,7 +186,6 @@ public class CompetitionDiaryFormComponent extends AbstractComponent implements 
             if (this.getClickedEntry() != null) {
 
                 MutableCompetitionDiaryEntry updatedEntry = new CompetitionDiaryEntryDto();
-
                 updatedEntry.setId(this.getClickedEntry().getId());
                 updatedEntry.setDate(this.getDate().getValue());
                 updatedEntry.setDicipline(this.getTaDiciplineInuput().getValue());
