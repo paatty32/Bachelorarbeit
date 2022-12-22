@@ -9,6 +9,9 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.Compe
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlan;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
@@ -35,6 +38,8 @@ public class PersonServiceImpl implements PersonService{
 
     private final AthleteDiaryRepository athleteDiaryRepository;
 
+    private final TrainingPlanRepository trainingPlanRepository;
+
     @Override
     public Person createUser(MutablePerson createPerson, Set<String> clickedRoles) {
 
@@ -57,6 +62,14 @@ public class PersonServiceImpl implements PersonService{
         Map<DiaryType, Diary> personDiaries = new HashMap<>();
 
         Long createdPersonId = createdPerson.getId();
+
+        DiaryId trainingPlanDiaryId = DiaryId.builder()
+                .userId(createdPersonId)
+                .diaryType(DiaryType.TRAININGPLAN)
+                .build();
+
+        TrainingPlan trainingPlanDiary = new TrainingPlanDTO(trainingPlanDiaryId);
+        this.getTrainingPlanRepository().save((TrainingPlanDTO) trainingPlanDiary);
 
         for (String role: clickedRoles) {
 
@@ -88,11 +101,9 @@ public class PersonServiceImpl implements PersonService{
                             .diaryType(DiaryType.ATHLETE)
                             .build();
 
+
                     AthleteDiary athleteDiary = new AthleteDiaryDto(athelteDiaryId);
-
                     this.getAthleteDiaryRepository().save((AthleteDiaryDto) athleteDiary);
-
-                    //TODO
                     break;
 
                 case "Eltern":
