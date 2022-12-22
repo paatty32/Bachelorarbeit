@@ -4,6 +4,7 @@ public enum DiaryType {
 
     TRAINING,
     COMPETITION,
-    ATHLETE
+    ATHLETE,
+    TRAININGPLAN
 
 }
