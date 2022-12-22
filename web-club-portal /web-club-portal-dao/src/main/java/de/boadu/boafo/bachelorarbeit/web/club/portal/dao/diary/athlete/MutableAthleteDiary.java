@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MutableAthleteDiary {
 
-    void setAthletes(List<Person> athletes);
+   // void setAthletes(List<Person> athletes);
 }
