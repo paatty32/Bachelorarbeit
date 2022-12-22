@@ -25,6 +25,10 @@ public class AthleteDiaryDto extends Diary implements AthleteDiary, MutableAthle
 
     }
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany
     private List<Person> athletes;
+
+
+
+
 }

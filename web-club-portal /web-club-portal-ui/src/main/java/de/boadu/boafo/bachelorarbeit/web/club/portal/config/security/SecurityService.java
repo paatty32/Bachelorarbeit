@@ -2,6 +2,7 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.config.security;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,6 +61,16 @@ public class SecurityService {
         }
 
         return userRoles;
+    }
+
+    public Long getUserId(){
+
+        UserDetails authenticatedUser = this.getAuthenticatedUser();
+
+        Person currentUser = (Person) authenticatedUser;
+
+        return currentUser.getId();
+
     }
 
     public void logout() {

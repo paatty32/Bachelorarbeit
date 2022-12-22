@@ -16,7 +16,6 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractCompon
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.CompetitionDiaryContainer;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.CompetitionDiaryGridComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryFormComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryGridComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingsDiaryFormDialogComponent;
@@ -27,6 +26,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDairyFormEventListener;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryDeleteEntryEventRequest;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryFormEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.TrainingplanContainer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +58,8 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     private final TrainingDiaryGridComponent trainingDiaryGridComponent;
 
     private final CompetitionDiaryContainer competitionDiaryContainer;
+
+    private final TrainingplanContainer trainingplanContainer;
 
     private final TrainingDiaryFormComponent trainingDiaryFormComponent;
 
@@ -193,7 +195,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
                 break;
 
             case "Trainingsplan":
-                System.out.println("Trainingsplan");
+                this.getTabContent().add(this.getTrainingplanContainer());
                 break;
 
             case "Athleten":

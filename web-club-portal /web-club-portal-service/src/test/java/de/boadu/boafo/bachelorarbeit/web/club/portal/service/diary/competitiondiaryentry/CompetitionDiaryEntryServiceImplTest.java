@@ -26,6 +26,7 @@ public class CompetitionDiaryEntryServiceImplTest {
     @InjectMocks
     CompetitionDiaryEntryServiceImpl competitionDiaryEntryService;
 
+
     private CompetitionDiaryEntryDto testEntry;
 
     @BeforeEach

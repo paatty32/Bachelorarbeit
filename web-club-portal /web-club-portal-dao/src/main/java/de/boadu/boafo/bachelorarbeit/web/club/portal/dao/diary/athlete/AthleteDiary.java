@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface AthleteDiary {
 
-    List<Person> getAthletes();
+   // List<Person> getAthletes();
 }

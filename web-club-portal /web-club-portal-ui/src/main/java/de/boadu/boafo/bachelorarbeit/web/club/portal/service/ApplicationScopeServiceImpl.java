@@ -5,6 +5,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.Compe
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.MutableCompetitionDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -86,5 +88,27 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     public void deleteEntry(Long currentPersonId, Long entry) {
 
         this.getApplicationFacade().deleteEntry(currentPersonId, entry);
+    }
+
+    @Override
+    public List<TrainingPlanEntry> getTrainingPlanEntriesByUser(Long userId) {
+        return this.getApplicationFacade().getTrainingPlanEntries(userId);
+    }
+
+    @Override
+    public void addnewTrainingPlanEntry(Long id, MutableTrainingPlanEntry newEntry) {
+
+        this.getApplicationFacade().addNewTrainingPlanEntry(id, newEntry);
+
+    }
+
+    @Override
+    public void updateEntry(MutableTrainingPlanEntry entry) {
+        this.getApplicationFacade().updateTrainingPlanEntry(entry);
+    }
+
+    @Override
+    public void deleteTrainingPlanEntry(Long userId, Long deleteEntryId) {
+        this.getApplicationFacade().deleteTrainingPlanEntry(userId, deleteEntryId);
     }
 }

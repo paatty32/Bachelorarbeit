@@ -12,7 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.*;
@@ -167,7 +167,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
 
             String feeling = this.getTaFeeling().getValue();
 
-            TrainingDiaryEntryDto newTrainingDiaryEntry = TrainingDiaryEntryDto.builder()
+            TrainingDiaryEntryDTO newTrainingDiaryEntry = TrainingDiaryEntryDTO.builder()
                     .id(currentEntryIdLongValue)
                     .session(session)
                     .feeling(feeling)

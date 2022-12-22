@@ -13,7 +13,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.MutableTrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiarydialog.TrainingsDairyFormDialogEventListener;
@@ -143,7 +143,7 @@ public class TrainingsDiaryFormDialogComponent extends AbstractComponent impleme
 
             LocalDate date = this.getDatePicker().getValue();
 
-            MutableTrainingDiaryEntry mutableTrainingDiaryEntry = new TrainingDiaryEntryDto();
+            MutableTrainingDiaryEntry mutableTrainingDiaryEntry = new TrainingDiaryEntryDTO();
             mutableTrainingDiaryEntry.setSession(session);
             mutableTrainingDiaryEntry.setFeeling(feeling);
             mutableTrainingDiaryEntry.setDate(date);
