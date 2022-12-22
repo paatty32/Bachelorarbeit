@@ -31,11 +31,13 @@ public class CompetitionDiaryServiceImplTest {
     @Mock
     private CompetitionDiaryEntryRepository competitionDiaryEntryRepository;
 
+    @Mock
+    CompetitionDiary competitionDiary;
+
     @InjectMocks
     private CompetitionDiaryServiceImpl competitionDiaryService;
 
-   @Mock
-   CompetitionDiary competitionDiary;
+
 
     private Person max;
 

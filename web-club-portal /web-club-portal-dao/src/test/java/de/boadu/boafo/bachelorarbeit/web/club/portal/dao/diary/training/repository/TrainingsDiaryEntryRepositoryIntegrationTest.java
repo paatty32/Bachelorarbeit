@@ -1,6 +1,6 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,7 +23,7 @@ public class TrainingsDiaryEntryRepositoryIntegrationTest {
     @Test
     public void whenSave_thenReturnTrainingsDairyEntry(){
 
-        TrainingDiaryEntryDto testEntry = TrainingDiaryEntryDto.builder()
+        TrainingDiaryEntryDTO testEntry = TrainingDiaryEntryDTO.builder()
                 .id(1L)
                 .date(LocalDate.parse("02.11.2022", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
                 .session("10x1000")
@@ -31,7 +31,7 @@ public class TrainingsDiaryEntryRepositoryIntegrationTest {
                 .isShared(false)
                 .build();
 
-        TrainingDiaryEntryDto savedTestEntry = this.trainingsDiaryEntryRepository.save(testEntry);
+        TrainingDiaryEntryDTO savedTestEntry = this.trainingsDiaryEntryRepository.save(testEntry);
 
         assertThat(savedTestEntry).hasFieldOrPropertyWithValue("id", 1L);
         assertThat(savedTestEntry).hasFieldOrPropertyWithValue("date", LocalDate.parse("02.11.2022", DateTimeFormatter.ofPattern("dd.MM.yyyy")));

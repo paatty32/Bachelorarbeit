@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-public class TrainingDiaryEntryDto implements TrainingDiaryEntry, MutableTrainingDiaryEntry {
+public class TrainingDiaryEntryDTO implements TrainingDiaryEntry, MutableTrainingDiaryEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class TrainingDiaryEntryDto implements TrainingDiaryEntry, MutableTrainin
     @Override
     public boolean equals(Object obj) {
 
-        if(obj instanceof TrainingDiaryEntryDto other){
+        if(obj instanceof TrainingDiaryEntryDTO other){
 
             return this.getId() == other.getId();
 

@@ -1,7 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingdiaryentry;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
@@ -30,7 +30,7 @@ public class TrainingDiaryEntryServiceImpl implements TrainingDiaryEntryService 
     @Override
     public void updateEntry(TrainingDiaryEntry updatedEntry) {
 
-        TrainingDiaryEntryDto updatedEntryDto = (TrainingDiaryEntryDto) updatedEntry;
+        TrainingDiaryEntryDTO updatedEntryDto = (TrainingDiaryEntryDTO) updatedEntry;
 
         this.getTrainingsDiaryEntryRepository().save(updatedEntryDto);
 

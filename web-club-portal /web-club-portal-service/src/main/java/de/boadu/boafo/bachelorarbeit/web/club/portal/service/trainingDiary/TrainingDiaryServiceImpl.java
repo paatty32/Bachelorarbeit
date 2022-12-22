@@ -4,7 +4,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
@@ -41,7 +41,7 @@ public class TrainingDiaryServiceImpl implements TrainingDiaryService{
 
         TrainingDiary diary = this.getTrainingsDiaryByUser(trainingDiaryIdByUser);
 
-        diary.getEntry().add((TrainingDiaryEntryDto) newEntry);
+        diary.getEntry().add((TrainingDiaryEntryDTO) newEntry);
 
         this.getTrainingsDiaryRepository().save((TrainingDiaryDto) diary);
     }
@@ -57,7 +57,7 @@ public class TrainingDiaryServiceImpl implements TrainingDiaryService{
 
         TrainingDiary trainingsDiaryByUser = this.getTrainingsDiaryByUser(trainingDiaryIdByUser);
 
-        List<TrainingDiaryEntryDto> entry = trainingsDiaryByUser.getEntry();
+        List<TrainingDiaryEntryDTO> entry = trainingsDiaryByUser.getEntry();
 
         trainingDiaryEntries.addAll(entry);
 
@@ -72,7 +72,7 @@ public class TrainingDiaryServiceImpl implements TrainingDiaryService{
 
         TrainingDiary diary = this.getTrainingsDiaryByUser(trainingDiaryIdByUser);
 
-        TrainingDiaryEntryDto entryById = this.getTrainingsDiaryEntryRepository().findEntryById(selectedEntryId);
+        TrainingDiaryEntryDTO entryById = this.getTrainingsDiaryEntryRepository().findEntryById(selectedEntryId);
 
         int entryIndex = diary.getEntry().indexOf(entryById);
 

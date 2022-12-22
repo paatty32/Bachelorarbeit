@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface MutableTrainingDiary {
 
-    void setEntry(List<TrainingDiaryEntryDto> entry);
+    void setEntry(List<TrainingDiaryEntryDTO> entry);
 }
