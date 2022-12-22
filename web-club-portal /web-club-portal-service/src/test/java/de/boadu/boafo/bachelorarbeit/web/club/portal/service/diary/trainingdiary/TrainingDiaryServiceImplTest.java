@@ -4,7 +4,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDto;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
@@ -98,12 +98,12 @@ public class TrainingDiaryServiceImplTest {
                 .diaryType(DiaryType.TRAINING)
                 .build();
 
-        TrainingDiaryEntryDto trainEntry = TrainingDiaryEntryDto.builder()
+        TrainingDiaryEntryDTO trainEntry = TrainingDiaryEntryDTO.builder()
                 .id(4L)
                 .session("5x600m")
                 .build();
 
-        List<TrainingDiaryEntryDto> trainEntries = new ArrayList<>();
+        List<TrainingDiaryEntryDTO> trainEntries = new ArrayList<>();
 
         TrainingDiaryDto trainDiary = new TrainingDiaryDto(traininingDiaryId);
         trainDiary.setEntry(trainEntries);
@@ -144,7 +144,7 @@ public class TrainingDiaryServiceImplTest {
                 .diaryType(DiaryType.TRAINING)
                 .build();
 
-        List<TrainingDiaryEntryDto> enrties = new ArrayList<>();
+        List<TrainingDiaryEntryDTO> enrties = new ArrayList<>();
 
         TrainingDiaryDto diary = new TrainingDiaryDto(diaryId);
         diary.setEntry(enrties);
@@ -165,17 +165,17 @@ public class TrainingDiaryServiceImplTest {
                 .diaryType(DiaryType.TRAINING)
                 .build();
 
-        TrainingDiaryEntryDto trainEntry = TrainingDiaryEntryDto.builder()
+        TrainingDiaryEntryDTO trainEntry = TrainingDiaryEntryDTO.builder()
                 .id(4L)
                 .session("5x600m")
                 .build();
 
-        TrainingDiaryEntryDto trainEntry2 = TrainingDiaryEntryDto.builder()
+        TrainingDiaryEntryDTO trainEntry2 = TrainingDiaryEntryDTO.builder()
                 .id(5L)
                 .session("5x800m")
                 .build();
 
-        List<TrainingDiaryEntryDto> trainEntries = new ArrayList<>();
+        List<TrainingDiaryEntryDTO> trainEntries = new ArrayList<>();
 
         TrainingDiaryDto trainDiary = new TrainingDiaryDto(traininingDiaryId);
         trainDiary.setEntry(trainEntries);
@@ -201,17 +201,17 @@ public class TrainingDiaryServiceImplTest {
                 .diaryType(DiaryType.TRAINING)
                 .build();
 
-        TrainingDiaryEntryDto trainEntry = TrainingDiaryEntryDto.builder()
+        TrainingDiaryEntryDTO trainEntry = TrainingDiaryEntryDTO.builder()
                 .id(4L)
                 .session("5x600m")
                 .build();
 
-        TrainingDiaryEntryDto trainEntry2 = TrainingDiaryEntryDto.builder()
+        TrainingDiaryEntryDTO trainEntry2 = TrainingDiaryEntryDTO.builder()
                 .id(5L)
                 .session("5x800m")
                 .build();
 
-        List<TrainingDiaryEntryDto> trainEntries = new ArrayList<>();
+        List<TrainingDiaryEntryDTO> trainEntries = new ArrayList<>();
 
         TrainingDiaryDto trainDiary = new TrainingDiaryDto(traininingDiaryId);
         trainDiary.setEntry(trainEntries);
@@ -238,12 +238,12 @@ public class TrainingDiaryServiceImplTest {
                 .diaryType(DiaryType.TRAINING)
                 .build();
 
-        TrainingDiaryEntryDto trainEntry = TrainingDiaryEntryDto.builder()
+        TrainingDiaryEntryDTO trainEntry = TrainingDiaryEntryDTO.builder()
                 .id(4L)
                 .session("5x600m")
                 .build();
 
-        List<TrainingDiaryEntryDto> trainEntries = new ArrayList<>();
+        List<TrainingDiaryEntryDTO> trainEntries = new ArrayList<>();
 
         TrainingDiaryDto trainDiary = new TrainingDiaryDto(traininingDiaryId);
         trainDiary.setEntry(trainEntries);

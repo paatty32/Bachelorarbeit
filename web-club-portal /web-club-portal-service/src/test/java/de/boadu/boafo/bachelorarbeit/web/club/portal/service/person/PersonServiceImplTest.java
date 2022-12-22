@@ -5,7 +5,6 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.reposito
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
