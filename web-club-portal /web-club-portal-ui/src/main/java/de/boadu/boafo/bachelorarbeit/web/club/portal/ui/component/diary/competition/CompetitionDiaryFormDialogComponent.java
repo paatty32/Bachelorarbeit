@@ -52,10 +52,7 @@ public class CompetitionDiaryFormDialogComponent extends AbstractComponent imple
     private Button btnSave;
     private Button btnClose;
 
-    private final SecurityService securityService;
-
     private Set<CompetitionDiaryFormDialogEventListeners> competitionDiaryFormDialogEventListeners;
-
 
     @Override
     protected Component getRootLayout() {
