@@ -4,9 +4,13 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.Compe
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.MutableCompetitionDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiary.CompetitionDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiaryentry.CompetitionDiaryEntryService;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingplan.TrainingPlanService;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingplanentry.TrainingPlanEntryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.person.PersonService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingDiary.TrainingDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingdiaryentry.TrainingDiaryEntryService;
@@ -33,6 +37,10 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     private final CompetitionDiaryService competitionDiaryService;
 
     private final TrainingDiaryService trainingDiaryService;
+
+    private final TrainingPlanService trainingPlanService;
+
+    private final TrainingPlanEntryService trainingPlanEntryService;
 
     @Override
     public void createUser(MutablePerson createPerson, Set<String> clickedRoles) {
@@ -97,5 +105,29 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     public void deleteEntry(Long userId, Long clickedEntryId) {
 
         this.getCompetitionDiaryService().deleteEntry(userId, clickedEntryId);
+    }
+
+    @Override
+    public void addNewTrainingPlanEntry(Long userId, MutableTrainingPlanEntry newEntry) {
+
+        this.getTrainingPlanService().addNewTrainingPlanEntry(userId, newEntry);
+
+    }
+
+    @Override
+    public List<TrainingPlanEntry> getTrainingPlanEntries(Long userId) {
+        return this.getTrainingPlanService().getTrainingPlanEntries(userId);
+    }
+
+    @Override
+    public void updateTrainingPlanEntry(MutableTrainingPlanEntry entry) {
+
+        this.getTrainingPlanEntryService().updateEntry(entry);
+
+    }
+
+    @Override
+    public void deleteTrainingPlanEntry(Long userId, Long deleteEntryId) {
+        this.getTrainingPlanService().deleteTrainingPlanEntry(userId, deleteEntryId);
     }
 }
