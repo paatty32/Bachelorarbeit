@@ -13,10 +13,13 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.Trai
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroup;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.Group;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -41,27 +44,51 @@ public class PersonServiceImpl implements PersonService{
     private final TrainingPlanRepository trainingPlanRepository;
 
     @Override
-    public Person createUser(MutablePerson createPerson, Set<String> clickedRoles) {
+    public PersonDTO createUser(MutablePerson createPerson, Set<String> clickedRoles) {
 
         Set<AppUserRole> appUserRoles = this.initializeUserRoles(clickedRoles);
 
         createPerson.setRoles(appUserRoles);
 
-        Person personToCreate = (Person) createPerson;
+        PersonDTO personDTOToCreate = (PersonDTO) createPerson;
 
-        Person createdPerson = this.getPersonRepository().save(personToCreate);
+        PersonDTO createdPersonDTO = this.getPersonRepository().save(personDTOToCreate);
 
-        this.initializeUserDiares(createdPerson, clickedRoles);
+        this.initializeUserDiares(createdPersonDTO, clickedRoles);
 
-        return createdPerson;
+        return createdPersonDTO;
 
     }
 
-    private Map<DiaryType, Diary> initializeUserDiares(Person createdPerson, Set<String> clickedRoles) {
+    @Override
+    public void addNewGroupToUser(Long userId, MutableGroup newTrainingGroup) {
+
+        PersonDTO personDTOById = this.getPersonRepository().findPersonById(userId);
+
+        personDTOById.getTrainingsGroup().add((GroupDTO) newTrainingGroup);
+
+        this.getPersonRepository().save(personDTOById);
+
+    }
+
+    @Override
+    public Set<Group> getUserGroups(Long userId) {
+
+        Set<Group> userGroups = new HashSet<>();
+
+        PersonDTO personDTOById = this.getPersonRepository().findPersonById(userId);
+        Set<GroupDTO> userGroupsBuffer = personDTOById.getTrainingsGroup();
+
+        userGroups.addAll(userGroupsBuffer);
+
+        return userGroups;
+    }
+
+    private Map<DiaryType, Diary> initializeUserDiares(PersonDTO createdPersonDTO, Set<String> clickedRoles) {
 
         Map<DiaryType, Diary> personDiaries = new HashMap<>();
 
-        Long createdPersonId = createdPerson.getId();
+        Long createdPersonId = createdPersonDTO.getId();
 
         DiaryId trainingPlanDiaryId = DiaryId.builder()
                 .userId(createdPersonId)
@@ -101,7 +128,6 @@ public class PersonServiceImpl implements PersonService{
                             .diaryType(DiaryType.ATHLETE)
                             .build();
 
-
                     AthleteDiary athleteDiary = new AthleteDiaryDto(athelteDiaryId);
                     this.getAthleteDiaryRepository().save((AthleteDiaryDto) athleteDiary);
                     break;
@@ -119,7 +145,6 @@ public class PersonServiceImpl implements PersonService{
     private Set<AppUserRole> initializeUserRoles(Set<String> clickedRoles) {
 
         Set<AppUserRole> roles = new LinkedHashSet<>();
-
 
         for (String role: clickedRoles){
 
