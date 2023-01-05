@@ -3,6 +3,7 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.view.TrainingGroupView;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,13 @@ public abstract class AbstractComponent extends Composite<Component> {
     protected void navigateTo(Class<? extends Component> navigationTarget){
         UI.getCurrent().navigate(navigationTarget);
     }
+
+    protected void navigateTo(Class<? extends Component> navigationTarget, Long parameter){
+
+        UI.getCurrent().navigate(TrainingGroupView.class, parameter);
+
+    }
+
 
     @Override
     protected Component initContent() {
