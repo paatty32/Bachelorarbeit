@@ -1,7 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.trainingsgroup.TrainingsGroup;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupDTO;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class Person implements MutablePerson, UserDetails {
+public class PersonDTO implements MutablePerson, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +32,8 @@ public class Person implements MutablePerson, UserDetails {
 
     private String password;
 
-    @ManyToMany
-    private List<TrainingsGroup> trainingsGroup;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<GroupDTO> trainingsGroup;
 
     /*
     //TODO: Nochmal angucken wie das genau funktioniert

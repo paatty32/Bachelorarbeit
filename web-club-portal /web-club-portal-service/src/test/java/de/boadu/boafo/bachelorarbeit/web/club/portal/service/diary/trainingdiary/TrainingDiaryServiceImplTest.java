@@ -7,7 +7,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.Training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingDiary.TrainingDiaryServiceImpl;
 import lombok.Getter;
@@ -39,13 +39,13 @@ public class TrainingDiaryServiceImplTest {
     @InjectMocks
     private TrainingDiaryServiceImpl trainingDiaryService;
 
-    private Person testUser;
+    private PersonDTO testUser;
 
 
     @BeforeEach
     public void setUp(){
 
-         this.testUser = Person.builder().id(3L)
+         this.testUser = PersonDTO.builder().id(3L)
                 .name("Test")
                 .surname("User")
                 .build();
@@ -63,10 +63,10 @@ public class TrainingDiaryServiceImplTest {
 
         TrainingDiaryDto trainingDiary = new TrainingDiaryDto(diaryId);
 
-        Person person = new Person();
-        person.setId(1L);
-        person.setName("Mustermann");
-        person.setSurname("Max");
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(1L);
+        personDTO.setName("Mustermann");
+        personDTO.setSurname("Max");
 
         Mockito.when(trainingsDiaryRepository.findTrainingDiaryById(diaryId)).thenReturn(trainingDiary);
 

@@ -2,12 +2,10 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import lombok.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class AthleteDiaryDto extends Diary implements AthleteDiary, MutableAthle
     }
 
     @OneToMany
-    private List<Person> athletes;
+    private List<PersonDTO> athletes;
 
 
 

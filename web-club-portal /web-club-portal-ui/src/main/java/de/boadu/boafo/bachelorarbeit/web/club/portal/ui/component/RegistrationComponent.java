@@ -3,7 +3,6 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -16,7 +15,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.RegistrationUiService;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -146,7 +145,7 @@ public class RegistrationComponent extends AbstractComponent{
 
             Set<String> clickedRoles = this.getRoles().getValue();
 
-            MutablePerson createPerson = new Person();
+            MutablePerson createPerson = new PersonDTO();
             createPerson.setName(name);
             createPerson.setSurname(surname);
             createPerson.setPassword(encodePassword);

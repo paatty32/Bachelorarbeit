@@ -10,11 +10,10 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.CompetitionDiaryContainer;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryFormComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryGridComponent;
@@ -52,8 +51,6 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     private Tab athleteTab;
 
     private HorizontalLayout tabContent;
-
-    private final HeaderComponent headerComponent;
 
     private final TrainingDiaryGridComponent trainingDiaryGridComponent;
 
@@ -172,7 +169,6 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         this.componentRootLayout = new VerticalLayout();
         this.componentRootLayout.setSizeFull();
 
-        this.getComponentRootLayout().add(this.getHeaderComponent());
         this.getComponentRootLayout().add(this.getDiary());
         this.getComponentRootLayout().add(this.getTabContent());
         this.getComponentRootLayout().add(this.getTrainingsDiaryFormDialogComponent());
@@ -252,8 +248,8 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     public void handleButtonDelete(TrainingsDiaryDeleteEntryEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        Person currentPerson = (Person) authenticatedUser;
-        Long userId = currentPerson.getId();
+        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        Long userId = currentPersonDTO.getId();
 
         Long clickedEntryId = event.getClickedEntryId();
 
@@ -268,8 +264,8 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     public void handleSave(TrainingsDairyFormDialogSaveClickedEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        Person currentPerson = (Person) authenticatedUser;
-        long userId = currentPerson.getId();
+        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        long userId = currentPersonDTO.getId();
 
         TrainingDiaryEntry newEntry = event.getEntry();
 
