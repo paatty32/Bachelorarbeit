@@ -8,6 +8,10 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.Training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroupRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroup;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.Group;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -110,5 +114,50 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     @Override
     public void deleteTrainingPlanEntry(Long userId, Long deleteEntryId) {
         this.getApplicationFacade().deleteTrainingPlanEntry(userId, deleteEntryId);
+    }
+
+    @Override
+    public Group createTrainingGroup(MutableGroup newGroupToCreate) {
+
+        Group group = this.getApplicationFacade().createTrainingGroup(newGroupToCreate);
+
+        return group;
+    }
+
+    @Override
+    public List<Group> getTrainingGroups() {
+        return this.getApplicationFacade().getTrainingGroups();
+    }
+
+    @Override
+    public void addGroupRequest(Long groupId, MutableGroupRequest request) {
+        this.getApplicationFacade().addGroupRequest(groupId, request);
+    }
+
+    @Override
+    public List<GroupRequest> getGroupRequestByTrainer(Long userId) {
+        return this.getApplicationFacade().getGroupRequestByTrainer(userId);
+    }
+
+    @Override
+    public Group getTrainingGroupById(Long groupId) {
+        return this.getApplicationFacade().getTrainingGroupById(groupId);
+    }
+
+    @Override
+    public void deleteGroupRequestById(Long id, Long groupId) {
+        this.getApplicationFacade().deleteGroupRequestById(id, groupId);
+    }
+
+    @Override
+    public void addNewGroupToUser(Long userId, MutableGroup newTrainingGroup) {
+
+        this.getApplicationFacade().addNewGroupToUser(userId, newTrainingGroup);
+
+    }
+
+    @Override
+    public Set<Group> getUserGroups(Long userId) {
+        return this.getApplicationFacade().getUserGroups(userId);
     }
 }

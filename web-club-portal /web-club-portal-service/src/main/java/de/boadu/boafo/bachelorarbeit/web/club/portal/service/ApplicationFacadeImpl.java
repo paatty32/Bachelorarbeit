@@ -7,6 +7,10 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.Training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroupRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroup;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.Group;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiary.CompetitionDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiaryentry.CompetitionDiaryEntryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingplan.TrainingPlanService;
@@ -14,6 +18,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingplane
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.person.PersonService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingDiary.TrainingDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingdiaryentry.TrainingDiaryEntryService;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.group.GroupService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +46,8 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     private final TrainingPlanService trainingPlanService;
 
     private final TrainingPlanEntryService trainingPlanEntryService;
+
+    private final GroupService groupService;
 
     @Override
     public void createUser(MutablePerson createPerson, Set<String> clickedRoles) {
@@ -130,4 +137,53 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     public void deleteTrainingPlanEntry(Long userId, Long deleteEntryId) {
         this.getTrainingPlanService().deleteTrainingPlanEntry(userId, deleteEntryId);
     }
+
+    @Override
+    public Group createTrainingGroup(MutableGroup newGroupToCreate) {
+
+        Group traininGroup = this.getGroupService().createTraininGroup(newGroupToCreate);
+
+        return traininGroup;
+    }
+
+    @Override
+    public List<Group> getTrainingGroups() {
+        return this.getGroupService().getAllTrainingGroups();
+    }
+
+    @Override
+    public void addNewGroupToUser(Long userId, MutableGroup newTrainingGroup) {
+        this.getPersonService().addNewGroupToUser(userId ,newTrainingGroup);
+    }
+
+    @Override
+    public Set<Group> getUserGroups(Long userId) {
+        return this.getPersonService().getUserGroups(userId);
+    }
+
+    @Override
+    public void addGroupRequest(Long groupId, MutableGroupRequest request) {
+
+        this.getGroupService().addGroupRequest(groupId, request);
+
+    }
+
+    @Override
+    public List<GroupRequest> getGroupRequestByTrainer(Long userId) {
+        List<GroupRequest> groupRequestByAdmin = this.getGroupService().getGroupRequestByAdmin(userId);
+
+        return groupRequestByAdmin;
+    }
+
+    @Override
+    public Group getTrainingGroupById(Long groupId) {
+        return this.getGroupService().getTrainingGroupById(groupId);
+    }
+
+    @Override
+    public void deleteGroupRequestById(Long id, Long groupId) {
+        this.getGroupService().deleteGroupequestById(id, groupId);
+    }
+
+
 }
