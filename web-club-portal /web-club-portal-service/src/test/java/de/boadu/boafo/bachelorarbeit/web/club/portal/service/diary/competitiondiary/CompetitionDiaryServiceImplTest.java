@@ -4,7 +4,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryRepository;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
 import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,12 +39,12 @@ public class CompetitionDiaryServiceImplTest {
 
 
 
-    private Person max;
+    private PersonDTO max;
 
     @BeforeEach
     public void setUp(){
 
-        this.max = Person.builder()
+        this.max = PersonDTO.builder()
                 .surname("Mustermann")
                 .name("Max")
                 .id(1L)

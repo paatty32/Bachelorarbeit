@@ -16,7 +16,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
@@ -116,9 +116,9 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     private void intitializeGridData(){
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        Person currentPerson = (Person) authenticatedUser;
+        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
 
-        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntriesByUser(currentPerson.getId());
+        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntriesByUser(currentPersonDTO.getId());
 
         this.getTrainingDiaryList().addAll(trainingsDiaryEntryiesByUser);
 
@@ -206,9 +206,9 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     public void refreshGrid() {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        Person currentPerson = (Person) authenticatedUser;
+        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
 
-        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntriesByUser(currentPerson.getId());
+        List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntriesByUser(currentPersonDTO.getId());
 
         this.getTrainingDiaryList().clear();
         this.getTrainingDiaryList().addAll(trainingsDiaryEntryiesByUser);

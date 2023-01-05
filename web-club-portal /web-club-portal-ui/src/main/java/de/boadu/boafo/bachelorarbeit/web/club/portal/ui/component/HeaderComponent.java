@@ -1,16 +1,17 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.view.DiaryView;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.view.GroupsView;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HeaderComponent extends AbstractComponent implements RouterLayout {
 
-    private MenuBar header;
+    private Tabs header;
 
     private Icon tfLogo;
 
     private Icon userIcon;
 
-    private HorizontalLayout componentRootLayout;
+    private VerticalLayout componentRootLayout;
 
     @Override
     protected Component getRootLayout() {
@@ -50,27 +51,41 @@ public class HeaderComponent extends AbstractComponent implements RouterLayout {
 
         this.tfLogo = new Icon(VaadinIcon.ACADEMY_CAP);
 
-        this.header = new MenuBar();
-        this.getHeader().addItem("Gruppen");
-        this.getHeader().addItem("Trainingstagebuch");
-        this.getHeader().addItem("Vereinsdatenbank");
+        this.header = new Tabs();
+        this.header.setAutoselect(false);
+
+        this.getHeader().add(new RouterLink("Gruppen", GroupsView.class));
+        this.getHeader().add(new RouterLink("Tagebuch", DiaryView.class));
 
         this.userIcon = new Icon(VaadinIcon.USER);
 
-        this.componentRootLayout = new HorizontalLayout();
+        this.componentRootLayout = new VerticalLayout();
         this.componentRootLayout.setWidthFull();
-        this.getComponentRootLayout().add(this.getTfLogo());
-        this.getComponentRootLayout().add(this.getHeader());
-        this.getComponentRootLayout().add(this.getUserIcon());
-        this.getComponentRootLayout().setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        this.componentRootLayout.setHeightFull();
 
+        this.getComponentRootLayout().add(this.getHeader());
+        this.getComponentRootLayout().setAlignItems(FlexComponent.Alignment.CENTER);
 
     }
 
     @Override
     protected void initializeComponentsActions() {
 
-        userIcon.addClickListener(iconClickEvent -> System.out.println("Klick"));
+        this.getHeader().addSelectedChangeListener(event -> {
+
+            String headerLabel = event.getSelectedTab().getLabel();
+
+            if(headerLabel.equals("Gruppen")){
+
+                this.navigateTo(GroupsView.class);
+
+            } else if (headerLabel.equals("Tagebuch")) {
+
+                this.navigateTo(DiaryView.class);
+
+            }
+
+        });
 
     }
 }

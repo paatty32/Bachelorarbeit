@@ -4,7 +4,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repos
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class PersonServiceImplTest {
+public class PersonDTOServiceImplTest {
 
     @Mock
     private PersonRepository personRepository;
@@ -42,16 +42,16 @@ public class PersonServiceImplTest {
         Set<String> clickedRoles = new HashSet<>();
         clickedRoles.add("Athlet");
 
-        MutablePerson person = new Person();
+        MutablePerson person = new PersonDTO();
         person.setName("Mustermann");
         person.setSurname("Max");
 
-        Mockito.when(personRepository.save((Person) person)).thenReturn((Person) person);
+        Mockito.when(personRepository.save((PersonDTO) person)).thenReturn((PersonDTO) person);
 
-        Person createdPerson = this.personService.createUser(person, clickedRoles);
+        PersonDTO createdPersonDTO = this.personService.createUser(person, clickedRoles);
 
-        assertThat(createdPerson).hasFieldOrPropertyWithValue("name", "Mustermann");
-        assertThat(createdPerson).hasFieldOrPropertyWithValue("surname", "Max");
+        assertThat(createdPersonDTO).hasFieldOrPropertyWithValue("name", "Mustermann");
+        assertThat(createdPersonDTO).hasFieldOrPropertyWithValue("surname", "Max");
 
     }
 

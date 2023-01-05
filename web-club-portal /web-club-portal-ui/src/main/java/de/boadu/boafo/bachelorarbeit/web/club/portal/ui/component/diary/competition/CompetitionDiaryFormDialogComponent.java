@@ -11,7 +11,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.MutableCompetitionDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
@@ -106,6 +105,7 @@ public class CompetitionDiaryFormDialogComponent extends AbstractComponent imple
         this.taFeelingInput.setWidth("480px");
 
         this.dialogLayout = new VerticalLayout();
+
         this.getDialogLayout().add(this.getDate());
         this.getDialogLayout().add(this.getTaPlaceInput());
         this.getDialogLayout().add(this.getTaDiciplineInuput());

@@ -6,6 +6,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.DiaryTabContainer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import javax.annotation.security.PermitAll;
 @UIScope
 @Getter(AccessLevel.PRIVATE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@Route(value = "Tagebuch")
+@Route(value = "Tagebuch", layout = HeaderComponent.class)
 @PageTitle("Tagebuch")
 @PermitAll
 public class DiaryView extends Composite<Component> {
@@ -36,6 +37,7 @@ public class DiaryView extends Composite<Component> {
 
         this.componentRootLayout = new VerticalLayout();
         this.componentRootLayout.setSizeFull();
+
         this.getComponentRootLayout().add(this.getDiaryTabContainer());
 
     }

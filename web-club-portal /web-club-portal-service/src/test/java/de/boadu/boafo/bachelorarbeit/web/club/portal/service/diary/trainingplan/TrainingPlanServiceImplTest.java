@@ -8,7 +8,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.Trai
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanRepository;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,19 +40,19 @@ public class TrainingPlanServiceImplTest {
     @InjectMocks
     private TrainingPlanServiceImpl trainingPlanService;
 
-    Person testPerson;
+    PersonDTO testPersonDTO;
 
     DiaryId diaryId;
 
     @BeforeEach
     public void setUpt(){
 
-        this.testPerson = Person.builder().id(1L)
+        this.testPersonDTO = PersonDTO.builder().id(1L)
                 .name("Test")
                 .build();
 
         this.diaryId = DiaryId.builder()
-                .userId(this.getTestPerson().getId())
+                .userId(this.getTestPersonDTO().getId())
                 .diaryType(DiaryType.TRAININGPLAN)
                 .build();
 
@@ -75,7 +75,7 @@ public class TrainingPlanServiceImplTest {
 
         Mockito.when(this.getTrainingPlanRepository().findTrainingPlanById(this.getDiaryId())).thenReturn(trainingPlan);
 
-        List<TrainingPlanEntry> trainingPlanEntries = this.getTrainingPlanService().getTrainingPlanEntries(this.getTestPerson().getId());
+        List<TrainingPlanEntry> trainingPlanEntries = this.getTrainingPlanService().getTrainingPlanEntries(this.getTestPersonDTO().getId());
 
         assertThat(trainingPlanEntries).isEqualTo(entries);
 
@@ -91,7 +91,7 @@ public class TrainingPlanServiceImplTest {
 
         Mockito.when(this.getTrainingPlanRepository().findTrainingPlanById(this.getDiaryId())).thenReturn(trainingPlan);
 
-        List<TrainingPlanEntry> trainingPlanEntries = this.getTrainingPlanService().getTrainingPlanEntries(this.getTestPerson().getId());
+        List<TrainingPlanEntry> trainingPlanEntries = this.getTrainingPlanService().getTrainingPlanEntries(this.getTestPersonDTO().getId());
 
         assertThat(trainingPlanEntries.size()).isEqualTo(0);
 
@@ -113,7 +113,7 @@ public class TrainingPlanServiceImplTest {
 
         Mockito.when(this.getTrainingPlanRepository().findTrainingPlanById(this.getDiaryId())).thenReturn(trainingPlan);
 
-        this.getTrainingPlanService().addNewTrainingPlanEntry(this.testPerson.getId(), newEntry);
+        this.getTrainingPlanService().addNewTrainingPlanEntry(this.testPersonDTO.getId(), newEntry);
 
         assertThat(trainingPlan.getEntries().get(0).getSession()).isEqualTo("5x30m");
         assertThat(trainingPlan.getEntries().get(0).getDate()).isEqualTo(LocalDate.now());
@@ -141,7 +141,7 @@ public class TrainingPlanServiceImplTest {
         lenient().when(this.getTrainingPlanEntryRepository().findEntryById(2L)).thenReturn(entry);
         Mockito.when(this.getTrainingPlanRepository().findTrainingPlanById(this.getDiaryId())).thenReturn(trainingPlan);
 
-        this.getTrainingPlanService().deleteTrainingPlanEntry(this.testPerson.getId(), entry.getId());
+        this.getTrainingPlanService().deleteTrainingPlanEntry(this.testPersonDTO.getId(), entry.getId());
 
         assertThat(trainingPlan.getEntries().isEmpty()).isEqualTo(true);
 
@@ -166,7 +166,7 @@ public class TrainingPlanServiceImplTest {
         lenient().when(this.getTrainingPlanEntryRepository().findEntryById(2L)).thenReturn(entry);
         Mockito.when(this.getTrainingPlanRepository().findTrainingPlanById(this.getDiaryId())).thenReturn(trainingPlan);
 
-        this.getTrainingPlanService().deleteTrainingPlanEntry(this.testPerson.getId(), 5L);
+        this.getTrainingPlanService().deleteTrainingPlanEntry(this.testPersonDTO.getId(), 5L);
 
         assertThat(trainingPlan.getEntries().size()).isEqualTo(1);
 

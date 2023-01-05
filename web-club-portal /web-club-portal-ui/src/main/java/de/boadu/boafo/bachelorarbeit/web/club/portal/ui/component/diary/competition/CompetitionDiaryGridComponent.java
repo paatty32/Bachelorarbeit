@@ -19,7 +19,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.CompetitionDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
@@ -135,9 +135,9 @@ public class CompetitionDiaryGridComponent extends AbstractComponent implements 
     private void initializeGridData(){
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        Person currentPerson = (Person) authenticatedUser;
+        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
 
-        List<CompetitionDiaryEntry> competitionDiaryEntriesByUser = this.getCompetitionDiaryUiService().getCompetitionDiaryEntriesByUser(currentPerson.getId());
+        List<CompetitionDiaryEntry> competitionDiaryEntriesByUser = this.getCompetitionDiaryUiService().getCompetitionDiaryEntriesByUser(currentPersonDTO.getId());
 
         this.getCompetitionDiaryEntryBuffer().addAll(competitionDiaryEntriesByUser);
 
@@ -206,10 +206,10 @@ public class CompetitionDiaryGridComponent extends AbstractComponent implements 
     public void refreshGrid() {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        Person currentPerson = (Person) authenticatedUser;
+        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
 
         List<CompetitionDiaryEntry> trainingsDiaryEntryiesByUser = this.getCompetitionDiaryUiService()
-                                                                        .getCompetitionDiaryEntriesByUser(currentPerson.getId());
+                                                                        .getCompetitionDiaryEntriesByUser(currentPersonDTO.getId());
 
         this.getCompetitionDiaryEntryBuffer().clear();
         this.getCompetitionDiaryEntryBuffer().addAll(trainingsDiaryEntryiesByUser);
