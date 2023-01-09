@@ -6,6 +6,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -17,10 +18,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.Trai
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.event.trainingplanform.TrainingPlanFormDeleteEntryEventRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.event.trainingplanform.TrainingPlanFormEventListener;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.event.trainingplanform.TrainingPlanFormEventRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.event.trainingplanform.TrainingPlanFormEventRequestImpl;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.event.trainingplanform.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +44,7 @@ public class TrainingPlanFormComponent extends AbstractComponent implements Abst
     private Button btnUpdate;
     private Button btnDelete;
     private Button btnClose;
+    private Button btnShare;
 
     private VerticalLayout formLayout;
 
@@ -108,7 +107,7 @@ public class TrainingPlanFormComponent extends AbstractComponent implements Abst
 
         this.btnUpdate = new Button();
         this.btnUpdate.setText("Übernehmen");
-        this.btnUpdate.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        this.btnUpdate.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         this.btnUpdate.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 
         this.btnDelete = new Button();
@@ -121,12 +120,16 @@ public class TrainingPlanFormComponent extends AbstractComponent implements Abst
         this.btnClose.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         this.btnClose.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
+        this.btnShare = new Button();
+        this.btnShare.setIcon(VaadinIcon.SHARE.create());
+
         this.buttonLayout = new HorizontalLayout();
         this.buttonLayout.setWidthFull();
 
         this.getButtonLayout().setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         this.getButtonLayout().add(this.getBtnUpdate());
         this.getButtonLayout().add(this.getBtnDelete());
+        this.getButtonLayout().add(this.getBtnShare());
         this.getButtonLayout().add(this.getBtnClose());
 
     }
@@ -150,7 +153,19 @@ public class TrainingPlanFormComponent extends AbstractComponent implements Abst
 
         this.getBtnDelete().addClickListener(doOnClickDelete());
 
+        this.getBtnShare().addClickListener(clickEntry -> {
+
+            this.notifyTrainingPlanFormEventListenerForClickShare();
+
+        });
+
         this.getBtnClose().addClickListener(doOnClickClose());
+
+    }
+
+    private void notifyTrainingPlanFormEventListenerForClickShare() {
+
+        this.getTrainingPlanFormEventListeners().forEach(listener -> listener.handleButtonShare());
 
     }
 
@@ -159,7 +174,7 @@ public class TrainingPlanFormComponent extends AbstractComponent implements Abst
 
             if (this.getClickedEntryId() != null) {
 
-                TrainingPlanFormDeleteEntryEventRequest event = new TrainingPlanFormEventListener.TrainingPlanFormDeleteEntryEventRequestImpl(this.getClickedEntryId());
+                TrainingPlanFormDeleteEntryEventRequest event = TrainingPlanFormDeleteEntryEventRequest.getInstance(this.getClickedEntryId());
 
                 this.notifyTrainingPlanFormEventListenerForDeletingEntry(event);
 
