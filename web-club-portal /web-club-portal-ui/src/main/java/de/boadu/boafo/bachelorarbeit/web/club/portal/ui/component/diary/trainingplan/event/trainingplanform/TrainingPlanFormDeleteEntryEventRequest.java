@@ -4,4 +4,10 @@ public interface TrainingPlanFormDeleteEntryEventRequest {
 
     Long getDeleteEntryId();
 
+    static TrainingPlanFormDeleteEntryEventRequest getInstance(Long entryId){
+
+        return new TrainingPlanFormDeleteEntryEventRequestImpl(entryId);
+
+    }
+
 }

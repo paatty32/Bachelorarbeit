@@ -6,11 +6,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.Mutab
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroupRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroup;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.Group;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiary.CompetitionDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiaryentry.CompetitionDiaryEntryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingplan.TrainingPlanService;
@@ -183,6 +180,32 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     @Override
     public void deleteGroupRequestById(Long id, Long groupId) {
         this.getGroupService().deleteGroupequestById(id, groupId);
+    }
+
+    @Override
+    public Set<TrainingPlanEntry> getTrainingPlanByGroup(Long groupId) {
+        return getGroupService().getTrainingPlanByGroup(groupId);
+    }
+
+    @Override
+    public List<Group> getTrainingGroupByAdmin(Long userId) {
+        return this.getGroupService().getTrainingGroupsByAdmin(userId);
+    }
+
+    @Override
+    public void addTrainingPlanEntry(Long groupId, MutableTrainingPlanEntry newEntry) {
+        this.getGroupService().addTrainingPlanEntry(groupId, newEntry);
+    }
+
+
+    @Override
+    public TrainingPlanEntry getTrainingPlanEntry(Long entryId) {
+        return this.getTrainingPlanEntryService().getTrainingPlanEntry(entryId);
+    }
+
+    @Override
+    public void deleteGroupTrainingPlanEntry(Set<GroupDTO> groups, TrainingPlanEntry entry) {
+        this.getGroupService().deleteGroupTrainingPlanEntry(groups, entry);
     }
 
 

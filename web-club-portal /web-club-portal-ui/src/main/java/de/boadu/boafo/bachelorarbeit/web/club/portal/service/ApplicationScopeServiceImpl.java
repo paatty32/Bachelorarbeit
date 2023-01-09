@@ -7,11 +7,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.Mutab
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroupRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroup;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.Group;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -150,6 +147,22 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     }
 
     @Override
+    public List<Group> getTrainingGroupByAdmin(Long userId) {
+        return this.getApplicationFacade().getTrainingGroupByAdmin(userId);
+    }
+
+    @Override
+    public void addTrainingPlanEntry(Long groupId, MutableTrainingPlanEntry newEntry) {
+        this.getApplicationFacade().addTrainingPlanEntry(groupId, newEntry);
+    }
+
+
+    @Override
+    public void deleteGroupTraininingPlanEntry(Set<GroupDTO> groups, TrainingPlanEntry entry) {
+        this.getApplicationFacade().deleteGroupTrainingPlanEntry(groups, entry);
+    }
+
+    @Override
     public void addNewGroupToUser(Long userId, MutableGroup newTrainingGroup) {
 
         this.getApplicationFacade().addNewGroupToUser(userId, newTrainingGroup);
@@ -159,5 +172,16 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     @Override
     public Set<Group> getUserGroups(Long userId) {
         return this.getApplicationFacade().getUserGroups(userId);
+    }
+
+
+    @Override
+    public Set<TrainingPlanEntry> getTrainingPlanByGroup(Long groupId) {
+        return this.getApplicationFacade().getTrainingPlanByGroup(groupId);
+    }
+
+    @Override
+    public TrainingPlanEntry getEntry(Long entryId) {
+        return this.getApplicationFacade().getTrainingPlanEntry(entryId);
     }
 }

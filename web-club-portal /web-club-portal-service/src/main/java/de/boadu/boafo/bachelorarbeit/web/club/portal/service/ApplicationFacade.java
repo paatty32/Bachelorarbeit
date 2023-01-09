@@ -6,11 +6,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.Mutab
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroupRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroup;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.Group;
 
 import java.util.List;
 import java.util.Set;
@@ -59,4 +56,13 @@ public interface ApplicationFacade {
 
     void deleteGroupRequestById(Long id, Long groupId);
 
+    Set<TrainingPlanEntry> getTrainingPlanByGroup(Long groupId);
+
+    List<Group> getTrainingGroupByAdmin(Long userId);
+
+    void addTrainingPlanEntry(Long groupId, MutableTrainingPlanEntry newEntry);
+
+    TrainingPlanEntry getTrainingPlanEntry(Long entryId);
+
+    void deleteGroupTrainingPlanEntry(Set<GroupDTO> groupId, TrainingPlanEntry entry);
 }

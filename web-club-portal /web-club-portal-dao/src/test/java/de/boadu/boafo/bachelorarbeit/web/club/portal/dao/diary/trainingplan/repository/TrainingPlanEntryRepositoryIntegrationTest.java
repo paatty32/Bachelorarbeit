@@ -1,7 +1,5 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanDTO;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntryDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
