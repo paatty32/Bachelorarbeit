@@ -216,8 +216,14 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
         TrainingDiaryEntry clickedEntry = event.getEntry();
         Long entryId = clickedEntry.getId();
+
         String session = clickedEntry.getSession();
+
         String feeling = clickedEntry.getFeeling();
+         if(feeling == null){
+            feeling = "";
+        }
+
         LocalDate date = clickedEntry.getDate();
 
         this.getTrainingDiaryFormComponent().setForm(entryId, session, feeling, date);
