@@ -16,7 +16,6 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.Group;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.traininggroup.TrainingGroup;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.GroupUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
