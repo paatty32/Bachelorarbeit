@@ -25,7 +25,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDairyFormEventListener;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryDeleteEntryEventRequest;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryFormEventRequest;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.TrainingplanContainer;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.TrainingPlanContainer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +56,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
     private final CompetitionDiaryContainer competitionDiaryContainer;
 
-    private final TrainingplanContainer trainingplanContainer;
+    private final TrainingPlanContainer trainingplanContainer;
 
     private final TrainingDiaryFormComponent trainingDiaryFormComponent;
 
