@@ -8,6 +8,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.Muta
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.athlete.AthleteDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiary.CompetitionDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiaryentry.CompetitionDiaryEntryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingplan.TrainingPlanService;
@@ -45,6 +47,8 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     private final TrainingPlanEntryService trainingPlanEntryService;
 
     private final GroupService groupService;
+
+    private final AthleteDiaryService athleteDiaryService;
 
     @Override
     public void createUser(MutablePerson createPerson, Set<String> clickedRoles) {
@@ -206,6 +210,31 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     @Override
     public void deleteGroupTrainingPlanEntry(Set<GroupDTO> groups, TrainingPlanEntry entry) {
         this.getGroupService().deleteGroupTrainingPlanEntry(groups, entry);
+    }
+
+    @Override
+    public List<Person> getAthletesByTrainer(Long userId) {
+        return this.getAthleteDiaryService().getAthletesByTrainer(userId);
+    }
+
+    @Override
+    public void createAthleteDiary(Long groupId, Long adminId, Long requesterId) {
+        this.getAthleteDiaryService().createAthleteDiary(groupId, adminId, requesterId);
+    }
+
+    @Override
+    public List<TrainingDiaryEntry> getEntriesFromAthlete(Long clickedPersonId, Long trainerId) {
+        return this.getAthleteDiaryService().getEntriesFromAthlete(clickedPersonId, trainerId);
+    }
+
+    @Override
+    public Set<Person> getUserTrainer(Long userId) {
+        return this.getPersonService().getUserTrainer(userId);
+    }
+
+    @Override
+    public void addAthleteEntry(Set<Person> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1) {
+        this.getAthleteDiaryService().addAthleteEntry(trainer, athleteId, clickedEntry1);
     }
 
 

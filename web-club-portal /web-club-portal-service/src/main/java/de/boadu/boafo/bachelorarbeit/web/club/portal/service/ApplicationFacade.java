@@ -8,6 +8,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.Muta
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 
 import java.util.List;
 import java.util.Set;
@@ -65,4 +66,14 @@ public interface ApplicationFacade {
     TrainingPlanEntry getTrainingPlanEntry(Long entryId);
 
     void deleteGroupTrainingPlanEntry(Set<GroupDTO> groupId, TrainingPlanEntry entry);
+
+    List<Person> getAthletesByTrainer(Long userId);
+
+    void createAthleteDiary(Long groupId, Long adminId, Long requesterId);
+
+    List<TrainingDiaryEntry> getEntriesFromAthlete(Long clickedPersonId, Long trainerId);
+
+    Set<Person> getUserTrainer(Long userId);
+
+    void addAthleteEntry(Set<Person> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1);
 }
