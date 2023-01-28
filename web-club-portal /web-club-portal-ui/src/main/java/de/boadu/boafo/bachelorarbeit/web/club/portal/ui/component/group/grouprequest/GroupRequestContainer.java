@@ -9,6 +9,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecuritySer
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupRequest;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroup;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.Group;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.AthleteDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.GroupUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.PersonUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
@@ -48,6 +49,8 @@ public class GroupRequestContainer extends AbstractComponent implements GroupReq
     private final GroupUiService groupUiService;
 
     private final PersonUiService personUiService;
+
+    private final AthleteDiaryUiService athleteDiaryUiService;
 
     private GroupRequest clickedGroupRequest;
 
@@ -149,6 +152,8 @@ public class GroupRequestContainer extends AbstractComponent implements GroupReq
             List<Group> userGroupsList = new ArrayList<>(userGroups);
 
             Broadcaster.broadCastOwnTrainingGroupListener(userGroupsList);
+
+            this.getAthleteDiaryUiService().createAthleteDiary(groupId, adminId, requesterId);
 
         }
 

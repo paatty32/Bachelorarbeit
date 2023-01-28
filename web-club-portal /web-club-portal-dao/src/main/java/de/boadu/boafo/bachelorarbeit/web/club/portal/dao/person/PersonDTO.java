@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class PersonDTO implements MutablePerson, UserDetails {
+public class PersonDTO implements Person, MutablePerson, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

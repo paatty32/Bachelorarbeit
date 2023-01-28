@@ -9,6 +9,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.Muta
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -174,6 +175,11 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
         return this.getApplicationFacade().getUserGroups(userId);
     }
 
+    @Override
+    public Set<Person> getUserTrainer(Long userId) {
+        return this.getApplicationFacade().getUserTrainer(userId);
+    }
+
 
     @Override
     public Set<TrainingPlanEntry> getTrainingPlanByGroup(Long groupId) {
@@ -183,5 +189,25 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     @Override
     public TrainingPlanEntry getEntry(Long entryId) {
         return this.getApplicationFacade().getTrainingPlanEntry(entryId);
+    }
+
+    @Override
+    public List<Person> getAthletesByTrainer(Long userId) {
+        return this.getApplicationFacade().getAthletesByTrainer(userId);
+    }
+
+    @Override
+    public void createAthleteDiary(Long groupId, Long adminId, Long requesterId) {
+        this.getApplicationFacade().createAthleteDiary(groupId, adminId, requesterId);
+    }
+
+    @Override
+    public List<TrainingDiaryEntry> getEntriesFromAthlete(Long clickedPersonId, Long trainerId) {
+        return this.getApplicationFacade().getEntriesFromAthlete(clickedPersonId, trainerId);
+    }
+
+    @Override
+    public void addAthleteEntry(Set<Person> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1) {
+        this.getApplicationFacade().addAthleteEntry(trainer, athleteId, clickedEntry1);
     }
 }
