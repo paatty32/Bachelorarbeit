@@ -6,6 +6,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -37,6 +38,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
 
     private Button btnUpdate;
     private Button btnDelete;
+    private Button btnShare;
     private Button btnClose;
 
     private VerticalLayout formLayout;
@@ -112,6 +114,9 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
         this.btnDelete.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         this.btnDelete.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
+        this.btnShare = new Button();
+        this.btnShare.setIcon(VaadinIcon.SHARE.create());
+
         this.btnClose = new Button();
         this.btnClose.setText("Schließen");
         this.btnClose.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
@@ -120,6 +125,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
         this.getButtonLayout().setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         this.getButtonLayout().add(this.getBtnUpdate());
         this.getButtonLayout().add(this.getBtnDelete());
+        this.getButtonLayout().add(this.getBtnShare());
         this.getButtonLayout().add(this.getBtnClose());
     }
 
@@ -142,7 +148,20 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
 
         this.getBtnUpdate().addClickListener(doOnClickUpdate());
 
-        this.getBtnDelete().addClickListener( clickEvent -> {
+        this.getBtnShare().addClickListener(clickEvent -> {
+
+            this.notifyShareClickedEventListener();
+
+        });
+
+        this.getBtnDelete().addClickListener(doOnClickDelete());
+
+    }
+
+
+
+    private ComponentEventListener<ClickEvent<Button>> doOnClickDelete() {
+        return clickEvent -> {
 
             Long clickedEntryId = this.getCurrentEntryId();
 
@@ -152,8 +171,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
 
             this.clearForm();
 
-        });
-
+        };
     }
 
     private ComponentEventListener<ClickEvent<Button>> doOnClickUpdate() {
@@ -191,6 +209,10 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
 
         this.getEventListeners().forEach(listener -> listener.handleButtonUpdate(event));
 
+    }
+
+    private void notifyShareClickedEventListener() {
+        this.getEventListeners().forEach(listener -> listener.handleButtonShare());
     }
 
     private ComponentEventListener<ClickEvent<Button>> doOnClickCloseButton() {

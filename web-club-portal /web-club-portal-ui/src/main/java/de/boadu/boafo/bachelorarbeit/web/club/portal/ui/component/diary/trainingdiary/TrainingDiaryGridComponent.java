@@ -8,7 +8,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.grid.ItemClickEvent;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.InMemoryDataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -97,7 +96,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
         Grid.Column<TrainingDiaryEntry> dateColumn = this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getDate).setHeader("Datum");
         Grid.Column<TrainingDiaryEntry> sessionColumn = this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getSession).setHeader("Einheit");
         Grid.Column<TrainingDiaryEntry> feelingColumn = this.trainingDiaryGrid.addColumn(TrainingDiaryEntry::getFeeling).setHeader("Gefühlszustand");
-        Grid.Column<TrainingDiaryEntry> shareIconColumn = this.trainingDiaryGrid.addComponentColumn(entry -> new Button(VaadinIcon.SHARE.create(), doOnClickShare()));
 
         this.btnAdd = new Button();
         this.btnAdd.setText("Hinzufügen");

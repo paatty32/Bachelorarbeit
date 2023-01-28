@@ -153,14 +153,18 @@ public class TrainingPlanFormComponent extends AbstractComponent implements Abst
 
         this.getBtnDelete().addClickListener(doOnClickDelete());
 
-        this.getBtnShare().addClickListener(clickEntry -> {
-
-            this.notifyTrainingPlanFormEventListenerForClickShare();
-
-        });
+        this.getBtnShare().addClickListener(doOnClickShare());
 
         this.getBtnClose().addClickListener(doOnClickClose());
 
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> doOnClickShare() {
+        return clickEntry -> {
+
+            this.notifyTrainingPlanFormEventListenerForClickShare();
+
+        };
     }
 
     private void notifyTrainingPlanFormEventListenerForClickShare() {

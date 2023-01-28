@@ -1,13 +1,10 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import java.util.List;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -15,18 +12,23 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class AthleteDiaryDto extends Diary implements AthleteDiary, MutableAthleteDiary{
+@IdClass(AthleteDiaryId.class)
+public class AthleteDiaryDto implements AthleteDiary, MutableAthleteDiary{
 
-    public AthleteDiaryDto (DiaryId id){
+    @Id
+    private Long trainerId;
 
-        super(id);
+    @Id
+    private Long athleteId;
 
-    }
+    @Id
+    private Long groupId;
 
-    @OneToMany
-    private List<PersonDTO> athletes;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<TrainingDiaryEntryDTO> athleteEntries;
 
-
+    final int SEED =23; //random Zahl
+    final int ODD_PRIME_NUMBER = 37;
 
 
 }

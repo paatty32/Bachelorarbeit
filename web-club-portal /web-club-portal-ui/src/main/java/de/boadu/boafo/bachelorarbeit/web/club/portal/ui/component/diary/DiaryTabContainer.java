@@ -10,13 +10,17 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.AthleteDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.athlete.AthleteDiaryContainer;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.competition.CompetitionDiaryContainer;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryFormComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryGridComponent;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingDiaryShareDialogComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.TrainingsDiaryFormDialogComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.traininfdiarygrid.TrainingsDiaryGridClickedEventRequest;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.traininfdiarygrid.TrainingsDiaryGridEventListener;
@@ -25,6 +29,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDairyFormEventListener;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryDeleteEntryEventRequest;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiaryform.TrainingsDiaryFormEventRequest;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiarysharedialog.TrainingDiaryShareDialogEventListener;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingdiary.event.trainingdiarysharedialog.TrainingDiaryShareDialogEventRequest;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.trainingplan.TrainingPlanContainer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,13 +40,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @SpringComponent
 @UIScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
 public class DiaryTabContainer extends AbstractComponent implements TrainingsDiaryGridEventListener,
-        TrainingsDairyFormEventListener, TrainingsDairyFormDialogEventListener {
+        TrainingsDairyFormEventListener, TrainingsDairyFormDialogEventListener, TrainingDiaryShareDialogEventListener {
 
     private VerticalLayout componentRootLayout;
 
@@ -62,15 +69,25 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
     private final TrainingsDiaryFormDialogComponent trainingsDiaryFormDialogComponent;
 
+    private final TrainingDiaryShareDialogComponent trainingDiaryShareDialogComponent;
+
+    private final AthleteDiaryContainer athleteDiaryContainer;
+
     private final AbstractObserver<TrainingsDiaryGridEventListener> trainingsDiaryObserver;
 
     private final AbstractObserver<TrainingsDairyFormEventListener> trainingsDairyFormEventListenerObserver;
 
     private final AbstractObserver<TrainingsDairyFormDialogEventListener> trainingsDairyFormDialogEventListenerObserver;
 
+    private final AbstractObserver<TrainingDiaryShareDialogEventListener> trainingDiaryShareDialogEventListenerObserver;
+
     private final TrainingsDiaryUiService trainingsDiaryUiService;
 
+    private final AthleteDiaryUiService athleteDiaryUiService;
+
     private final SecurityService securityService;
+
+    private TrainingDiaryEntry clickedEntry;
 
     private void attachListener(){
 
@@ -90,6 +107,11 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
     }
 
+    private void attachTrainingDiaryShareDialogEventListener(){
+
+        this.getTrainingDiaryShareDialogEventListenerObserver().addEventListeners(this);
+    }
+
     @Override
     protected Component getRootLayout() {
         return this.getComponentRootLayout();
@@ -106,6 +128,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         this.attachListener();
         this.attachTrainingsDiaryFormEventListener();
         this.attachTrainingsDiaryDialogFormEventListener();
+        this.attachTrainingDiaryShareDialogEventListener();
         this.initializeTabComponent();
         this.intializeTabContent();
         this.initializeComponentRootLayout();
@@ -152,13 +175,13 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
             this.getTabContent().add(this.getTrainingDiaryGridComponent());
             this.getTabContent().add(this.getTrainingDiaryFormComponent());
+            this.getTabContent().add(this.getTrainingDiaryShareDialogComponent());
 
         }
 
         if(role_trainer){
 
-            System.out.println("Athelte Content");
-            System.out.println("Trainingsplan Content");
+            this.getTabContent().add(this.getAthleteDiaryContainer());
 
         }
 
@@ -195,7 +218,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
                 break;
 
             case "Athleten":
-                System.out.println("Athleten");
+                this.getTabContent().add(this.getAthleteDiaryContainer());
                 break;
         }
 
@@ -214,7 +237,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
         this.getTrainingDiaryFormComponent().setVisible(true);
 
-        TrainingDiaryEntry clickedEntry = event.getEntry();
+        this.clickedEntry = event.getEntry();
         Long entryId = clickedEntry.getId();
 
         String session = clickedEntry.getSession();
@@ -267,6 +290,14 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     }
 
     @Override
+    public void handleButtonShare() {
+
+        this.getTrainingDiaryShareDialogComponent().iniializeDialog();
+        this.getTrainingDiaryShareDialogComponent().openDialog();
+
+    }
+
+    @Override
     public void handleSave(TrainingsDairyFormDialogSaveClickedEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
@@ -280,6 +311,24 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         this.getTrainingDiaryFormComponent().setVisible(false);
 
         this.getTrainingDiaryGridComponent().refreshGrid();
+
+    }
+
+    @Override
+    public void handleClickSelect(TrainingDiaryShareDialogEventRequest event) {
+
+        Set<Person> trainer = event.getTrainer();
+
+        Long athleteId = this.getSecurityService().getUserId();
+
+        if(this.getClickedEntry() != null){
+
+            TrainingDiaryEntry clickedEntry1 = this.getClickedEntry();
+
+            this.getAthleteDiaryUiService().addAthleteEntry(trainer, athleteId, clickedEntry1);
+
+        }
+
 
     }
 }
