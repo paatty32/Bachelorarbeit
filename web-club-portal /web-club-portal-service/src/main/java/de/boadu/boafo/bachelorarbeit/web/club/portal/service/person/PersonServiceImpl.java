@@ -2,8 +2,6 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.service.person;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.Diary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiary;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.repository.AthleteDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryRepository;
@@ -13,6 +11,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.Trai
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
@@ -84,6 +83,31 @@ public class PersonServiceImpl implements PersonService{
         return userGroups;
     }
 
+    @Override
+    public Set<Person> getUserTrainer(Long userId) {
+
+        Set<Person> trainer = new HashSet<>();
+
+        Set<Person> trainerBuffer = new HashSet<>();
+
+        PersonDTO personById = this.getPersonRepository().findPersonById(userId);
+
+        Set<GroupDTO> trainingsGroup = personById.getTrainingsGroup();
+
+        for (GroupDTO groups: trainingsGroup) {
+
+            Long adminId = groups.getAdminId();
+            PersonDTO trainerById = this.getPersonRepository().findPersonById(adminId);
+
+            trainerBuffer.add(trainerById);
+
+        }
+
+        trainer.addAll(trainerBuffer);
+
+        return trainer;
+    }
+
     private Map<DiaryType, Diary> initializeUserDiares(PersonDTO createdPersonDTO, Set<String> clickedRoles) {
 
         Map<DiaryType, Diary> personDiaries = new HashMap<>();
@@ -123,14 +147,8 @@ public class PersonServiceImpl implements PersonService{
                     break;
 
                 case "Trainer":
-                    DiaryId athelteDiaryId = DiaryId.builder()
-                            .userId(createdPersonId)
-                            .diaryType(DiaryType.ATHLETE)
-                            .build();
-
-                    AthleteDiary athleteDiary = new AthleteDiaryDto(athelteDiaryId);
-                    this.getAthleteDiaryRepository().save((AthleteDiaryDto) athleteDiary);
                     break;
+
 
                 case "Eltern":
                     //TODO
