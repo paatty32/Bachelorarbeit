@@ -1,5 +1,6 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.athlete;
 
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.repository.AthleteDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
@@ -7,6 +8,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.Training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.repository.AppUserRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,8 @@ public class AthleteDiaryServiceImpl implements AthleteDiaryService {
     private final AthleteDiaryRepository athleteDiaryRepository;
 
     private final AppUserRepository appUserRepository;
+
+    private final TrainingsDiaryEntryRepository trainingsDiaryEntryRepository;
 
     @Override
     public List<AppUser> getAthletesByTrainer(Long userId) {
@@ -92,6 +96,22 @@ public class AthleteDiaryServiceImpl implements AthleteDiaryService {
 
             this.getAthleteDiaryRepository().save(diaryByTrainerIdAndAthleteId);
 
+            TrainingDiaryEntryDTO trainingEntry = (TrainingDiaryEntryDTO) clickedEntry1;
+
+            trainingEntry.getAthleteDiaries().add(diaryByTrainerIdAndAthleteId);
+
+            this.getTrainingsDiaryEntryRepository().save(trainingEntry);
+
         }
     }
+
+    @Override
+    public AthleteDiary getAthleteDiaryById(Long userId, Long trainerId) {
+
+        AthleteDiaryDto diaryByTrainerIdAndAthleteId = this.getAthleteDiaryRepository().getDiaryByTrainerIdAndAthleteId(trainerId, userId);
+
+        return diaryByTrainerIdAndAthleteId;
+    }
+
+
 }

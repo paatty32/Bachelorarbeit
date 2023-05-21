@@ -1,5 +1,6 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.athlete;
 
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 
@@ -14,4 +15,6 @@ public interface AthleteDiaryService {
     List<TrainingDiaryEntry> getEntriesFromAthlete(Long clickedPersonId, Long trainerId);
 
     void addAthleteEntry(Set<AppUser> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1);
+
+    AthleteDiary getAthleteDiaryById(Long userId, Long trainerId);
 }

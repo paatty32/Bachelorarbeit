@@ -19,4 +19,9 @@ public interface AthleteDiaryRepository extends JpaRepository<AthleteDiaryDto, D
     @EntityGraph(attributePaths = "athleteEntries")
     AthleteDiaryDto getDiaryByTrainerIdAndAthleteId(Long trainerId, Long athleteId);
 
+    /*@EntityGraph(attributePaths = "athleteEntries")
+    List<AthleteDiaryDto> getDiaryById(Long diaryId);
+
+     */
+
 }
