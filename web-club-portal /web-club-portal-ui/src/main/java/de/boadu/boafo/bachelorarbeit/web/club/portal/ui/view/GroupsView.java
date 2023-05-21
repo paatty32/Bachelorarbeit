@@ -5,6 +5,7 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.group.GroupTabsheetComponent;
@@ -19,7 +20,8 @@ import javax.annotation.security.PermitAll;
 @UIScope
 @Getter(AccessLevel.PRIVATE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@Route(value = "Gruppenübersicht", layout = HeaderComponent.class)
+@Route(value = "", layout = HeaderComponent.class)
+@RouteAlias("Gruppenübersicht")
 @PageTitle("Gruppen")
 @PermitAll
 public class GroupsView extends Composite<Component> {
