@@ -21,7 +21,6 @@ import javax.annotation.security.PermitAll;
 @Getter(AccessLevel.PRIVATE)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Route(value = "", layout = HeaderComponent.class)
-@RouteAlias("Gruppenübersicht")
 @PageTitle("Gruppen")
 @PermitAll
 public class GroupsView extends Composite<Component> {
