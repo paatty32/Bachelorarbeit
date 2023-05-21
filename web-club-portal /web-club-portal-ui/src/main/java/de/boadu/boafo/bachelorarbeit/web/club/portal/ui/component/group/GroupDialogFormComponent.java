@@ -12,7 +12,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.MutableGroup;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
@@ -129,7 +129,7 @@ public class GroupDialogFormComponent extends AbstractComponent implements Abstr
     private ComponentEventListener<ClickEvent<Button>> doOnClickSave() {
         return clickEvent -> {
 
-            PersonDTO loggedUser = this.getSecurityService().getLoggedUser();
+            AppUserDTO loggedUser = this.getSecurityService().getLoggedUser();
             Long userId = this.getSecurityService().getUserId();
 
             MutableGroup newGroup = new GroupDTO();

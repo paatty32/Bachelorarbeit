@@ -1,11 +1,10 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
 
-import java.util.List;
 import java.util.Set;
 
-public interface MutablePerson {
+public interface MutableAppUser {
 
     void setName(String name);
     void setSurname(String name);

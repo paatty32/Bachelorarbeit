@@ -19,7 +19,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.CompetitionDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
@@ -135,7 +135,7 @@ public class CompetitionDiaryGridComponent extends AbstractComponent implements 
     private void initializeGridData(){
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
 
         List<CompetitionDiaryEntry> competitionDiaryEntriesByUser = this.getCompetitionDiaryUiService().getCompetitionDiaryEntriesByUser(currentPersonDTO.getId());
 
@@ -206,7 +206,7 @@ public class CompetitionDiaryGridComponent extends AbstractComponent implements 
     public void refreshGrid() {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
 
         List<CompetitionDiaryEntry> trainingsDiaryEntryiesByUser = this.getCompetitionDiaryUiService()
                                                                         .getCompetitionDiaryEntriesByUser(currentPersonDTO.getId());

@@ -7,15 +7,15 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.Training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.MutableAppUser;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 
 import java.util.List;
 import java.util.Set;
 
 public interface ApplicationFacade {
 
-    void createUser(MutablePerson createPerson, Set<String> clickedRoles);
+    void createUser(MutableAppUser createPerson, Set<String> clickedRoles);
 
     List<TrainingDiaryEntry> getTrainingsDiaryEntriesByUser(Long userId);
 
@@ -67,13 +67,13 @@ public interface ApplicationFacade {
 
     void deleteGroupTrainingPlanEntry(Set<GroupDTO> groupId, TrainingPlanEntry entry);
 
-    List<Person> getAthletesByTrainer(Long userId);
+    List<AppUser> getAthletesByTrainer(Long userId);
 
     void createAthleteDiary(Long groupId, Long adminId, Long requesterId);
 
     List<TrainingDiaryEntry> getEntriesFromAthlete(Long clickedPersonId, Long trainerId);
 
-    Set<Person> getUserTrainer(Long userId);
+    Set<AppUser> getUserTrainer(Long userId);
 
-    void addAthleteEntry(Set<Person> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1);
+    void addAthleteEntry(Set<AppUser> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1);
 }

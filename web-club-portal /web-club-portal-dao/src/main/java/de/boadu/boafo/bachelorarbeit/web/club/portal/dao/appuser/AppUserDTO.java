@@ -1,4 +1,4 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupDTO;
@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class PersonDTO implements Person, MutablePerson, UserDetails {
+public class AppUserDTO implements AppUser, MutableAppUser, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

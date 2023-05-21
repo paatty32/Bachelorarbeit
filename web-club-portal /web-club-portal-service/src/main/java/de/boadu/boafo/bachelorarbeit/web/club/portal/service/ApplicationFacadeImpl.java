@@ -7,14 +7,14 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.Training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.MutableAppUser;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.athlete.AthleteDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiary.CompetitionDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiaryentry.CompetitionDiaryEntryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingplan.TrainingPlanService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingplanentry.TrainingPlanEntryService;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.service.person.PersonService;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.appuser.AppUserService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingDiary.TrainingDiaryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingdiaryentry.TrainingDiaryEntryService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.group.GroupService;
@@ -32,7 +32,7 @@ import java.util.Set;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ApplicationFacadeImpl implements ApplicationFacade{
 
-    private final PersonService personService;
+    private final AppUserService appUserService;
 
     private final TrainingDiaryEntryService trainingDiaryEntryService;
 
@@ -51,9 +51,9 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     private final AthleteDiaryService athleteDiaryService;
 
     @Override
-    public void createUser(MutablePerson createPerson, Set<String> clickedRoles) {
+    public void createUser(MutableAppUser createPerson, Set<String> clickedRoles) {
 
-        this.getPersonService().createUser(createPerson, clickedRoles);
+        this.getAppUserService().createUser(createPerson, clickedRoles);
 
     }
 
@@ -154,12 +154,12 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
 
     @Override
     public void addNewGroupToUser(Long userId, MutableGroup newTrainingGroup) {
-        this.getPersonService().addNewGroupToUser(userId ,newTrainingGroup);
+        this.getAppUserService().addNewGroupToUser(userId ,newTrainingGroup);
     }
 
     @Override
     public Set<Group> getUserGroups(Long userId) {
-        return this.getPersonService().getUserGroups(userId);
+        return this.getAppUserService().getUserGroups(userId);
     }
 
     @Override
@@ -213,7 +213,7 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     }
 
     @Override
-    public List<Person> getAthletesByTrainer(Long userId) {
+    public List<AppUser> getAthletesByTrainer(Long userId) {
         return this.getAthleteDiaryService().getAthletesByTrainer(userId);
     }
 
@@ -228,12 +228,12 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     }
 
     @Override
-    public Set<Person> getUserTrainer(Long userId) {
-        return this.getPersonService().getUserTrainer(userId);
+    public Set<AppUser> getUserTrainer(Long userId) {
+        return this.getAppUserService().getUserTrainer(userId);
     }
 
     @Override
-    public void addAthleteEntry(Set<Person> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1) {
+    public void addAthleteEntry(Set<AppUser> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1) {
         this.getAthleteDiaryService().addAthleteEntry(trainer, athleteId, clickedEntry1);
     }
 

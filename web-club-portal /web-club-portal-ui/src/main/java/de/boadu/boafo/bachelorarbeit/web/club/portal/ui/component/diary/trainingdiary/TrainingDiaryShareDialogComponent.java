@@ -15,7 +15,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.PersonUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
@@ -44,9 +44,9 @@ public class TrainingDiaryShareDialogComponent extends AbstractComponent impleme
     private Button btnSelect;
     private Button btnCancel;
 
-    private MultiSelectListBox<Person> trainerListBox;
-    private List<Person> trainerBuffer;
-    private InMemoryDataProvider<Person> trainerInMemoryDataProvider;
+    private MultiSelectListBox<AppUser> trainerListBox;
+    private List<AppUser> trainerBuffer;
+    private InMemoryDataProvider<AppUser> trainerInMemoryDataProvider;
 
     private final SecurityService securityService;
 
@@ -134,7 +134,7 @@ public class TrainingDiaryShareDialogComponent extends AbstractComponent impleme
     private ComponentEventListener<ClickEvent<Button>> doOnClickSelect() {
         return clickEvent -> {
 
-            Set<Person> selectedTrainer = this.getTrainerListBox().getSelectedItems();
+            Set<AppUser> selectedTrainer = this.getTrainerListBox().getSelectedItems();
 
             TrainingDiaryShareDialogEventRequest event = TrainingDiaryShareDialogEventRequest.getInstanceOf(selectedTrainer);
 
@@ -178,7 +178,7 @@ public class TrainingDiaryShareDialogComponent extends AbstractComponent impleme
 
         Long userId = this.getSecurityService().getUserId();
 
-        Set<Person> userTrainer = this.getPersonUiService().getUserTrainer(userId);
+        Set<AppUser> userTrainer = this.getPersonUiService().getUserTrainer(userId);
 
         this.getTrainerBuffer().clear();
         this.getTrainerBuffer().addAll(userTrainer);

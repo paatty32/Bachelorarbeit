@@ -10,8 +10,8 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.AthleteDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
@@ -277,7 +277,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     public void handleButtonDelete(TrainingsDiaryDeleteEntryEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
         Long userId = currentPersonDTO.getId();
 
         Long clickedEntryId = event.getClickedEntryId();
@@ -301,7 +301,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     public void handleSave(TrainingsDairyFormDialogSaveClickedEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
         long userId = currentPersonDTO.getId();
 
         TrainingDiaryEntry newEntry = event.getEntry();
@@ -317,7 +317,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     @Override
     public void handleClickSelect(TrainingDiaryShareDialogEventRequest event) {
 
-        Set<Person> trainer = event.getTrainer();
+        Set<AppUser> trainer = event.getTrainer();
 
         Long athleteId = this.getSecurityService().getUserId();
 

@@ -14,8 +14,8 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.MutableAppUser;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.RegistrationUiService;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -145,7 +145,7 @@ public class RegistrationComponent extends AbstractComponent{
 
             Set<String> clickedRoles = this.getRoles().getValue();
 
-            MutablePerson createPerson = new PersonDTO();
+            MutableAppUser createPerson = new AppUserDTO();
             createPerson.setName(name);
             createPerson.setSurname(surname);
             createPerson.setPassword(encodePassword);

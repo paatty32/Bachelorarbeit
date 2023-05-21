@@ -4,7 +4,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.Training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.repository.AppUserRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingDiary.TrainingDiaryService;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class TrainingDiaryEntryServiceImpl implements TrainingDiaryEntryService 
 
     private final TrainingsDiaryEntryRepository trainingsDiaryEntryRepository;
 
-    private final PersonRepository personRepository;
+    private final AppUserRepository appUserRepository;
 
     private final TrainingsDiaryRepository trainingsDiaryRepository;
 
