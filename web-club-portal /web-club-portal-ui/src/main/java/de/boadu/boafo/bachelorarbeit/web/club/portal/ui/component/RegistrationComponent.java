@@ -3,14 +3,20 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -37,6 +43,8 @@ public class RegistrationComponent extends AbstractComponent{
     private VerticalLayout registrationFormLayout;
 
     private HorizontalLayout buttonLayout;
+
+    private EmailField tfMail;
 
     private TextField tfSurname;
     private TextField tfName;
@@ -96,6 +104,11 @@ public class RegistrationComponent extends AbstractComponent{
 
         H1 registrierenHeadline = new H1("Registrieren");
 
+        this.tfMail = new EmailField();
+        this.tfMail.setLabel("Email Adresse");
+        this.tfMail.setErrorMessage("Bitte eine gültige Email angeben im Format <text>@domain");
+        this.tfMail.setClearButtonVisible(true);
+
         this.tfSurname = new TextField();
         this.tfSurname.setLabel("Vorname");
 
@@ -112,6 +125,7 @@ public class RegistrationComponent extends AbstractComponent{
         this.getRoles().setItems("Athlet", "Trainer", "Eltern");
 
         this.getRegistrationFormLayout().add(registrierenHeadline);
+        this.getRegistrationFormLayout().add(this.getTfMail());
         this.getRegistrationFormLayout().add(this.getTfSurname());
         this.getRegistrationFormLayout().add(this.getTfName());
         this.getRegistrationFormLayout().add(this.getTfPassword());
@@ -136,24 +150,87 @@ public class RegistrationComponent extends AbstractComponent{
 
         this.getBtnSubmit().addClickListener(event -> {
 
-            String surname = this.getTfSurname().getValue();
+            if(!(this.getTfMail().isEmpty()) && !(this.getTfSurname().isEmpty())
+                && !(this.getTfName().isEmpty()) && !(this.getTfSurname().isEmpty())
+                && !(this.getRoles().isEmpty())
+                && !(this.getTfPassword().getValue().isEmpty())) {
 
-            String name = this.getTfName().getValue();
+                String mail = this.getTfMail().getValue();
 
-            String password = this.getTfPassword().getValue();
-            String encodePassword = this.getBCryptPasswordEncoder().encode(password);
+                String surname = this.getTfSurname().getValue();
 
-            Set<String> clickedRoles = this.getRoles().getValue();
+                String name = this.getTfName().getValue();
 
-            MutableAppUser createPerson = new AppUserDTO();
-            createPerson.setName(name);
-            createPerson.setSurname(surname);
-            createPerson.setPassword(encodePassword);
+                String password = this.getTfPassword().getValue();
+                String encodePassword = this.getBCryptPasswordEncoder().encode(password);
+
+                Set<String> clickedRoles = this.getRoles().getValue();
+
+                MutableAppUser createPerson = new AppUserDTO();
+                createPerson.setEmail(mail);
+                createPerson.setName(name);
+                createPerson.setSurname(surname);
+                createPerson.setPassword(encodePassword);
+
+                try {
+
+                    this.getRegistrationUiService().createUser(createPerson, clickedRoles);
+
+                    this.navigateTo(LoginComponent.class);
+
+                    this.clearForm();
+
+                } catch(Exception e){
+
+                    Notification notification = new Notification();
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                    Text text = new Text("Email wird bereits verwendet");
+
+                    Button closeButton = new Button(new Icon("lumo", "cross"));
+                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                    closeButton.getElement().setAttribute("aria-label", "Close");
+                    closeButton.addClickListener(clickEvent -> {
+                        notification.close();
+                    });
+
+                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                    layout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+                    notification.add(layout);
+                    notification.open();
+
+                    notification.setPosition(Notification.Position.MIDDLE);
+
+                    notification.open();
+
+                }
 
 
-            this.getRegistrationUiService().createUser(createPerson, clickedRoles);
+            } else {
 
-            this.navigateTo(LoginComponent.class);
+                Notification notification = new Notification();
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                Text text = new Text("Felder dürfen nicht leer sein");
+
+                Button closeButton = new Button(new Icon("lumo", "cross"));
+                closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                closeButton.getElement().setAttribute("aria-label", "Close");
+                closeButton.addClickListener(clickEvent -> {
+                    notification.close();
+                });
+
+                HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                layout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+                notification.add(layout);
+                notification.open();
+
+                notification.setPosition(Notification.Position.MIDDLE);
+
+                notification.open();
+            }
 
 
         });
@@ -161,6 +238,18 @@ public class RegistrationComponent extends AbstractComponent{
         this.getBtnCancel().addClickListener(doOnClickCancel());
 
 
+    }
+
+    private void clearForm() {
+        this.getTfMail().clear();
+
+        this.getTfName().clear();
+
+        this.getTfSurname().clear();
+
+        this.getTfPassword().clear();
+
+        this.getRoles().clear();
     }
 
     private ComponentEventListener<ClickEvent<Button>> doOnClickCancel() {
