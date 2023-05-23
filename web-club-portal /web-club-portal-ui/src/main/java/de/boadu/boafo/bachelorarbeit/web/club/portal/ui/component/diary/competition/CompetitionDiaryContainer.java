@@ -176,4 +176,10 @@ public class CompetitionDiaryContainer extends AbstractComponent implements Comp
 
         }
     }
+
+    public void refreshData() {
+
+        this.getCompetitionDiaryComponent().refreshGrid();
+
+    }
 }

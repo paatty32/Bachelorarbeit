@@ -3,10 +3,9 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.view;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.spring.annotation.UIScope;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.HeaderComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.group.GroupTabsheetComponent;
 import lombok.AccessLevel;
@@ -23,11 +22,13 @@ import javax.annotation.security.PermitAll;
 @Route(value = "", layout = HeaderComponent.class)
 @PageTitle("Gruppen")
 @PermitAll
-public class GroupsView extends Composite<Component> {
+public class GroupsView extends Composite<Component> implements BeforeEnterObserver{
 
     private final GroupTabsheetComponent groupTabsheetComponent;
 
     private VerticalLayout componentRootLayout;
+
+    private final SecurityService securityService;
 
     @PostConstruct
     private void initialize(){
@@ -49,4 +50,12 @@ public class GroupsView extends Composite<Component> {
         return this.getComponentRootLayout();
 
     }
+
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+
+        this.getGroupTabsheetComponent().refreshData();
+    }
+
 }

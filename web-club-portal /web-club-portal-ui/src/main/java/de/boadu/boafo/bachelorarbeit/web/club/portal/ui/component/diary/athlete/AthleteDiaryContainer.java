@@ -93,4 +93,15 @@ public class AthleteDiaryContainer extends AbstractComponent implements AthleteD
         this.getAthleteDiaryEntryGridComponent().setVisible(true);
 
     }
+
+    public void refreshData() {
+
+        Long userId = this.getSecurityService().getUserId();
+
+        List<AppUser> appUserList = this.getAthleteDiaryUiService().getAthletesByTrainer(userId);
+
+        this.getAthleteDiaryGridComponent().clearData();
+        this.getAthleteDiaryGridComponent().refreshGrid(appUserList);
+
+    }
 }

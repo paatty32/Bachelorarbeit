@@ -204,4 +204,16 @@ public class GroupRequestContainer extends AbstractComponent implements GroupReq
         this.getGroupRequestContainerEventListener().forEach(listener -> listener.handleRequestAnswer());
 
     }
+
+    public void refreshData() {
+
+        Long userId = this.getSecurityService().getUserId();
+
+        List<GroupRequest> traininGroupRequestByTrainer = this.getGroupUiService().getGroupRequestByTrainer(userId);
+
+        this.clearData();
+
+        this.refreshGrid(traininGroupRequestByTrainer);
+
+    }
 }

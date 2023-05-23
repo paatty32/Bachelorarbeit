@@ -3,6 +3,8 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.view;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -22,7 +24,7 @@ import javax.annotation.security.PermitAll;
 @Route(value = "Tagebuch", layout = HeaderComponent.class)
 @PageTitle("Tagebuch")
 @PermitAll
-public class DiaryView extends Composite<Component> {
+public class DiaryView extends Composite<Component> implements BeforeEnterObserver {
 
     private final DiaryTabContainer diaryTabContainer;
 
@@ -46,6 +48,13 @@ public class DiaryView extends Composite<Component> {
     protected Component initContent() {
 
         return this.getComponentRootLayout();
+
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+
+        this.getDiaryTabContainer().refreshData();
 
     }
 }
