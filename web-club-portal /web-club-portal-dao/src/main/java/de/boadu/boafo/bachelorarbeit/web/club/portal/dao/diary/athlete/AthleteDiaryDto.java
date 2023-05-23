@@ -25,7 +25,7 @@ public class AthleteDiaryDto implements AthleteDiary, MutableAthleteDiary{
     @Id
     private Long groupId;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<TrainingDiaryEntryDTO> athleteEntries;
 
     final int SEED =23; //random Zahl

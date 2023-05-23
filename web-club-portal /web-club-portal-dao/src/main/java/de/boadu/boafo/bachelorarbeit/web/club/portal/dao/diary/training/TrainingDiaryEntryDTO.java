@@ -24,7 +24,7 @@ public class TrainingDiaryEntryDTO implements TrainingDiaryEntry, MutableTrainin
     private String feeling;
     private Boolean isShared;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "athleteEntries")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "athleteEntries",  cascade = CascadeType.PERSIST)
     Set<AthleteDiaryDto> athleteDiaries;
 
     final int SEED =23; //random Zahl
