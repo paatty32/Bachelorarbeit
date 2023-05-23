@@ -11,4 +11,6 @@ public interface MutableAppUser {
     void setPassword(String password);
     void setRoles(Set<AppUserRole> roles);
 
+    void setEmail(String email);
+
 }
