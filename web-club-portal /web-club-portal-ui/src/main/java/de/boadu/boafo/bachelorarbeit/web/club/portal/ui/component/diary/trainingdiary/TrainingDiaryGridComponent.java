@@ -47,7 +47,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     private List<TrainingDiaryEntry> trainingDiaryList;
     private InMemoryDataProvider<TrainingDiaryEntry> trainingDiaryEntryInMemoryDataProvider;
 
-    //TODO: Warum ein set ?
     private Set<TrainingsDiaryGridEventListener> eventListeners;
 
     private final TrainingsDiaryUiService trainingsDiaryUiService;
@@ -130,8 +129,8 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
 
         this.componentRootLayout = new VerticalLayout();
 
-        this.getComponentRootLayout().add(this.getTrainingDiaryGrid());
         this.getComponentRootLayout().add(this.getBtnAdd());
+        this.getComponentRootLayout().add(this.getTrainingDiaryGrid());
 
     }
 
