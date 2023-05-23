@@ -13,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
@@ -49,6 +50,8 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
     private Long currentEntryId;
 
     private Set<TrainingsDairyFormEventListener> eventListeners;
+
+    Set<AthleteDiaryDto> athleteDiary;
 
     @Override
     protected Component getRootLayout() {
@@ -190,6 +193,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
                     .session(session)
                     .feeling(feeling)
                     .date(date)
+                    .athleteDiaries(this.getAthleteDiary())
                     .build();
 
             TrainingsDiaryFormEventRequest event = new TrainingsDiaryFormEventRequestImpl(newTrainingDiaryEntry);
@@ -231,7 +235,7 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
 
     }
 
-    public void setForm(Long id, String session, String feeling, LocalDate date) {
+    public void setForm(Long id, String session, String feeling, LocalDate date, Set<AthleteDiaryDto> athleteDiaries) {
 
         this.currentEntryId = id;
 
@@ -240,6 +244,8 @@ public class TrainingDiaryFormComponent extends AbstractComponent implements Abs
         this.getTaSession().setValue(session);
 
         this.getTfDate().setValue(date);
+
+        this.athleteDiary = athleteDiaries;
 
     }
 

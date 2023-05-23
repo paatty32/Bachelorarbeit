@@ -8,7 +8,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecuritySer
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.CompetitionDiaryEntryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.MutableCompetitionDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.CompetitionDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
@@ -133,7 +133,7 @@ public class CompetitionDiaryContainer extends AbstractComponent implements Comp
     public void handleSave(CompetitonDiaryFormDialogEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO loggedPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO loggedPersonDTO = (AppUserDTO) authenticatedUser;
         Long loggedPersonId = loggedPersonDTO.getId();
 
         MutableCompetitionDiaryEntry newEntry = event.getEntry();
@@ -148,7 +148,7 @@ public class CompetitionDiaryContainer extends AbstractComponent implements Comp
     public void handleButtonDelete(CompetitionDiaryFormDeleteEntryEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
         Long currentPersonId = currentPersonDTO.getId();
 
         Long deleteEntry = event.getClickedEntryId();
@@ -175,5 +175,11 @@ public class CompetitionDiaryContainer extends AbstractComponent implements Comp
             this.getCompetitionDiaryComponent().refreshGrid();
 
         }
+    }
+
+    public void refreshData() {
+
+        this.getCompetitionDiaryComponent().refreshGrid();
+
     }
 }

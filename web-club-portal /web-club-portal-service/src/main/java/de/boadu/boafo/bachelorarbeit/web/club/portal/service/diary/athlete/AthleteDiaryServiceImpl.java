@@ -1,12 +1,14 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.athlete;
 
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.repository.AthleteDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.repository.AppUserRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,19 +28,21 @@ public class AthleteDiaryServiceImpl implements AthleteDiaryService {
 
     private final AthleteDiaryRepository athleteDiaryRepository;
 
-    private final PersonRepository personRepository;
+    private final AppUserRepository appUserRepository;
+
+    private final TrainingsDiaryEntryRepository trainingsDiaryEntryRepository;
 
     @Override
-    public List<Person> getAthletesByTrainer(Long userId) {
+    public List<AppUser> getAthletesByTrainer(Long userId) {
         List<AthleteDiaryDto> diaryByTrainerId = this.getAthleteDiaryRepository().getDiaryByTrainerId(userId);
 
-        List<PersonDTO> athletesBuffer = new ArrayList<>();
+        List<AppUserDTO> athletesBuffer = new ArrayList<>();
 
-        List<Person> athletes = new ArrayList<>();
+        List<AppUser> athletes = new ArrayList<>();
 
         for (AthleteDiaryDto entry: diaryByTrainerId) {
 
-            PersonDTO personById = this.getPersonRepository().findPersonById(entry.getAthleteId());
+            AppUserDTO personById = this.getAppUserRepository().findPersonById(entry.getAthleteId());
             athletesBuffer.add(personById);
 
         }
@@ -78,12 +82,12 @@ public class AthleteDiaryServiceImpl implements AthleteDiaryService {
     }
 
     @Override
-    public void addAthleteEntry(Set<Person> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1) {
+    public void addAthleteEntry(Set<AppUser> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1) {
 
-        Set<Person> clickedTrainerBuffer = new HashSet<>();
+        Set<AppUser> clickedTrainerBuffer = new HashSet<>();
         clickedTrainerBuffer.addAll(trainer);
 
-        for (Person clickedTrainer: clickedTrainerBuffer) {
+        for (AppUser clickedTrainer: clickedTrainerBuffer) {
 
             Long trainerId = clickedTrainer.getId();
 
@@ -92,6 +96,22 @@ public class AthleteDiaryServiceImpl implements AthleteDiaryService {
 
             this.getAthleteDiaryRepository().save(diaryByTrainerIdAndAthleteId);
 
+            TrainingDiaryEntryDTO trainingEntry = (TrainingDiaryEntryDTO) clickedEntry1;
+
+            trainingEntry.getAthleteDiaries().add(diaryByTrainerIdAndAthleteId);
+
+            this.getTrainingsDiaryEntryRepository().save(trainingEntry);
+
         }
     }
+
+    @Override
+    public AthleteDiary getAthleteDiaryById(Long userId, Long trainerId) {
+
+        AthleteDiaryDto diaryByTrainerIdAndAthleteId = this.getAthleteDiaryRepository().getDiaryByTrainerIdAndAthleteId(trainerId, userId);
+
+        return diaryByTrainerIdAndAthleteId;
+    }
+
+
 }

@@ -191,9 +191,6 @@ public class TrainingPlanContainer extends AbstractComponent implements Training
 
         this.groupUiService.deleteGroupTraininingPlanEntry(groups, entry);
 
-
-
-
         this.getTrainingPlanUiService().deleteTrainingPlanEntry(userId, deleteEntryId);
 
         List<TrainingPlanEntry> trainingPlanEntriesUpdated = this.getTrainingPlanUiService().getTrainingPlanEntriesByUser(userId);
@@ -236,6 +233,19 @@ public class TrainingPlanContainer extends AbstractComponent implements Training
             }
 
         }
+
+    }
+
+    public void refreshData() {
+
+        Long userId = this.getSecurityService().getUserId();
+
+        List<TrainingPlanEntry> trainingPlanEntriesUpdated = this.getTrainingPlanUiService().getTrainingPlanEntriesByUser(userId);
+
+        this.getTrainingPlanGridComponent().clearData();
+        this.getTrainingPlanGridComponent().refreshGrid(trainingPlanEntriesUpdated);
+
+        this.getTrainingPlanFormComponent().setVisible(false);
 
     }
 }

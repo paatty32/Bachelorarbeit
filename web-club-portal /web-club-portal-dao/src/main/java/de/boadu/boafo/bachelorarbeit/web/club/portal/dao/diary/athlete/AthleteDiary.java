@@ -14,4 +14,6 @@ public interface AthleteDiary {
 
     Set<TrainingDiaryEntryDTO> getAthleteEntries();
 
+     void removeEntry(TrainingDiaryEntryDTO entry);
+
 }

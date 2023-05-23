@@ -8,8 +8,8 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.Training
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.MutableTrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntry;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.*;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.MutableAppUser;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     private final ApplicationFacade applicationFacade;
 
     @Override
-    public void createUser(MutablePerson createPerson, Set<String> clickedRoles) {
+    public void createUser(MutableAppUser createPerson, Set<String> clickedRoles) throws Exception {
 
         this.getApplicationFacade().createUser(createPerson, clickedRoles);
 
@@ -176,7 +176,7 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     }
 
     @Override
-    public Set<Person> getUserTrainer(Long userId) {
+    public Set<AppUser> getUserTrainer(Long userId) {
         return this.getApplicationFacade().getUserTrainer(userId);
     }
 
@@ -192,7 +192,7 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     }
 
     @Override
-    public List<Person> getAthletesByTrainer(Long userId) {
+    public List<AppUser> getAthletesByTrainer(Long userId) {
         return this.getApplicationFacade().getAthletesByTrainer(userId);
     }
 
@@ -207,7 +207,7 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     }
 
     @Override
-    public void addAthleteEntry(Set<Person> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1) {
+    public void addAthleteEntry(Set<AppUser> trainer, Long athleteId, TrainingDiaryEntry clickedEntry1) {
         this.getApplicationFacade().addAthleteEntry(trainer, athleteId, clickedEntry1);
     }
 }

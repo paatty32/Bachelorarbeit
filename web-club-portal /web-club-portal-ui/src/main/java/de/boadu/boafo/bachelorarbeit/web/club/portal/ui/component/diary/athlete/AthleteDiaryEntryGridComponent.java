@@ -1,8 +1,11 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.athlete;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.InMemoryDataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -32,6 +35,9 @@ public class AthleteDiaryEntryGridComponent extends AbstractComponent implements
     private List<TrainingDiaryEntry> trainingDiaryEntrieBuffer;
     private InMemoryDataProvider<TrainingDiaryEntry> trainingDiaryEntryInMemoryDataProvider;
 
+    private Button btnClose;
+
+
     @Override
     protected Component getRootLayout() {
         return this.getComponentRootLayout();
@@ -48,6 +54,7 @@ public class AthleteDiaryEntryGridComponent extends AbstractComponent implements
     protected void initializeComponents() {
 
         this.initializeGrid();
+        this.initializeButton();
         this.initializeComponentRootLayout();
 
     }
@@ -69,6 +76,13 @@ public class AthleteDiaryEntryGridComponent extends AbstractComponent implements
 
     }
 
+    private void initializeButton(){
+
+        this.btnClose = new Button("Schließen");
+        this.btnClose.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        this.btnClose.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+    }
+
     private void initializeComponentRootLayout(){
 
         this.componentRootLayout = new VerticalLayout();
@@ -76,11 +90,19 @@ public class AthleteDiaryEntryGridComponent extends AbstractComponent implements
         this.componentRootLayout.setHeightFull();
 
         this.getComponentRootLayout().add(this.getTrainingDiaryEntryGrid());
+        this.getComponentRootLayout().add(this.getBtnClose());
+        this.getComponentRootLayout().setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, this.getBtnClose());
 
     }
 
     @Override
     protected void initializeComponentsActions() {
+
+        this.getBtnClose().addClickListener(event -> {
+
+            this.getComponentRootLayout().setVisible(false);
+
+        });
 
     }
 

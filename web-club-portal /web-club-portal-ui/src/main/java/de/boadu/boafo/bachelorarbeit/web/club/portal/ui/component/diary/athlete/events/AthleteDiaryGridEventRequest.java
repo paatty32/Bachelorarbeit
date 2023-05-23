@@ -1,14 +1,14 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.athlete.events;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 
 public interface AthleteDiaryGridEventRequest {
 
-    Person getClickedPerson();
+    AppUser getClickedPerson();
 
-    static AthleteDiaryGridEventRequestImpl getInstance(Person person){
+    static AthleteDiaryGridEventRequestImpl getInstance(AppUser appUser){
 
-        return new AthleteDiaryGridEventRequestImpl(person);
+        return new AthleteDiaryGridEventRequestImpl(appUser);
 
     }
 }

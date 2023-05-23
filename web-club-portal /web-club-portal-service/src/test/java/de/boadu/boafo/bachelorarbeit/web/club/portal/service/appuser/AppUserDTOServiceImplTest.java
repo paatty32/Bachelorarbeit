@@ -1,11 +1,11 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.service.person;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.service.appuser;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanRepository;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.MutablePerson;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.MutableAppUser;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.repository.AppUserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,10 +19,10 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class PersonDTOServiceImplTest {
+public class AppUserDTOServiceImplTest {
 
     @Mock
-    private PersonRepository personRepository;
+    private AppUserRepository appUserRepository;
 
     @Mock
     private CompetitionDiaryRepository competitionDiaryRepository;
@@ -34,21 +34,21 @@ public class PersonDTOServiceImplTest {
     private TrainingPlanRepository trainingPlanRepository;
 
     @InjectMocks
-    private PersonServiceImpl personService;
+    private AppUserServiceImpl personService;
 
     @Test
-    public void whenUserIsCreated_thenReturnUser(){
+    public void whenUserIsCreated_thenReturnUser() throws Exception {
 
         Set<String> clickedRoles = new HashSet<>();
         clickedRoles.add("Athlet");
 
-        MutablePerson person = new PersonDTO();
+        MutableAppUser person = new AppUserDTO();
         person.setName("Mustermann");
         person.setSurname("Max");
 
-        Mockito.when(personRepository.save((PersonDTO) person)).thenReturn((PersonDTO) person);
+        Mockito.when(appUserRepository.save((AppUserDTO) person)).thenReturn((AppUserDTO) person);
 
-        PersonDTO createdPersonDTO = this.personService.createUser(person, clickedRoles);
+        AppUserDTO createdPersonDTO = this.personService.createUser(person, clickedRoles);
 
         assertThat(createdPersonDTO).hasFieldOrPropertyWithValue("name", "Mustermann");
         assertThat(createdPersonDTO).hasFieldOrPropertyWithValue("surname", "Max");

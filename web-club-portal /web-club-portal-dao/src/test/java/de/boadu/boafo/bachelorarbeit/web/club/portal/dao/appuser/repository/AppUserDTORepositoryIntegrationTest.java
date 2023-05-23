@@ -1,6 +1,6 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.repository;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -9,24 +9,24 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class PersonDTORepositoryIntegrationTest {
+public class AppUserDTORepositoryIntegrationTest {
 
     @Autowired
     private TestEntityManager testEntityManager;
 
     @Autowired
-    private PersonRepository personRepository;
+    private AppUserRepository appUserRepository;
 
     @Test
     public void whenFindByName_thenReturnPerson(){
 
-        PersonDTO patrick = new PersonDTO();
+        AppUserDTO patrick = new AppUserDTO();
         patrick.setName("Patrick");
 
         testEntityManager.persist(patrick);
         testEntityManager.flush();
 
-        PersonDTO found = personRepository.findPersonByName("Patrick");
+        AppUserDTO found = appUserRepository.findPersonByName("Patrick");
 
         assertThat(found.getName()).isEqualTo(patrick.getName());
 
@@ -35,7 +35,7 @@ public class PersonDTORepositoryIntegrationTest {
     @Test
     public void whenNotFindByName_thenReturnNull(){
 
-        PersonDTO found = personRepository.findPersonByName("Test");
+        AppUserDTO found = appUserRepository.findPersonByName("Test");
 
         assertThat(found).isNull();
 
@@ -44,14 +44,14 @@ public class PersonDTORepositoryIntegrationTest {
     @Test
     public void whenFindBySurname_thenReturnPersonSurname(){
 
-        PersonDTO surname = new PersonDTO();
+        AppUserDTO surname = new AppUserDTO();
         surname.setName("Mustermann");
         surname.setSurname("Max");
 
         testEntityManager.persist(surname);
         testEntityManager.flush();
 
-        PersonDTO foundPersonDTO = this.personRepository.findPersonBySurname("Max");
+        AppUserDTO foundPersonDTO = this.appUserRepository.findPersonBySurname("Max");
 
         assertThat(foundPersonDTO.getSurname()).isEqualTo(surname.getSurname());
 
@@ -60,7 +60,7 @@ public class PersonDTORepositoryIntegrationTest {
     @Test
     public void whenNotFindBySurname_thenReturnNull(){
 
-        PersonDTO notFoundPersonDTO = this.personRepository.findPersonBySurname("NotFoundSurname");
+        AppUserDTO notFoundPersonDTO = this.appUserRepository.findPersonBySurname("NotFoundSurname");
 
         assertThat(notFoundPersonDTO).isNull();
 
@@ -69,11 +69,11 @@ public class PersonDTORepositoryIntegrationTest {
     @Test
     public void whenSave_thenReturnPerson(){
 
-        PersonDTO newPersonDTO = new PersonDTO();
+        AppUserDTO newPersonDTO = new AppUserDTO();
         newPersonDTO.setName("Mustermann");
         newPersonDTO.setSurname("Max");
 
-        PersonDTO savedPersonDTO = this.personRepository.save(newPersonDTO);
+        AppUserDTO savedPersonDTO = this.appUserRepository.save(newPersonDTO);
 
         assertThat(savedPersonDTO).hasFieldOrPropertyWithValue("name", "Mustermann");
         assertThat(savedPersonDTO).hasFieldOrPropertyWithValue("surname", "Max");

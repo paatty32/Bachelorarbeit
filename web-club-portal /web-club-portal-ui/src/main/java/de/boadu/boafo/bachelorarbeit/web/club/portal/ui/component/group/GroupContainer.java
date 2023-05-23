@@ -232,4 +232,13 @@ public class GroupContainer extends AbstractComponent implements GroupMenubarEve
         this.getEventListener().add(listener);
 
     }
+
+    public void refreshData() {
+
+        List<Group> trainingGroups = this.getGroupUiService().getTrainingGroups();
+
+        this.getGroupsGridCOmponent().clearData();
+        this.getGroupsGridCOmponent().refreshGrid(trainingGroups);
+
+    }
 }

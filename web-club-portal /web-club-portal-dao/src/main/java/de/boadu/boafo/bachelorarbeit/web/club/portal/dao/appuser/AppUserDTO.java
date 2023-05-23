@@ -1,4 +1,4 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser;
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.AppUserRole;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.group.GroupDTO;
@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class PersonDTO implements Person, MutablePerson, UserDetails {
+public class AppUserDTO implements AppUser, MutableAppUser, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,20 +32,10 @@ public class PersonDTO implements Person, MutablePerson, UserDetails {
 
     private String password;
 
+    private String email;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<GroupDTO> trainingsGroup;
-
-    /*
-    //TODO: Nochmal angucken wie das genau funktioniert
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) //TODO Was ist das ?
-    @JoinTable(name = "userRole_diary_mapping", //Diese Tabelle wird angelegt
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "diary_id", referencedColumnName = "id")}
-    )
-    @MapKeyEnumerated(EnumType.STRING)
-    private Map<DiaryType, Diary> diary;
-
-     */
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

@@ -15,7 +15,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
@@ -47,7 +47,6 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     private List<TrainingDiaryEntry> trainingDiaryList;
     private InMemoryDataProvider<TrainingDiaryEntry> trainingDiaryEntryInMemoryDataProvider;
 
-    //TODO: Warum ein set ?
     private Set<TrainingsDiaryGridEventListener> eventListeners;
 
     private final TrainingsDiaryUiService trainingsDiaryUiService;
@@ -114,7 +113,7 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     private void intitializeGridData(){
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
 
         List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntriesByUser(currentPersonDTO.getId());
 
@@ -130,8 +129,8 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
 
         this.componentRootLayout = new VerticalLayout();
 
-        this.getComponentRootLayout().add(this.getTrainingDiaryGrid());
         this.getComponentRootLayout().add(this.getBtnAdd());
+        this.getComponentRootLayout().add(this.getTrainingDiaryGrid());
 
     }
 
@@ -204,7 +203,7 @@ public class TrainingDiaryGridComponent extends AbstractComponent implements Abs
     public void refreshGrid() {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
 
         List<TrainingDiaryEntry> trainingsDiaryEntryiesByUser = this.getTrainingsDiaryUiService().getTrainingsDiaryEntriesByUser(currentPersonDTO.getId());
 

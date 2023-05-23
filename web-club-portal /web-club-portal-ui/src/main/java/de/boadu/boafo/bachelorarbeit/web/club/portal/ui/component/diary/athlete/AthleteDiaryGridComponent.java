@@ -1,6 +1,7 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.athlete;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -9,10 +10,11 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.AthleteDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.RefreshableComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.athlete.events.AthleteDiaryGridEventListener;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.diary.athlete.events.AthleteDiaryGridEventRequest;
 import lombok.AccessLevel;
@@ -20,28 +22,27 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @SpringComponent
 @UIScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
-public class AthleteDiaryGridComponent extends AbstractComponent implements AbstractObserver<AthleteDiaryGridEventListener> {
+public class AthleteDiaryGridComponent extends AbstractComponent implements AbstractObserver<AthleteDiaryGridEventListener>,
+        RefreshableComponent<Collection<AppUser>> {
 
     private VerticalLayout componentRootLayout;
 
-    private Grid<Person> athleteDiaryGrid;
-    private List<Person> athleteDiariesBuffer;
-    private InMemoryDataProvider<Person> athleteDiaryInMemoryDataProvider;
+    private Grid<AppUser> athleteDiaryGrid;
+    private List<AppUser> athleteDiariesBuffer;
+    private InMemoryDataProvider<AppUser> athleteDiaryInMemoryDataProvider;
 
     private final AthleteDiaryUiService athleteDiaryUiService;
 
     private final SecurityService securityService;
 
     private Set<AthleteDiaryGridEventListener> athleteDiaryGridEventListeners;
+
 
     @Override
     protected Component getRootLayout() {
@@ -76,8 +77,8 @@ public class AthleteDiaryGridComponent extends AbstractComponent implements Abst
 
         this.getAthleteDiaryGrid().setItems(this.getAthleteDiaryInMemoryDataProvider());
 
-        this.getAthleteDiaryGrid().addColumn(Person::getName).setHeader("Name");
-        this.getAthleteDiaryGrid().addColumn(Person::getSurname).setHeader("Nachname");
+        this.getAthleteDiaryGrid().addColumn(AppUser::getName).setHeader("Name");
+        this.getAthleteDiaryGrid().addColumn(AppUser::getSurname).setHeader("Nachname");
 
     }
 
@@ -85,10 +86,10 @@ public class AthleteDiaryGridComponent extends AbstractComponent implements Abst
 
         Long userId = this.getSecurityService().getUserId();
 
-        List<Person> personList = this.getAthleteDiaryUiService().getAthletesByTrainer(userId);
+        List<AppUser> appUserList = this.getAthleteDiaryUiService().getAthletesByTrainer(userId);
 
         this.getAthleteDiariesBuffer().clear();
-        this.getAthleteDiariesBuffer().addAll(personList);
+        this.getAthleteDiariesBuffer().addAll(appUserList);
 
         this.getAthleteDiaryInMemoryDataProvider().refreshAll();
 
@@ -110,9 +111,9 @@ public class AthleteDiaryGridComponent extends AbstractComponent implements Abst
 
         this.getAthleteDiaryGrid().addItemClickListener( clickEvent -> {
 
-            Person clickedPerson = clickEvent.getItem();
+            AppUser clickedAppUser = clickEvent.getItem();
 
-            AthleteDiaryGridEventRequest event = AthleteDiaryGridEventRequest.getInstance(clickedPerson);
+            AthleteDiaryGridEventRequest event = AthleteDiaryGridEventRequest.getInstance(clickedAppUser);
 
             this.notifyEventListenerForGridClick(event);
 
@@ -130,5 +131,25 @@ public class AthleteDiaryGridComponent extends AbstractComponent implements Abst
 
     private void notifyEventListenerForGridClick(AthleteDiaryGridEventRequest event) {
         this.getAthleteDiaryGridEventListeners().forEach(listener -> listener.handleGridClick(event));
+    }
+
+    @Override
+    public void refreshGrid(Collection<AppUser> data) {
+
+        this.getAthleteDiariesBuffer().clear();
+        this.getAthleteDiariesBuffer().addAll(data);
+
+        this.getAthleteDiaryInMemoryDataProvider().refreshAll();
+
+    }
+
+    @Override
+    public void clearData() {
+
+        this.getAthleteDiariesBuffer().clear();
+
+        this.getAthleteDiaryInMemoryDataProvider().refreshAll();
+        this.getAthleteDiaryInMemoryDataProvider().clearFilters();
+
     }
 }
