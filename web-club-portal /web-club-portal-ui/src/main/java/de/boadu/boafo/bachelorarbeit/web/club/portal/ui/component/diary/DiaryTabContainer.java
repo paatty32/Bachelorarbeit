@@ -9,9 +9,10 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.athlete.AthleteDiaryDto;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.AthleteDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.TrainingsDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
@@ -156,10 +157,11 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         if(userRoles.contains("ROLE_TRAINER")){
 
             this.diary.add(this.getAthleteTab());
+            this.diary.add(this.getTrainingPlanTab());
 
         }
 
-        this.diary.add(this.getTrainingPlanTab());
+
 
         this.tabContent = new HorizontalLayout();
         this.tabContent.setSizeFull();
@@ -171,15 +173,19 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
         boolean role_athlete = this.getSecurityService().getUserRoles().contains("ROLE_ATHLETE");
         boolean role_trainer = this.getSecurityService().getUserRoles().contains("ROLE_TRAINER");
 
-        if(role_athlete){
+        if(role_athlete && role_trainer){
 
             this.getTabContent().add(this.getTrainingDiaryGridComponent());
             this.getTabContent().add(this.getTrainingDiaryFormComponent());
             this.getTabContent().add(this.getTrainingDiaryShareDialogComponent());
 
-        }
+        } else if(role_athlete){
 
-        if(role_trainer){
+            this.getTabContent().add(this.getTrainingDiaryGridComponent());
+            this.getTabContent().add(this.getTrainingDiaryFormComponent());
+            this.getTabContent().add(this.getTrainingDiaryShareDialogComponent());
+
+        } else if(role_trainer){
 
             this.getTabContent().add(this.getAthleteDiaryContainer());
 
@@ -249,7 +255,9 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
         LocalDate date = clickedEntry.getDate();
 
-        this.getTrainingDiaryFormComponent().setForm(entryId, session, feeling, date);
+        Set<AthleteDiaryDto> athleteDiaries = clickedEntry.getAthleteDiaries();
+
+        this.getTrainingDiaryFormComponent().setForm(entryId, session, feeling, date, athleteDiaries);
 
     }
 
@@ -267,17 +275,20 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
         TrainingDiaryEntry updatedEntry = event.getEntry();
 
+        System.out.println("Updated Entry: " + updatedEntry.getSession() + " " + updatedEntry.getFeeling() + updatedEntry.getDate());
+
         this.getTrainingsDiaryUiService().updateEntry(updatedEntry);
 
         this.getTrainingDiaryGridComponent().refreshGrid();
 
+        this.clickedEntry = updatedEntry;
     }
 
     @Override
     public void handleButtonDelete(TrainingsDiaryDeleteEntryEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
         Long userId = currentPersonDTO.getId();
 
         Long clickedEntryId = event.getClickedEntryId();
@@ -301,7 +312,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     public void handleSave(TrainingsDairyFormDialogSaveClickedEventRequest event) {
 
         UserDetails authenticatedUser = this.getSecurityService().getAuthenticatedUser();
-        PersonDTO currentPersonDTO = (PersonDTO) authenticatedUser;
+        AppUserDTO currentPersonDTO = (AppUserDTO) authenticatedUser;
         long userId = currentPersonDTO.getId();
 
         TrainingDiaryEntry newEntry = event.getEntry();
@@ -317,7 +328,7 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
     @Override
     public void handleClickSelect(TrainingDiaryShareDialogEventRequest event) {
 
-        Set<Person> trainer = event.getTrainer();
+        Set<AppUser> trainer = event.getTrainer();
 
         Long athleteId = this.getSecurityService().getUserId();
 
@@ -325,10 +336,33 @@ public class DiaryTabContainer extends AbstractComponent implements TrainingsDia
 
             TrainingDiaryEntry clickedEntry1 = this.getClickedEntry();
 
+            System.out.println(clickedEntry1.getDate() + " " + clickedEntry1.getSession() + " " + clickedEntry1.getFeeling());
+
             this.getAthleteDiaryUiService().addAthleteEntry(trainer, athleteId, clickedEntry1);
 
         }
 
 
+    }
+
+    public void refreshData() {
+
+        boolean role_athlete = this.getSecurityService().getUserRoles().contains("ROLE_ATHLETE");
+
+        boolean role_trainer = this.getSecurityService().getUserRoles().contains("ROLE_TRAINER");
+
+        if(role_athlete) {
+            this.getTrainingDiaryGridComponent().refreshGrid();
+
+            this.getCompetitionDiaryContainer().refreshData();
+        }
+
+        if(role_trainer){
+
+            this.getAthleteDiaryContainer().refreshData();
+
+            this.getTrainingplanContainer().refreshData();
+
+        }
     }
 }

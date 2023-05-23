@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.InMemoryDataProvider;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.shared.Registration;
+import com.vaadin.flow.spring.annotation.RouteScope;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
@@ -24,6 +25,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +33,8 @@ import java.util.List;
 import java.util.Set;
 
 @SpringComponent
-@UIScope
+//@UIScope
+@RouteScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
 public class GroupListComponent extends AbstractComponent implements RefreshableComponent<Collection<Group>> {

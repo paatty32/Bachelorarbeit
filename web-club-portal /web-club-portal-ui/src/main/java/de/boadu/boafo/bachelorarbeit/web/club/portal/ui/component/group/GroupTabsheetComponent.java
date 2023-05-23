@@ -9,6 +9,7 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabSheet;
 import com.vaadin.flow.component.tabs.TabSheetVariant;
 import com.vaadin.flow.shared.Registration;
+import com.vaadin.flow.spring.annotation.RouteScope;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
@@ -29,6 +30,7 @@ import java.util.List;
 
 @SpringComponent
 @UIScope
+@RouteScope
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Getter(AccessLevel.PRIVATE)
 public class GroupTabsheetComponent extends AbstractComponent implements GroupRequestContainerEventListener {
@@ -87,7 +89,7 @@ public class GroupTabsheetComponent extends AbstractComponent implements GroupRe
                 this.getGroupRequestContainer().clearData();
                 this.getGroupRequestContainer().refreshGrid(trainingGroupRequest);
 
-                this.setRequestTabCaption();
+            //    this.setRequestTabCaption();
             });
 
         });
@@ -115,7 +117,7 @@ public class GroupTabsheetComponent extends AbstractComponent implements GroupRe
 
             int requestCount = this.getRequestCount();
 
-            this.groupRequestTab = this.getGroupTabsheet().add("Anfragen (" + requestCount + ")",
+            this.groupRequestTab = this.getGroupTabsheet().add("Anfragen",
                     this.getGroupRequestContainer());
 
         }
@@ -154,8 +156,17 @@ public class GroupTabsheetComponent extends AbstractComponent implements GroupRe
 
         int requestCount = this.getRequestCount();
 
-        this.getGroupRequestTab().setLabel("Anfragen (" + requestCount + ")");
+       // this.getGroupRequestTab().setLabel("Anfragen (" + requestCount + ")");
 
     }
 
+    public void refreshData() {
+
+        this.getGroupContainer().refreshData();
+
+        this.getGroupRequestContainer().refreshData();
+
+      //  this.setRequestTabCaption();
+
+    }
 }

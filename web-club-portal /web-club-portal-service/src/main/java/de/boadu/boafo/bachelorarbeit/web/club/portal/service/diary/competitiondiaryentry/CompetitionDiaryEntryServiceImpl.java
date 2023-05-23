@@ -3,7 +3,7 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiond
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.*;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.competition.repository.CompetitionDiaryRepository;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.repository.AppUserRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.competitiondiary.CompetitionDiaryService;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class CompetitionDiaryEntryServiceImpl implements CompetitionDiaryEntrySe
 
     private final CompetitionDiaryEntryRepository competitionDiaryEntryRepository;
 
-    private final PersonRepository personRepository;
+    private final AppUserRepository appUserRepository;
 
     private final CompetitionDiaryService competitionDiaryService;
 

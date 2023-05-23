@@ -6,7 +6,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.config.security.SecurityService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntry;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.Person;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.AthleteDiaryUiService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractComponent;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.ui.component.AbstractObserver;
@@ -81,8 +81,8 @@ public class AthleteDiaryContainer extends AbstractComponent implements AthleteD
     @Override
     public void handleGridClick(AthleteDiaryGridEventRequest event) {
 
-        Person clickedPerson = event.getClickedPerson();
-        Long clickedPersonId = clickedPerson.getId();
+        AppUser clickedAppUser = event.getClickedPerson();
+        Long clickedPersonId = clickedAppUser.getId();
 
         Long trainerId = this.getSecurityService().getUserId();
 
@@ -91,6 +91,17 @@ public class AthleteDiaryContainer extends AbstractComponent implements AthleteD
         this.getAthleteDiaryEntryGridComponent().clearData();
         this.getAthleteDiaryEntryGridComponent().refreshGrid(entries);
         this.getAthleteDiaryEntryGridComponent().setVisible(true);
+
+    }
+
+    public void refreshData() {
+
+        Long userId = this.getSecurityService().getUserId();
+
+        List<AppUser> appUserList = this.getAthleteDiaryUiService().getAthletesByTrainer(userId);
+
+        this.getAthleteDiaryGridComponent().clearData();
+        this.getAthleteDiaryGridComponent().refreshGrid(appUserList);
 
     }
 }

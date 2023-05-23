@@ -8,7 +8,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.Trai
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanEntryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.repository.TrainingPlanRepository;
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.PersonDTO;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,14 +40,14 @@ public class TrainingPlanServiceImplTest {
     @InjectMocks
     private TrainingPlanServiceImpl trainingPlanService;
 
-    PersonDTO testPersonDTO;
+    AppUserDTO testPersonDTO;
 
     DiaryId diaryId;
 
     @BeforeEach
     public void setUpt(){
 
-        this.testPersonDTO = PersonDTO.builder().id(1L)
+        this.testPersonDTO = AppUserDTO.builder().id(1L)
                 .name("Test")
                 .build();
 

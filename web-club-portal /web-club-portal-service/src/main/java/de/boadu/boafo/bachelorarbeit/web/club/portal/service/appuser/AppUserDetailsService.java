@@ -1,6 +1,6 @@
-package de.boadu.boafo.bachelorarbeit.web.club.portal.service.person;
+package de.boadu.boafo.bachelorarbeit.web.club.portal.service.appuser;
 
-import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.person.repository.PersonRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.repository.AppUserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Getter
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class PersonUserDetailsService implements UserDetailsService {
+public class AppUserDetailsService implements UserDetailsService {
 
-    private final PersonRepository personRepository;
+    private final AppUserRepository appUserRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.getPersonRepository().findPersonBySurname(username);
+    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+        return this.getAppUserRepository().findPersonByEmail(mail);
     }
 }
