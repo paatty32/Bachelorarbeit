@@ -37,7 +37,7 @@ public class AppUserDTOServiceImplTest {
     private AppUserServiceImpl personService;
 
     @Test
-    public void whenUserIsCreated_thenReturnUser(){
+    public void whenUserIsCreated_thenReturnUser() throws Exception {
 
         Set<String> clickedRoles = new HashSet<>();
         clickedRoles.add("Athlet");

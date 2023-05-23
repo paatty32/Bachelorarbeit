@@ -43,7 +43,7 @@ public class AppUserServiceImpl implements AppUserService {
     private final TrainingPlanRepository trainingPlanRepository;
 
     @Override
-    public AppUserDTO createUser(MutableAppUser createPerson, Set<String> clickedRoles) {
+    public AppUserDTO createUser(MutableAppUser createPerson, Set<String> clickedRoles) throws Exception {
 
         Set<AppUserRole> appUserRoles = this.initializeUserRoles(clickedRoles);
 
@@ -51,11 +51,15 @@ public class AppUserServiceImpl implements AppUserService {
 
         AppUserDTO personDTOToCreate = (AppUserDTO) createPerson;
 
-        AppUserDTO createdPersonDTO = this.getAppUserRepository().save(personDTOToCreate);
 
-        this.initializeUserDiares(createdPersonDTO, clickedRoles);
+        if(this.getAppUserRepository().findPersonByEmail(personDTOToCreate.getEmail()) == null) {
+            AppUserDTO createdPersonDTO = this.getAppUserRepository().save(personDTOToCreate);
 
-        return createdPersonDTO;
+            this.initializeUserDiares(createdPersonDTO, clickedRoles);
+
+            return createdPersonDTO;
+
+        } else throw new Exception();
 
     }
 

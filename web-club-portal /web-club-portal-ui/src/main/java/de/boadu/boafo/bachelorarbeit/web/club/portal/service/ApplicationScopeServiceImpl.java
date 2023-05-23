@@ -26,7 +26,7 @@ public class ApplicationScopeServiceImpl implements ApplicationScopeService{
     private final ApplicationFacade applicationFacade;
 
     @Override
-    public void createUser(MutableAppUser createPerson, Set<String> clickedRoles) {
+    public void createUser(MutableAppUser createPerson, Set<String> clickedRoles) throws Exception {
 
         this.getApplicationFacade().createUser(createPerson, clickedRoles);
 

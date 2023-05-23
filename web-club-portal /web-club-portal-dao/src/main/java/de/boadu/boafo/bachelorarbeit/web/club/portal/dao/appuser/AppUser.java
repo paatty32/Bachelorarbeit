@@ -9,4 +9,6 @@ public interface AppUser {
 
     Long getId();
 
+    String getEmail();
+
 }

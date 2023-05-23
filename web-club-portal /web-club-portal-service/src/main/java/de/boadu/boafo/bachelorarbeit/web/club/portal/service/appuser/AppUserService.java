@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface AppUserService {
 
-    AppUserDTO createUser(MutableAppUser createPerson, Set<String> clickedRoles);
+    AppUserDTO createUser(MutableAppUser createPerson, Set<String> clickedRoles) throws Exception;
 
     void addNewGroupToUser(Long userId, MutableGroup newTrainingGroup);
 

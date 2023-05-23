@@ -32,20 +32,10 @@ public class AppUserDTO implements AppUser, MutableAppUser, UserDetails {
 
     private String password;
 
+    private String email;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<GroupDTO> trainingsGroup;
-
-    /*
-    //TODO: Nochmal angucken wie das genau funktioniert
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) //TODO Was ist das ?
-    @JoinTable(name = "userRole_diary_mapping", //Diese Tabelle wird angelegt
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "diary_id", referencedColumnName = "id")}
-    )
-    @MapKeyEnumerated(EnumType.STRING)
-    private Map<DiaryType, Diary> diary;
-
-     */
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

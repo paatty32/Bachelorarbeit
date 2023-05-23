@@ -14,4 +14,6 @@ public interface AppUserRepository extends JpaRepository<AppUserDTO, Long> {
     AppUserDTO findPersonById(Long id);
 
     AppUserDTO findPersonByName(String name);
+
+    AppUserDTO findPersonByEmail(String email);
 }

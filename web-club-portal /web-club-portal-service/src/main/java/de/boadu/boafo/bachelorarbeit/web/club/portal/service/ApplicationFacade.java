@@ -15,7 +15,7 @@ import java.util.Set;
 
 public interface ApplicationFacade {
 
-    void createUser(MutableAppUser createPerson, Set<String> clickedRoles);
+    void createUser(MutableAppUser createPerson, Set<String> clickedRoles) throws Exception;
 
     List<TrainingDiaryEntry> getTrainingsDiaryEntriesByUser(Long userId);
 

@@ -51,7 +51,7 @@ public class ApplicationFacadeImpl implements ApplicationFacade{
     private final AthleteDiaryService athleteDiaryService;
 
     @Override
-    public void createUser(MutableAppUser createPerson, Set<String> clickedRoles) {
+    public void createUser(MutableAppUser createPerson, Set<String> clickedRoles) throws Exception {
 
         this.getAppUserService().createUser(createPerson, clickedRoles);
 
