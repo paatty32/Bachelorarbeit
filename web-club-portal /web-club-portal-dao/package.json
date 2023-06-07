@@ -51,10 +51,10 @@
     "hash": "d58976aa09b8c8e4dc5dff1a92ae75da99339cae8c8f646375e08fa940201ea9"
   },
   "overrides": {
-    "@vaadin/router": "$@vaadin/router",
     "@vaadin/common-frontend": "$@vaadin/common-frontend",
     "construct-style-sheets-polyfill": "$construct-style-sheets-polyfill",
     "lit": "$lit",
+    "@vaadin/router": "$@vaadin/router",
     "@polymer/polymer": "$@polymer/polymer"
   }
 }
