@@ -28,11 +28,13 @@ public class TrainingDiaryEntryServiceImpl implements TrainingDiaryEntryService 
 
 
     @Override
-    public void updateEntry(TrainingDiaryEntry updatedEntry) {
+    public TrainingDiaryEntryDTO updateEntry(TrainingDiaryEntry updatedEntry) {
 
         TrainingDiaryEntryDTO updatedEntryDto = (TrainingDiaryEntryDTO) updatedEntry;
 
-        this.getTrainingsDiaryEntryRepository().save(updatedEntryDto);
+        TrainingDiaryEntryDTO newUpdatedEntry = this.getTrainingsDiaryEntryRepository().save(updatedEntryDto);
+
+        return newUpdatedEntry;
 
     }
 

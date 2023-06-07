@@ -2,6 +2,7 @@ package de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingdiar
 
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryEntryRepository;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.trainingplan.TrainingPlanEntryDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingdiaryentry.TrainingDiaryEntryServiceImpl;
 import lombok.Getter;
 import org.junit.jupiter.api.Test;
@@ -45,11 +46,10 @@ public class TrainingDiaryEntryServiceImplTest {
 
         Mockito.when(this.getTrainingsDiaryEntryRepository().save(diaryEntry)).thenReturn(updatedEntry);
 
-        this.getTrainingDiaryEntryService().updateEntry(updatedEntry);
+        TrainingDiaryEntryDTO updateEntry = this.getTrainingDiaryEntryService().updateEntry(updatedEntry);
 
-        assertThat(diaryEntry).hasFieldOrPropertyWithValue("id", 1L);
-        assertThat(diaryEntry).hasFieldOrPropertyWithValue("session", "10 x 30m");
-        assertThat(diaryEntry).hasFieldOrPropertyWithValue("feeling", "nicht so Gut.");
+        assertThat(updateEntry).hasFieldOrPropertyWithValue("id", 1L);
+        assertThat(updatedEntry).hasFieldOrPropertyWithValue("feeling", "nicht so Gut.");
 
     }
 

@@ -1,5 +1,6 @@
 package de.boadu.boafo.bachelorarbeit.web.club.portal.service.diary.trainingdiary;
 
+import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUser;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.DiaryId;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiary;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.TrainingDiaryDto;
@@ -9,6 +10,7 @@ import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.reposito
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.diary.training.repository.TrainingsDiaryRepository;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.appuser.AppUserDTO;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.dao.roles.DiaryType;
+import de.boadu.boafo.bachelorarbeit.web.club.portal.service.appuser.AppUserService;
 import de.boadu.boafo.bachelorarbeit.web.club.portal.service.trainingDiary.TrainingDiaryServiceImpl;
 import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +22,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.lenient;
@@ -35,6 +39,9 @@ public class TrainingDiaryServiceImplTest {
 
     @Mock
     private TrainingsDiaryEntryRepository trainingsDiaryEntryRepository;
+
+    @Mock
+    private AppUserService appUserService;
 
     @InjectMocks
     private TrainingDiaryServiceImpl trainingDiaryService;
@@ -119,7 +126,7 @@ public class TrainingDiaryServiceImplTest {
 
 
     @Test
-    public void whenTrainingDiaryEntriesIsNotThere_thenReturnNull(){
+    public void whenTrainingDiaryEntriesIsNotThere_thenReturnEmpty(){
 
         DiaryId diaryId = DiaryId.builder()
                 .userId(this.getTestUser().getId())
@@ -128,11 +135,15 @@ public class TrainingDiaryServiceImplTest {
 
         TrainingDiaryDto diary = new TrainingDiaryDto(diaryId);
 
+        List<TrainingDiaryEntryDTO> entries = new ArrayList<>();
+
+        diary.setEntry(entries);
+
         Mockito.when(this.getTrainingsDiaryRepository().findTrainingDiaryById(diaryId)).thenReturn(diary);
 
-        List<TrainingDiaryEntry> nullEntry = this.getTrainingDiaryService().getTrainingsDiaryEntriesByUser(this.getTestUser().getId());
+        List<TrainingDiaryEntry> emptyEntries = this.getTrainingDiaryService().getTrainingsDiaryEntriesByUser(this.getTestUser().getId());
 
-        assertThat(nullEntry).isNull();
+        assertThat(emptyEntries).isEmpty();
 
     }
 
@@ -182,8 +193,11 @@ public class TrainingDiaryServiceImplTest {
         trainDiary.getEntry().add(trainEntry);
         trainDiary.getEntry().add(trainEntry2);
 
+        Set<AppUser> userTrainer = new HashSet<>();
+
         lenient().when(this.getTrainingsDiaryEntryRepository().findEntryById(4L)).thenReturn(trainEntry2);
         lenient().when(this.getTrainingsDiaryEntryRepository().findEntryById(5L)).thenReturn(trainEntry2);
+        lenient().when(this.getAppUserService().getUserTrainer(3L)).thenReturn(userTrainer);
         Mockito.when(this.getTrainingsDiaryRepository().findTrainingDiaryById(traininingDiaryId)).thenReturn(trainDiary);
 
         this.getTrainingDiaryService().deleteEntry(this.getTestUser().getId(), 5L );
